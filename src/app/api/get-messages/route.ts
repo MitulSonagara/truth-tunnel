@@ -43,10 +43,10 @@ export async function GET(request: Request) {
 
 
     } catch (error) {
-        console.log("Error in getting message acceptance status")
+        console.log("Unexpected error occur",error)
         return Response.json({
             success: false,
-            message: "Error in getting message acceptance status"
+            message: "Unexpected error occur"
         }, { status: 500 })
     }
 }
