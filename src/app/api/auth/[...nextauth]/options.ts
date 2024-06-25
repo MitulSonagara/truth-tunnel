@@ -47,10 +47,10 @@ export const authOptions: NextAuthOptions = {
         })
     ],
     pages: {
-        signIn:"/sign-in"
+        signIn: "/sign-in"
     },
     session: {
-        strategy:"jwt"
+        strategy: "jwt"
     },
     callbacks: {
         async jwt({ token, user }) {
@@ -70,8 +70,8 @@ export const authOptions: NextAuthOptions = {
                 session.user.isAcceptingMessage = token.isAcceptingMessage
                 session.user.username = token.username
             }
-          return session
-      }  
+            return session
+        }
     },
     secret: process.env.NEXTAUTH_SECRET
 }

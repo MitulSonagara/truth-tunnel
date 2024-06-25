@@ -5,46 +5,50 @@ import { usernameValidation } from "@/schemas/signUpSchema";
 
 const UsernameQuerySchema = z.object({
     username: usernameValidation
-})
+});
 
 export async function GET(request: Request) {
-    await dbConnect()
+    await dbConnect();
 
     try {
-        const { searchParams } = new URL(request.url)
+        const { searchParams } = new URL(request.url);
         const queryParams = {
             username: searchParams.get("username")
-        }
-        const result = UsernameQuerySchema.safeParse(queryParams)
+        };
+        const result = UsernameQuerySchema.safeParse(queryParams);
 
         if (!result.success) {
-            const usernameErrors = result.error.format().username?._errors
-            return Response.json({
+            const usernameErrors = result.error.format().username?._errors;
+            return new Response(JSON.stringify({
                 success: false,
-                message: `Invalid query parameter,,, ${usernameErrors}`
-            }, { status: 400 })
+                message: `${usernameErrors}`
+            }), { status: 400 });
         }
 
-        const { username } = result.data
+        const { username } = result.data;
 
         const existingVerifiedUser = await UserModel.findOne({
             username,
             isVerified: true
-        })
+        });
 
         if (existingVerifiedUser) {
-            return Response.json({
+            return new Response(JSON.stringify({
                 success: false,
                 message: "Username already taken"
-            }, { status: 400 })
+            }), { status: 400 });
+        } else {
+            return new Response(JSON.stringify({
+                success: true,
+                message: "Username is available"
+            }), { status: 200 });
         }
 
     } catch (error) {
         console.error("Error checking username", error);
-        return Response.json({
+        return new Response(JSON.stringify({
             success: false,
-            Message: "Error checking username"
-        }, { status: 500 })
-
+            message: "Error checking username"
+        }), { status: 500 });
     }
 }
