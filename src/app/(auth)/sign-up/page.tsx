@@ -45,6 +45,8 @@ const Page = () => {
                 setUsernameMessage('');
                 try {
                     const response = await axios.get(`/api/check-username-unique?username=${debouncedUsername}`);
+                    console.log(response);
+                    
                     let msg = response.data.message
                     setUsernameMessage(msg);
                 } catch (error) {
