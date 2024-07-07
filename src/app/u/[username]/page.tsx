@@ -61,7 +61,7 @@ const Page = ({ params }: { params: { username: string } }) => {
     const suggestMessages = async () => {
         const prompt = "Create a list of three open-ended and engaging questions formatted as a single string. Each question should be separated by '||'. These questions are for an anonymous social messaging platform, like Qooh.me, and should be suitable for a diverse audience. Avoid personal or sensitive topics, focusing instead on universal themes that encourage friendly interaction. For example, your output should be structured like this: 'What's a hobby you've recently started? || If you could have dinner with any historical figure, who would it be? || What's a simple thing that makes you happy?'. Ensure the questions are intriguing, foster curiosity, and contribute to a positive and welcoming conversational environment.";
         try {
-            const response = await axios.post('/api/suggestMessages', { prompt });
+            const response = await axios.post('/api/suggest-messages', { prompt });
             console.log(response.data);
         } catch (error) {
             console.error(error);
@@ -76,7 +76,7 @@ const Page = ({ params }: { params: { username: string } }) => {
             </div>
             <div className="flex justify-center">
                 <div className="p-3 flex gap-2 flex-col">
-                    <p className='font-bold md:text-xl'>Send secret message to @ {usernameParams}</p>
+                    <p className='font-bold md:text-xl'>Send secret message to @{usernameParams}</p>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(sendMessage)} className="space-y-2">
                             <FormField
@@ -92,8 +92,14 @@ const Page = ({ params }: { params: { username: string } }) => {
                                 )}
                             />
                             <div className="flex justify-center">
-                                <Button disabled={loading} type="submit" className='bg-primaryColor'>
-                                    Send {loading && <Loader2 />}
+                                <Button type="submit" disabled={loading}>
+                                    {loading ? (
+                                        <>
+                                            <Loader2 className="mr-4 h-4 w-4 animate-spin" />Please wait
+                                        </>
+                                    ) : (
+                                        "Send"
+                                    )}
                                 </Button>
                             </div>
                         </form>

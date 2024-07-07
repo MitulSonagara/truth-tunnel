@@ -65,17 +65,19 @@ const Page = () => {
         try {
             const response = await axios.get<ApiResponse>(`/api/accept-messages`)
             setValue('accept-messages', response.data.isAcceptingMessages)
+            console.log("adaf",acceptMessages);
+            
         } catch (error) {
             const axiosError = error as AxiosError<ApiResponse>;
             toast({
                 title: "Error",
-                description: "Failed to fetch message settings",
+                description: "Failed to fetch message settings" || axiosError.response?.data.message,
                 variant: "destructive"
             })
         } finally {
             setIsSwitchLoading(false)
         }
-    }, [setValue, toast])
+    }, [setValue, toast, watch])
 
     const fetchMessages = useCallback(async (refresh: boolean = false) => {
         setLoading(true)
@@ -107,14 +109,14 @@ const Page = () => {
         setBaseUrl(`${window.location.protocol}//${window.location.host}`);
         fetchAcceptMessages();
         fetchMessages();
-    }, [session, setValue, fetchAcceptMessages, fetchMessages]);
+    }, [session,setValue, fetchAcceptMessages, fetchMessages]);
 
     const handleSwitchChange = async () => {
         try {
             const response = await axios.post("/api/accept-messages", {
                 acceptMessages: !acceptMessages,
             });
-            setValue("acceptMessages", !acceptMessages);
+            setValue("accept-messages", !acceptMessages);
             toast({
                 title: response.data.message,
                 variant: "default"
@@ -123,11 +125,12 @@ const Page = () => {
             const axiosError = error as AxiosError<ApiResponse>;
             toast({
                 title: "Error",
-                description: "Failed to fetch message settings",
+                description: axiosError.response?.data.message||"Failed to fetch message settings",
                 variant: "destructive"
             })
         }
     };
+
     const username = session?.user as User;
     const profileUrl = `${baseUrl}/u/${username?.username}`;
     const copyToClipboard = () => {
@@ -137,6 +140,7 @@ const Page = () => {
             description: "Profile url has been copied to clipboard"
         })
     };
+
     if (!session || !session.user) {
         return <>
             <Navbar />
@@ -146,13 +150,17 @@ const Page = () => {
         </>;
     }
     return (
+        <>
+        <Navbar />
         <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
             <h1 className="text-4xl font-bold mb-4">
                 User Dashboard
             </h1>
             <div className="mb-4">
+                <div className="mt-2 border p-2 bg-gray-100 rounded-sm flex items-center gap-3">
                 <Input type="text" value={profileUrl} disabled className="input input-bordered w-full p-2 mr-2" />
-                <Button onClick={copyToClipboard}>Copy</Button>
+                    <Button onClick={copyToClipboard}>Copy</Button>
+                </div>
             </div>
 
             <div className="mb-4">
@@ -217,7 +225,8 @@ const Page = () => {
                     )
                 }
             </div>
-        </div>
+            </div>
+        </>
     );
 };
 
