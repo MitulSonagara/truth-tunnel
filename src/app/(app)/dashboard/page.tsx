@@ -26,7 +26,6 @@ import {
 import Navbar from "@/components/Navbar";
 import { Separator } from "@/components/ui/separator";
 import { Loader2, RefreshCcw } from "lucide-react";
-import MessageCard from "@/components/MessageCard";
 import { Input } from "@/components/ui/input";
 
 const Page = () => {
