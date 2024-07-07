@@ -106,7 +106,7 @@ const Page = ({ params }: { params: { username: string } }) => {
                     </Form>
                     <div className="flex justify-center flex-col gap-2 items-center mt-10">
                         <h1 className='font-bold'>To Participate in a Secret Mission</h1>
-                        <Link href='/signup'><Button className='w-min'>Create an Account</Button></Link>
+                        <Link href='/sign-up'><Button className='w-min'>Create an Account</Button></Link>
                     </div>
                 </div>
             </div>

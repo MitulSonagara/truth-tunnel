@@ -76,6 +76,7 @@ const Page = () => {
         } finally {
             setIsSwitchLoading(false)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [setValue, toast, watch])
 
     const fetchMessages = useCallback(async (refresh: boolean = false) => {
