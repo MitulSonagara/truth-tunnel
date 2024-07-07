@@ -21,7 +21,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={inter.className}>
         <ClientSessionProvider>
           <Navbar />
-          {children}
+            {children}
         </ClientSessionProvider>
       </body>
     </html>

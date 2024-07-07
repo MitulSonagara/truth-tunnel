@@ -21,11 +21,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
     return (
         <html lang="en">
             <body className={inter.className}>
-                <ClientSessionProvider>
-                    <Navbar />
-                    {children}
-                    <Toaster />
-                </ClientSessionProvider>
+                <div>
+                    <ClientSessionProvider>
+                        {children}
+                        <Toaster />
+                    </ClientSessionProvider>
+                </div>
             </body>
         </html>
     );
