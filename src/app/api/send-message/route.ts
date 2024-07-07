@@ -1,42 +1,42 @@
 import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
-import { Message } from "@/model/User";
+import UserModel, { Message } from "@/model/User";
 
 export async function POST(request: Request) {
     await dbConnect();
-    const { username, content } = await request.json()
+    const { username, content } = await request.json();
 
     try {
-        const user = await UserModel.findOne({ username })
+        const user = await UserModel.findOne({ username });
+        
         if (!user) {
-            return Response.json({
+            return new Response(JSON.stringify({
                 success: false,
-                message:"user not found"
-            }, { status: 404})
+                message: "User not found"
+            }), { status: 404 });
         }
 
-        //is user accepting the messages
+        // Check if the user is accepting messages
         if (!user.isAcceptingMessage) {
-            return Response.json({
+            return new Response(JSON.stringify({
                 success: false,
-                message: "User is not accepting the messages"
-            }, { status: 403 })
+                message: "User is not accepting messages"
+            }), { status: 403 });
         }
 
-        const newMessage = { content, createdAt: new Date() }
-        user.messages.push(newMessage as Message)
-        await user.save()
-        return Response.json({
+        const newMessage = { content, createdAt: new Date() };
+        user.messages.push(newMessage);
+        await user.save();
+        return new Response(JSON.stringify({
             success: true,
             message: "Message sent successfully"
-        }, { status: 404 })
+        }), { status: 200 });
 
     } catch (error) {
-        console.log("Error adding messages",error);
-        
-        return Response.json({
+        console.log("Error adding messages", error);
+
+        return new Response(JSON.stringify({
             success: false,
             message: "Internal server error"
-        }, { status: 500 })
+        }), { status: 500 });
     }
 }

@@ -44,30 +44,28 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
 
     }
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Card Title</CardTitle>
-                <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <Button variant="destructive"><X className="w-5 h-5" /></Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete your
-                                account and remove your data from our servers.
-                            </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={handleDeleteConfirm}>Continue</AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
-                <CardDescription>Card Description</CardDescription>
-            </CardHeader>
-            <CardContent></CardContent>
+        <Card className="shadow-md border rounded-md p-2 w-fit m-2 flex gap-2 md:gap-20">
+                <CardTitle>{message.content}</CardTitle>
+                <div>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="destructive" className="h-10 w-10">X</Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete your
+                                    account and remove your data from our servers.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleDeleteConfirm}>Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </div>
         </Card>
 
     );
