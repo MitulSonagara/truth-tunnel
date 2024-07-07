@@ -84,8 +84,8 @@ const Page = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+        <div className="flex justify-center items-center min-h-screen">
+            <div className="w-full max-w-md p-8 space-y-8rounded-lg shadow-md border rounded-3xl">
                 <div className="text-center">
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
                         Join <br />Truth-Tunnel
@@ -105,6 +105,7 @@ const Page = () => {
                                     <FormLabel>Username</FormLabel>
                                     <FormControl>
                                         <Input
+                                            className="rounded-xl"
                                             placeholder="Enter Username"
                                             {...field}
                                             onChange={(e) => {
@@ -129,7 +130,7 @@ const Page = () => {
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Enter Email" {...field} />
+                                        <Input className="rounded-xl" placeholder="Enter Email" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -142,13 +143,13 @@ const Page = () => {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input type="password" placeholder="Enter Password" {...field} />
+                                        <Input className="rounded-xl" type="password" placeholder="Enter Password" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" disabled={isSubmitting}>
+                        <Button type="submit" disabled={isSubmitting} className="rounded-xl">
                             {isSubmitting ? (
                                 <>
                                     <Loader2 className="mr-4 h-4 w-4 animate-spin" />Please wait

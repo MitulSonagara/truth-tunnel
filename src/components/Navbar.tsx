@@ -23,13 +23,13 @@ const Navbar = () => {
                     ) : loggedIn ? (
                         <>
                             <h1 className="font-bold text-2xl md:text-3xl">Welcome, {user?.username || user?.email}</h1>
-                                <Button onClick={() => signOut()} className="w-full md:w-auto">Sign Out</Button>
+                                <Button onClick={() => signOut()} className="w-full md:w-auto rounded-xl" >Sign Out</Button>
                         </>
                     ) : (
                         <>
                             <h1 className="font-bold text-2xl">Truth Tunnel</h1>
                             <Link href="/sign-in">
-                                        <Button className="w-full md:w-auto">Sign In</Button>
+                                        <Button className="w-full md:w-auto rounded-xl">Sign In</Button>
                             </Link>
                         </>
                     )}

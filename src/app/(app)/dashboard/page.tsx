@@ -152,14 +152,14 @@ const Page = () => {
     return (
         <>
         <Navbar />
-        <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
+        <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-full max-w-6xl">
             <h1 className="text-4xl font-bold mb-4">
                 User Dashboard
             </h1>
             <div className="mb-4">
-                <div className="mt-2 border p-2 bg-gray-100 rounded-sm flex items-center gap-3">
-                <Input type="text" value={profileUrl} disabled className="input input-bordered w-full p-2 mr-2" />
-                    <Button onClick={copyToClipboard}>Copy</Button>
+                <div className="mt-2 border p-2 rounded-2xl flex items-center gap-3">
+                        <Input type="text" value={profileUrl} disabled className="input rounded-xl input-bordered w-full p-2 mr-2" />
+                    <Button onClick={copyToClipboard} className="rounded-xl">Copy</Button>
                 </div>
             </div>
 
@@ -175,8 +175,8 @@ const Page = () => {
                 </span>
             </div>
             <Separator />
-            <Button
-                className="mt-4"
+                <Button
+                className="mt-4 rounded-xl"
                 variant="outline"
                 onClick={(e) => {
                     e.preventDefault();
@@ -193,7 +193,7 @@ const Page = () => {
                 {
                     messages.length > 0 ? (
                         messages.map(({ content, _id, createdAt }, index) => (
-                            <div key={index} className="shadow-md border rounded-md p-2 w-fit m-2 flex gap-2 md:gap-20">
+                            <div key={index} className="shadow-md border rounded-2xl p-3 w-fit m-2 flex gap-2 md:gap-20">
                                 <div className="flex flex-col gap-2">
                                     <p className="font-bold  md:text-2xl">{content}</p>
                                     <p>{createdAt.toString()}</p>
@@ -201,7 +201,7 @@ const Page = () => {
                                 <div>
                                     <AlertDialog>
                                         <AlertDialogTrigger asChild>
-                                            <Button variant="destructive">X</Button>
+                                            <Button className="rounded-xl" variant="destructive">X</Button>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
@@ -212,8 +212,8 @@ const Page = () => {
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                <AlertDialogAction className="bg-red-500" onClick={() => handleDeleteMessages(_id as string)}>Continue</AlertDialogAction>
+                                                <AlertDialogCancel className="rounded-xl">Cancel</AlertDialogCancel>
+                                                <AlertDialogAction className="bg-red-500 rounded-xl" onClick={() => handleDeleteMessages(_id as string)}>Delete</AlertDialogAction>
                                             </AlertDialogFooter>
                                         </AlertDialogContent>
                                     </AlertDialog>

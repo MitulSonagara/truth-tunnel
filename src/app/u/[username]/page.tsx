@@ -85,14 +85,14 @@ const Page = ({ params }: { params: { username: string } }) => {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormControl>
-                                            <Input className='md:w-[40rem]' placeholder="Enter messages here" {...field} />
+                                            <Input className='md:w-[40rem] rounded-xl' placeholder="Enter messages here" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
                             <div className="flex justify-center">
-                                <Button type="submit" disabled={loading}>
+                                <Button type="submit" className='rounded-xl' disabled={loading}>
                                     {loading ? (
                                         <>
                                             <Loader2 className="mr-4 h-4 w-4 animate-spin" />Please wait
@@ -106,7 +106,7 @@ const Page = ({ params }: { params: { username: string } }) => {
                     </Form>
                     <div className="flex justify-center flex-col gap-2 items-center mt-10">
                         <h1 className='font-bold'>To Participate in a Secret Mission</h1>
-                        <Link href='/sign-up'><Button className='w-min'>Create an Account</Button></Link>
+                        <Link href='/sign-up'><Button className='w-min rounded-xl'>Create an Account</Button></Link>
                     </div>
                 </div>
             </div>

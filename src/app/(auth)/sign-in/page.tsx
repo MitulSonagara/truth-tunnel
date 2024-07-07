@@ -53,8 +53,8 @@ const Page = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+        <div className="flex justify-center items-center min-h-screen">
+            <div className="w-full max-w-md p-8 space-y-8 rounded-3xl shadow-md border">
                 <div className="text-center">
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
                         Join <br />Truth-Tunnel
@@ -73,7 +73,7 @@ const Page = () => {
                                 <FormItem>
                                     <FormLabel>Email/Username</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Enter Email/Username" {...field} />
+                                        <Input className="rounded-xl" placeholder="Enter Email/Username" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -86,13 +86,13 @@ const Page = () => {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input type="password" placeholder="Enter Password" {...field} />
+                                        <Input className="rounded-xl" type="password" placeholder="Enter Password" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit">
+                        <Button type="submit" className="rounded-xl">
                             Sign In
                         </Button>
                     </form>
