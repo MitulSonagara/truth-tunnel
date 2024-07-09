@@ -110,7 +110,7 @@ We welcome contributions! Please follow these steps:
 ## Contact
 For any queries or issues, please reach out to:
 
-- Link:  [mitulsonagara.com](portfolio-phi-topaz-23.vercel.app)
+- Link:  [mitulsonagara.com](https://portfolio-phi-topaz-23.vercel.app/)
 - GitHub: [MitulSonagara](https://github.com/MitulSonagara)
 
 ## Made with ❤️ by Mitul Sonagara.
