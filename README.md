@@ -48,8 +48,8 @@ npm install
    Create a .env file in the root directory and configure the following variables:
 ```bash
 MONGODB_URI=""
-RESEND_API_KEY=""
 NEXTAUTH_SECRET=""
+EMAIL_PASS=""
   ```
 4. Run the application:
    
