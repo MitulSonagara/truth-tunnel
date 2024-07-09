@@ -64,21 +64,21 @@ npm start
 
 # Screenshots
 ## Home Page
-![image](public\assets\home.png)
+![image](https://github.com/MitulSonagara/truth-tunnel/blob/master/public/assets/home.png)
 
 
 ## Registration Page
-![image](public\assets\signup.png)
+![image](https://github.com/MitulSonagara/truth-tunnel/blob/master/public/assets/signup.png)
 
 ## OTP Verification
-![image](public\assets\otp.png)
+![image](https://github.com/MitulSonagara/truth-tunnel/blob/master/public/assets/otp.png)
 
 ## Messaging Interface
 ## Copy the unique link
-![image](public\assets\dashboard.png)
+![image](https://github.com/MitulSonagara/truth-tunnel/blob/master/public/assets/dashboard.png)
 
 ## send messages to user without login
-![image](public\assets\send-msg.png)
+![image](https://github.com/MitulSonagara/truth-tunnel/blob/master/public/assets/send-msg.png)
 
 ## Technologies Used
 - Frontend:
