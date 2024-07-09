@@ -7,7 +7,7 @@ import * as z from "zod";
 import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import { useDebounce } from 'use-debounce';
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from 'sonner';
 import { useRouter } from "next/navigation";
 import { signUpSchema } from "@/schemas/signUpSchema";
 import axios, { AxiosError } from "axios";
@@ -22,10 +22,7 @@ const Page = () => {
     const [usernameMessage, setUsernameMessage] = useState("");
     const [isCheckingUsername, setIsCheckingUsername] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-
     const [debouncedUsername] = useDebounce(username, 300);
-
-    const { toast } = useToast();
     const router = useRouter();
 
     //zod implementation
@@ -64,20 +61,13 @@ const Page = () => {
         setIsSubmitting(true);
         try {
             const response = await axios.post<ApiResponse>('/api/sign-up', data);
-            toast({
-                title: 'Success',
-                description: response.data.message,
-            });
+            toast.success('Success', { description: response.data.message })
             router.replace(`/verify/${data.username}`);
         } catch (error) {
             console.error("Error in signup of user", error);
             const axiosError = error as AxiosError<ApiResponse>;
             let errorMessage = axiosError.response?.data.message;
-            toast({
-                title: "Sign-up failed",
-                description: errorMessage,
-                variant: "destructive",
-            });
+            toast.error("Sign-up failed", { description: errorMessage })
         } finally {
             setIsSubmitting(false);
         }

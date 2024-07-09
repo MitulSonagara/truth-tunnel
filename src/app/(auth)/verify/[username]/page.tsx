@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { verifySchema } from '@/schemas/verifySchema';
 import { ApiResponse } from '@/types/ApiResponse';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +17,6 @@ const VerifyAccount = () => {
     const router = useRouter()
 
     const params = useParams<{ username: string }>()
-    const { toast } = useToast()
 
     const form = useForm<z.infer<typeof verifySchema>>({
         resolver: zodResolver(verifySchema),
@@ -29,20 +28,13 @@ const VerifyAccount = () => {
                 username: params.username,
                 code: data.code
             })
-            toast({
-                title: "Success",
-                description: response.data.message,
-            })
+            toast.success('Success', { description: response.data.message })
             router.replace("/sign-in")
         } catch (error) {
             console.error("Error in signup of user", error);
             const axiosError = error as AxiosError<ApiResponse>;
             let errorMessage = axiosError.response?.data.message;
-            toast({
-                title: "Sign-up failed",
-                description: errorMessage,
-                variant: "destructive",
-            });
+            toast.error("Sign-up failed", { description: errorMessage })
         }
     }
 

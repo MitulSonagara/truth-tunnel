@@ -2,13 +2,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from 'sonner';
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
 import {signIn} from "next-auth/react"
 import { useEffect, useState, useCallback } from "react";
 import { useDebounce } from 'use-debounce';
-import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { signUpSchema } from "@/schemas/signUpSchema";
 import axios, { AxiosError } from "axios";
@@ -20,7 +20,6 @@ import { Loader2 } from "lucide-react";
 import { signInSchema } from "@/schemas/signInSchema";
 
 const Page = () => {
-    const { toast } = useToast();
     const router = useRouter();
 
     //zod implementation
@@ -40,11 +39,7 @@ const Page = () => {
         })
 
         if (result?.error) {
-            toast({
-                title: "Login Failed",
-                description: "Incorrect username or password",
-                variant:"destructive"
-            })
+            toast.error("Login Failed", { description: "Incorrect username or password" })
         }
 
         if (result?.url) {

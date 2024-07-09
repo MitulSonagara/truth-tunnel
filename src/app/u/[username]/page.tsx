@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from 'sonner';
 
 import {
     Form,
@@ -28,7 +28,6 @@ const formSchema = z.object({
 
 const Page = ({ params }: { params: { username: string } }) => {
     const usernameParams = params.username;
-    const { toast } = useToast();
     const [loading, setIsLoading] = useState<boolean>(false);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -41,18 +40,11 @@ const Page = ({ params }: { params: { username: string } }) => {
         setIsLoading(true);
         try {
             const res = await axios.post('/api/send-message', { username: usernameParams, content: data.content });
-            toast({
-                title: "Success",
-                description: "Message sent successfully"
-            });
+            toast.success('Success', { description: "Message sent successfully" })
         } catch (error) {
             const axiosError = error as AxiosError<any>;
             let errorMessage = axiosError.response?.data.message || "An error occurred";
-            toast({
-                title: "Error",
-                description: errorMessage,
-                variant: "destructive"
-            });
+            toast.error("Error", { description: errorMessage })
         } finally {
             setIsLoading(false);
         }

@@ -4,8 +4,7 @@ import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
-import { useToast } from "@/components/ui/use-toast";
-
+import { toast } from 'sonner';
 import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -33,17 +32,13 @@ const Page = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
     const [baseUrl, setBaseUrl] = useState("");
-    const { toast } = useToast()
 
 
     const handleDeleteMessages = async (messageId: string) => {
         setMessages(messages.filter((message) => message._id !== messageId));
         try {
             const res = await axios.delete(`/api/delete-message/${messageId}`);
-            toast({
-                title: "Success",
-                description: "Message deleted Successfully"
-            })
+            toast.success('Success',{description:"Message deleted Successfully"})
         } catch (error) {
             console.error(error);
             setMessages(prevMessages => [...prevMessages, ...messages.filter(m => m._id === messageId)]);
@@ -68,11 +63,7 @@ const Page = () => {
             
         } catch (error) {
             const axiosError = error as AxiosError<ApiResponse>;
-            toast({
-                title: "Error",
-                description: "Failed to fetch message settings" || axiosError.response?.data.message,
-                variant: "destructive"
-            })
+            toast.error("Error", { description: "Failed to fetch message settings" || axiosError.response?.data.message })
         } finally {
             setIsSwitchLoading(false)
         }
@@ -86,18 +77,11 @@ const Page = () => {
             const response = await axios.get<ApiResponse>(`/api/get-messages`)
             setMessages(response.data.messages || [])
             if (refresh) {
-                toast({
-                    title: "Refreshed Messages",
-                    description: "Showing latest messages"
-                })
+                toast.success("Refreshed Messages", { description: "Showing latest messages" })
             }
         } catch (error) {
             const axiosError = error as AxiosError<ApiResponse>;
-            toast({
-                title: "Error",
-                description: "Failed to fetch message settings",
-                variant: "destructive"
-            })
+            toast.error("Error", { description: "Failed to fetch message settings" || axiosError.response?.data.message })
         } finally {
             setIsSwitchLoading(false)
             setLoading(false)
@@ -117,17 +101,10 @@ const Page = () => {
                 acceptMessages: !acceptMessages,
             });
             setValue("accept-messages", !acceptMessages);
-            toast({
-                title: response.data.message,
-                variant: "default"
-            })
+            toast.success(response.data.message)
         } catch (error) {
             const axiosError = error as AxiosError<ApiResponse>;
-            toast({
-                title: "Error",
-                description: axiosError.response?.data.message||"Failed to fetch message settings",
-                variant: "destructive"
-            })
+            toast.error("Error", { description: axiosError.response?.data.message || "Failed to fetch message settings" })
         }
     };
 
@@ -135,10 +112,7 @@ const Page = () => {
     const profileUrl = `${baseUrl}/u/${username?.username}`;
     const copyToClipboard = () => {
         navigator.clipboard.writeText(profileUrl);
-        toast({
-            title: "URL copied",
-            description: "Profile url has been copied to clipboard"
-        })
+        toast.success("URL copied", { description: "Profile url has been copied to clipboard" })
     };
 
     if (!session || !session.user) {

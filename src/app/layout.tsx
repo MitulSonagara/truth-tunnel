@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from 'sonner';
-import Navbar from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +23,7 @@ export default function RootLayout({
                     <body className={inter.className}>
                         {/* <Navbar/> */}
                         {children}
-                        <Toaster richColors />
+                        <Toaster richColors expand={true} />
                     </body>
                 </AuthProvider>
             </html>
