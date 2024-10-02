@@ -51,8 +51,13 @@ MONGODB_URI=""
 NEXTAUTH_SECRET=""
 EMAIL_PASS=""
   ```
-4. Run the application:
+4. Build the application:
    
+```bash
+npm run build
+```
+5. Run the application:
+
 ```bash
 npm start
   ```
