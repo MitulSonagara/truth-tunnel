@@ -55,7 +55,7 @@ const Page = () => {
                         Join <br />Truth-Tunnel
                     </h1>
                     <p className="mb-4">
-                        Sign Ip to start your anonymous adventure.
+                        Sign In to start your anonymous adventure.
                     </p>
                 </div>
 
