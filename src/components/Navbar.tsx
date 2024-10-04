@@ -36,7 +36,7 @@ const Navbar = () => {
             <>
               <div className="flex items-center">
                 <Image
-                  src="/assets/logo1.png"
+                  src="/assets/logo R.png"
                   alt="Truth Tunnel Logo"
                   width={180}
                   height={180}
