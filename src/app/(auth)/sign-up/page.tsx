@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useDebounce } from 'use-debounce';
 import { toast } from 'sonner';
 import { useRouter } from "next/navigation";
@@ -25,7 +25,7 @@ const Page = () => {
     const [debouncedUsername] = useDebounce(username, 300);
     const router = useRouter();
 
-    //zod implementation
+    // Zod implementation
     const form = useForm<z.infer<typeof signUpSchema>>({
         resolver: zodResolver(signUpSchema),
         defaultValues: {
@@ -61,13 +61,13 @@ const Page = () => {
         setIsSubmitting(true);
         try {
             const response = await axios.post<ApiResponse>('/api/sign-up', data);
-            toast.success('Success', { description: response.data.message })
+            toast.success('Success', { description: response.data.message });
             router.replace(`/verify/${data.username}`);
         } catch (error) {
             console.error("Error in signup of user", error);
             const axiosError = error as AxiosError<ApiResponse>;
-            let errorMessage = axiosError.response?.data.message;
-            toast.error("Sign-up failed", { description: errorMessage })
+            let errorMessage = axiosError.response?.data.message || "An error occurred"; // Fallback error message
+            toast.error("Sign-up failed", { description: errorMessage });
         } finally {
             setIsSubmitting(false);
         }
@@ -75,7 +75,7 @@ const Page = () => {
 
     return (
         <div className="flex justify-center items-center min-h-screen">
-            <div className="w-full max-w-md p-8 space-y-8rounded-lg shadow-md border rounded-3xl">
+            <div className="w-full max-w-md p-8 space-y-8 rounded-lg shadow-md border rounded-3xl"> {/* Fixed spacing issue */}
                 <div className="text-center">
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
                         Join <br />Truth-Tunnel
@@ -101,6 +101,7 @@ const Page = () => {
                                             onChange={(e) => {
                                                 field.onChange(e);
                                                 setUsername(e.target.value);
+                                                setUsernameMessage(''); // Clear message on input change
                                             }}
                                         />
                                     </FormControl>
@@ -122,7 +123,7 @@ const Page = () => {
                                     <FormControl>
                                         <Input className="rounded-xl" placeholder="Enter Email" {...field} />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage>{form.formState.errors.email?.message}</FormMessage> {/* Display error message */}
                                 </FormItem>
                             )}
                         />
@@ -135,7 +136,7 @@ const Page = () => {
                                     <FormControl>
                                         <Input className="rounded-xl" type="password" placeholder="Enter Password" {...field} />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage>{form.formState.errors.password?.message}</FormMessage> {/* Display error message */}
                                 </FormItem>
                             )}
                         />
