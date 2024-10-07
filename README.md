@@ -1,37 +1,64 @@
-# Truth-Tunnel Web Application
 
-## Overview
+# <p align="center" id="top">📦 Truth-Tunnel Web Application 🛡️</p> 
 
-Welcome to the Truth-Tunnel Web Application! This platform allows users to send and receive messages securely while maintaining anonymity. The application features a robust login system with OTP (One-Time Password) verification to ensure the safety and privacy of user identities.
+<p align="center"> 
+   <div align="center"> 
+      <img src="https://readme-typing-svg.herokuapp.com?color=45ffaa&center=true&vCenter=true&size=40&width=900&height=80&lines=Welcome+to+Truth-Tunnel!"/> 
+   </div> 
+</p> 
 
-You can preview and try the website live in Vercel here :
+<h2>Hi there,<img src="https://raw.githubusercontent.com/nixin72/nixin72/master/wave.gif" height="40" width="40" /> Welcome to secure and anonymous messaging! <img src='https://raw.githubusercontent.com/ShahriarShafin/ShahriarShafin/main/Assets/handshake.gif' width="60px" height="35"></h2> 
 
-## Table of Contents
+<p>Truth-Tunnel is a web application that allows users to send and receive messages securely while maintaining anonymity. With a robust login system featuring OTP (One-Time Password) verification, your safety and privacy are our top priority.</p> 
 
-- Features
-- Installation
-- Usage
-- Screenshots
-- Technologies Used
-- Contributing
-- License
+<!--Line--> 
 
-## Features
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
-- Anonymous Identity: Users can communicate without revealing their true identity.
-- Secure Login: Login system secured with OTP for verification.
-- Message Encryption: All messages are encrypted to ensure privacy.
-- User-Friendly Interface: Simple and intuitive design for ease of use.
-- Cross-Platform: Compatible with both web and mobile devices.
+## Overview 📌
 
-## Installation
+<ul> 
+   <li>🔒 Anonymous Identity: Users can communicate without revealing their identity.</li> 
+   <li>📧 Secure OTP Login: Verifies user identity via OTP sent to their email.</li> 
+   <li>🔐 Encrypted Messaging: Ensures privacy with end-to-end message encryption.</li> 
+   <li>💻 Cross-Platform: Accessible on web and mobile devices.</li> 
+   <li>✨ User-Friendly Interface: Simple, clean, and intuitive design.</li> 
+</ul> 
 
-## Prerequisites
+<p align="center"> <img src="/public/assets/dashboard.png" alt="Truth-Tunnel Preview" width="900" /> </p>
 
-- Node.js
-- npm
+## Live Demo 🎥
 
-## Steps
+Access the live version of Truth-Tunnel at [truth-tunnel.vercel.app](https://truth-tunnel.vercel.app/).
+
+<!--Line--> <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900"> <h2><img src="https://media2.giphy.com/media/QssGEmpkyEOhBCb7e1/giphy.gif?cid=ecf05e47a0n3gi1bfqntqmob8g9aid1oyj2wr3ds3mg700bl&rid=giphy.gif" width="30px" height="38"> Technologies Used</h2>
+
+Truth-Tunnel is built using the following technologies:
+
+-   **Frontend**:
+    -   Next.js
+    -   TailwindCSS
+    -   shadcn
+-   **Backend**:
+    -   Node.js
+    -   Express.js
+-   **Database**:
+    -   MongoDB
+-   **Security**:
+    -   next/auth for authentication
+    -   OTP (One-Time Password) for verification
+    -   bcrypt for password hashing
+
+## Prerequisites 👈🏻
+
+Before setting up the project, ensure you have the following installed:
+
+-   **Node.js**: Download and install from [nodejs.org](https://nodejs.org/).
+-   **MongoDB**: Set up an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+
+## Installation 🛠️
+
+Follow these steps to set up Truth-Tunnel locally:
 
 1. Clone the repository:
 
@@ -69,67 +96,48 @@ npm run build
 npm start
 ```
 
-## Usage
+## Contributing 🌟
 
-1. Register: Create a new account using an anonymous identity.
-2. Login: Enter your credentials and verify your identity using the OTP sent to your registered email.
-3. Send Messages: Compose and send encrypted messages to other users.
-4. Receive Messages: View received messages in your inbox, decrypted and secure.
+Contributions are welcome! Follow these steps to contribute:
 
-# Screenshots
+Fork the repository
 
-## Home Page
+Click the "Fork" button at the top-right corner of the repository page to create a personal copy.
+    
+**Clone your forked repository**
 
-![image](https://github.com/MitulSonagara/truth-tunnel/blob/master/public/assets/home.png)
+```bash
+git clone https://github.com/your-username/scruter.git
+cd scruter
+```
 
-## Registration Page
+**Create a new branch**
+```bash
+git checkout -b feature-branch-name
+```
 
-![image](https://github.com/MitulSonagara/truth-tunnel/blob/master/public/assets/signup.png)
+**Add your changes**
+```bash
+git add .
+```
 
-## OTP Verification
+**Make your changes and commit them**
+```bash
+git commit -m 'Add some feature'
+```
 
-![image](https://github.com/MitulSonagara/truth-tunnel/blob/master/public/assets/otp.png)
+**Push to the branch**
+```bash
+git push origin feature-branch-name
+```
 
-## Messaging Interface
+**Submit a pull request**
 
-## Copy the unique link
+Go to the original repository and click on the "Pull Request" button to submit your changes.
 
-![image](https://github.com/MitulSonagara/truth-tunnel/blob/master/public/assets/dashboard.png)
+**Please refer to the [Contributing.md](CONTRIBUTING.md) file for detailed guidelines on how to contribute to this project.**
 
-## send messages to user without login
-
-![image](https://github.com/MitulSonagara/truth-tunnel/blob/master/public/assets/send-msg.png)
-
-## Technologies Used
-
-- Frontend:
-  - NextJs
-  - HTML/CSS
-  - TailwindCSS
-  - shadcn
-- Backend:
-  - Node.js
-  - Express.js
-- Database:
-  - MongoDB
-- Security:
-
-  - next/auth for authentication
-  - OTP (One-Time Password) for verification
-  - bcrypt (Squared the password)
-
-## Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch
-3. Make your changes.
-4. Commit your changes (git commit -m 'Add some feature').
-5. Push to the branch (git push origin feature-branch).
-6. Open a Pull Request.
-
----
+<!--Line--> <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## 👀 Our Contributors
 
