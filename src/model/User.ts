@@ -1,5 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
+import bcrypt from 'bcrypt';
 
+// Define the Message interface and schema
 export interface Message extends Document {
     content: string;
     createdAt: Date;
@@ -13,10 +15,11 @@ const MessageSchema: Schema<Message> = new Schema({
     createdAt: {
         type: Date,
         required: true,
-        default: Date.now
+        default: () => Date.now()
     }
 });
 
+// Define the User interface and schema
 export interface User extends Document {
     username: string;
     email: string;
@@ -24,8 +27,8 @@ export interface User extends Document {
     verifyCode: string;
     verifyCodeExpiry: Date;
     isVerified: boolean;
-    isAcceptingMessages: boolean; // Consistent naming
-    messages: Message[];
+    isAcceptingMessages: boolean;
+    messages: Message[];  // Using Message schema type, not ObjectId
 }
 
 const UserSchema: Schema<User> = new Schema({
@@ -39,7 +42,7 @@ const UserSchema: Schema<User> = new Schema({
         type: String,
         required: [true, "Email is required"],
         unique: true,
-        match: [/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Please use a valid email"]
+        match: [/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Invalid email format"]
     },
     password: {
         type: String,
@@ -47,23 +50,41 @@ const UserSchema: Schema<User> = new Schema({
     },
     verifyCode: {
         type: String,
-        required: [true, "Verify code is required"]
+        required: [true, "Verification code is required"]
     },
     verifyCodeExpiry: {
         type: Date,
-        required: [true, "Verify code expiry is required"]
+        required: [true, "Verification code expiry is required"]
     },
     isVerified: {
         type: Boolean,
         default: false
     },
-    isAcceptingMessages: { // Consistent naming
+    isAcceptingMessages: {
         type: Boolean,
         default: true
     },
-    messages: [MessageSchema]
+    messages: [MessageSchema]  // Subdocument array of MessageSchema
 });
 
+// Indexes for faster querying
+UserSchema.index({ email: 1 }, { unique: true });
+UserSchema.index({ username: 1 }, { unique: true });
+
+// Method to check if the verification code is still valid
+UserSchema.methods.isVerifyCodeValid = function () {
+    return this.verifyCodeExpiry > Date.now();
+};
+
+// Pre-save hook to hash password if modified
+UserSchema.pre('save', async function (next) {
+    // Ensure password is hashed only if modified
+    if (!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+});
+
+// Compile and export the User model
 const UserModel = mongoose.models.User || mongoose.model<User>("User", UserSchema);
 
 export default UserModel;
