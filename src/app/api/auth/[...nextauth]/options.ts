@@ -94,26 +94,24 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     pages: {
-       signIn: "/sign-in"
+        signIn: "/auth/signin", // Custom sign-in page
     },
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-              token.id = user.id?.toString()
-              token.isVerified = user.isVerified
-              token.isAcceptingMessage = user.isAcceptingMessage
-              token.username = user.username
-              
+              token._id = user.id?.toString();
+              token.isVerified = user.isVerified;
+              token.isAcceptingMessage = user.isAcceptingMessage;
+              token.username = user.username;
             }
             return token;
         },
         async session({ session, token }) {
             if (token) {
-              session.user.id = token.id
-              session.user.isVerified = token.isVerified
-              session.user.isAcceptingMessage = token.isAcceptingMessage
-              session.user.username = token.username
-               
+              session.user._id = token._id;
+              session.user.isVerified = token.isVerified;
+              session.user.isAcceptingMessage = token.isAcceptingMessage;
+              session.user.username = token.username;
             }
             return session;
         },

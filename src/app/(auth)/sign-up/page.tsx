@@ -1,15 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
+import Image from "next/image";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import Image from "next/image";
+
 import * as z from "zod";
-import { signIn } from "next-auth/react";
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
+
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { signUpSchema } from "@/schemas/signUpSchema";
@@ -27,6 +29,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react"; // Import signIn from next-auth
 
 const Page = () => {
   const [username, setUsername] = useState("");
@@ -57,19 +60,12 @@ const Page = () => {
           const response = await axios.get(
             `/api/check-username-unique?username=${debouncedUsername}`
           );
-          console.log(response);
-
-          let msg = response.data.message;
-          setUsernameMessage(msg);
+          setUsernameMessage(response.data.message);
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
           setUsernameMessage(
             axiosError.response?.data.message ?? "Error checking username"
           );
-          form.setError("username", {
-            message:
-              axiosError.response?.data.message ?? "Error checking username",
-          });
         } finally {
           setIsCheckingUsername(false);
         }
@@ -97,7 +93,8 @@ const Page = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-8  shadow-md border rounded-3xl">
+      <div className="w-full max-w-md p-8 space-y-8 rounded-lg shadow-md border rounded-3xl">
+        {" "}
         {/* Fixed spacing issue */}
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
@@ -167,21 +164,14 @@ const Page = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-
-                  <div className="relative">
-                    <FormControl>
-                      <Input
-                        className="rounded-xl"
-                        type={hidden ? "password" : "text"}
-                        placeholder="Enter Password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 py-2" onClick={()=>setHidden(!hidden)}>
-                      { hidden ? <EyeOff/> : <Eye /> }
-                    </div>
-                  </div>
-
+                  <FormControl>
+                    <Input
+                      className="rounded-xl"
+                      type="password"
+                      placeholder="Enter Password"
+                      {...field}
+                    />
+                  </FormControl>
                   <FormMessage>
                     {form.formState.errors.password?.message}
                   </FormMessage>{" "}
@@ -203,7 +193,8 @@ const Page = () => {
                 "Sign Up"
               )}
             </Button>
-            {/* divider */}
+
+            {/* Divider */}
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300"></div>
@@ -212,9 +203,9 @@ const Page = () => {
                 <span className="px-2 text-white"></span>
               </div>
             </div>
-             {/* Google Auth Button */}
-             <Button
-              onClick={() => signIn("google")}
+            {/* Google Auth Button */}
+            <Button
+              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
               className="flex items-center justify-center space-x-2 w-full mt-4 rounded-xl bg-red-500 hover:bg-red-600 text-white"
             >
               <Image
