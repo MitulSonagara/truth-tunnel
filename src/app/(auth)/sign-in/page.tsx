@@ -16,11 +16,12 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { signInSchema } from "@/schemas/signInSchema";
 
 const Page = () => {
     const router = useRouter();
+    const [hidden, setHidden] = useState(true)
 
     //zod implementation
     const form = useForm<z.infer<typeof signInSchema>>({
@@ -80,9 +81,14 @@ const Page = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <Input className="rounded-xl" type="password" placeholder="Enter Password" {...field} />
-                                    </FormControl>
+                                    <div className="relative">
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 py-2" onClick={()=>setHidden(!hidden)}>
+                                            { hidden ? <EyeOff/> : <Eye /> }
+                                        </div>
+                                        <FormControl>
+                                            <Input className="rounded-xl" type={hidden ? "password" : "text"} placeholder="Enter Password" {...field} />
+                                        </FormControl>
+                                    </div>
                                     <FormMessage />
                                 </FormItem>
                             )}
