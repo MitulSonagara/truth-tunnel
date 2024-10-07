@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 const Page = () => {
   const [username, setUsername] = useState("");
@@ -42,6 +42,8 @@ const Page = () => {
       password: "",
     },
   });
+
+  const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
     const checkUsernameUnique = async () => {
@@ -162,14 +164,21 @@ const Page = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="rounded-xl"
-                      type="password"
-                      placeholder="Enter Password"
-                      {...field}
-                    />
-                  </FormControl>
+
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        className="rounded-xl"
+                        type={hidden ? "password" : "text"}
+                        placeholder="Enter Password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 py-2" onClick={()=>setHidden(!hidden)}>
+                      { hidden ? <EyeOff/> : <Eye /> }
+                    </div>
+                  </div>
+
                   <FormMessage>
                     {form.formState.errors.password?.message}
                   </FormMessage>{" "}
