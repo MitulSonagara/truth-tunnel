@@ -1,6 +1,6 @@
 datasource db {
   provider = "mongodb"
-  url      = env("DATABASE_URL")
+  url      = env("MONGODB_URI")
 }
 
 generator client {
@@ -14,13 +14,13 @@ model User {
   username           String    @unique
   isVerified         Boolean   @default(false)
   image              String?
-  password           String
+  password           String?
   isAcceptingMessage Boolean   @default(true)
   accounts           Account[]
   sessions           Session[]
   messages           Message[]
-  verifyCode         String
-  verifyCodeExpiry   DateTime
+  verifyCode         String?
+  verifyCodeExpiry   DateTime?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 }

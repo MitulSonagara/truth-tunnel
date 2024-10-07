@@ -12,7 +12,9 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+
 // Verify transporter setup
+
 transporter.verify().then(() => {
     console.log("Nodemailer transporter is ready.");
 }).catch((error) => {
@@ -20,6 +22,7 @@ transporter.verify().then(() => {
 });
 
 export async function sendVerificationEmail(email: string, username: string, verifyCode: string): Promise<{ success: boolean, message?: string }> {
+   
     try {
         const htmlContent = `
             <html lang="en">
