@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from 'bcrypt';
 
+// Define the Message interface and schema
 export interface Message extends Document {
     content: string;
     createdAt: Date;
@@ -18,6 +19,7 @@ const MessageSchema: Schema<Message> = new Schema({
     }
 });
 
+// Define the User interface and schema
 export interface User extends Document {
     username: string;
     email: string;
@@ -26,7 +28,7 @@ export interface User extends Document {
     verifyCodeExpiry: Date;
     isVerified: boolean;
     isAcceptingMessages: boolean;
-    messages: Schema.Types.ObjectId[];
+    messages: Message[];  // Using Message schema type, not ObjectId
 }
 
 const UserSchema: Schema<User> = new Schema({
@@ -62,23 +64,27 @@ const UserSchema: Schema<User> = new Schema({
         type: Boolean,
         default: true
     },
-    messages: [{ type: Schema.Types.ObjectId, ref: 'Message' }]
+    messages: [MessageSchema]  // Subdocument array of MessageSchema
 });
 
+// Indexes for faster querying
 UserSchema.index({ email: 1 }, { unique: true });
 UserSchema.index({ username: 1 }, { unique: true });
 
+// Method to check if the verification code is still valid
 UserSchema.methods.isVerifyCodeValid = function () {
     return this.verifyCodeExpiry > Date.now();
 };
 
-// Hash password before saving
+// Pre-save hook to hash password if modified
 UserSchema.pre('save', async function (next) {
+    // Ensure password is hashed only if modified
     if (!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password, 10);
     next();
 });
 
+// Compile and export the User model
 const UserModel = mongoose.models.User || mongoose.model<User>("User", UserSchema);
 
 export default UserModel;
