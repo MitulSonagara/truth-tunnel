@@ -1,12 +1,13 @@
 import nodemailer from "nodemailer";
 
 const pass = process.env.EMAIL_PASS;
+const user = process.env.EMAIL_USER;
 
 // Create a transporter using SMTP details
 const transporter = nodemailer.createTransport({
-    service:"gmail",
+    service: "gmail",
     auth: {
-        user: "mitul.songara.1612@gmail.com",
+        user,
         pass,
     }
 });
@@ -45,7 +46,7 @@ export async function sendVerificationEmail(email: string, username: string, ver
         `;
         // Send mail with defined transport object
         const info = await transporter.sendMail({
-            from: '"Truth-Tunnel" <mitul.songara.1612@gmail.com>', // sender address
+            from: `"Truth-Tunnel" <${user}>`, // sender address
             to: email, // list of receivers
             subject: "Verify Your Email", // Subject line
             text: `Hello ${username},\n\nYour verification code is: ${verifyCode}\n\nPlease use this code to verify your email.`, // plain text body
