@@ -28,7 +28,6 @@ export async function DELETE(request: Request, { params }: { params: { messageId
         })
 
         if (!updateResult) {
-            console.log("message not found or already deleted");
 
             return Response.json({
                 success: false,
