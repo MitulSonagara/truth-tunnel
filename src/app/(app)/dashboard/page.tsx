@@ -34,7 +34,7 @@ const Page = () => {
   const [baseUrl, setBaseUrl] = useState("");
 
   const handleDeleteMessages = async (messageId: string) => {
-    setMessages(messages.filter((message) => message._id !== messageId));
+    setMessages(messages.filter((message) => message.id !== messageId));
     try {
       const res = await axios.delete(`/api/delete-message/${messageId}`);
       toast.success("Success", { description: "Message deleted Successfully" });
@@ -42,7 +42,7 @@ const Page = () => {
       console.error(error);
       setMessages((prevMessages) => [
         ...prevMessages,
-        ...messages.filter((m) => m._id === messageId),
+        ...messages.filter((m) => m.id === messageId),
       ]);
     }
   };
@@ -193,7 +193,7 @@ const Page = () => {
         </Button>
         <div className="mt-5 flex flex-wrap">
           {messages.length > 0 ? (
-            messages.map(({ content, _id, createdAt }, index) => (
+            messages.map(({ content, id, createdAt }, index) => (
               <div
                 key={index}
                 className="shadow-md border rounded-2xl p-3 w-fit m-2 flex gap-2 md:gap-20"
@@ -226,7 +226,7 @@ const Page = () => {
                         </AlertDialogCancel>
                         <AlertDialogAction
                           className="bg-red-500 rounded-xl"
-                          onClick={() => handleDeleteMessages(_id as string)}
+                          onClick={() => handleDeleteMessages(id as string)}
                         >
                           Delete
                         </AlertDialogAction>
