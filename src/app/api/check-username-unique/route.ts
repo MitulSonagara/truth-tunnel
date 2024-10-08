@@ -23,7 +23,7 @@ export async function GET(request: Request) {
             return new Response(JSON.stringify({
                 success: false,
                 message: `${usernameErrors}`
-            }), { status: 400 });
+            }), { status: 200 });
         }
         
         const { username } = result.data;
