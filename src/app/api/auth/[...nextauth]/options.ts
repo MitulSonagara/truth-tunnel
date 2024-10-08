@@ -1,10 +1,11 @@
 import { NextAuthOptions } from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs"
-import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
+import db from "@/lib/db";
 
 export const authOptions: NextAuthOptions = {
+    adapter: PrismaAdapter(db),
     providers: [
         CredentialsProvider({
             id: "credentials",
@@ -14,13 +15,17 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials: any): Promise<any> {
-                await dbConnect()
+
                 try {
-                    const user = await UserModel.findOne({
-                        $or: [
-                            { email: credentials.identifier },
-                            { username: credentials.identifier }
-                        ]
+
+
+                    const user = await db.user.findFirst({
+                        where: {
+                            OR: [
+                                { email: credentials.identifier },
+                                { username: credentials.identifier }
+                            ]
+                        }
                     })
 
                     if (!user) {
@@ -54,7 +59,7 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token._id = user._id?.toString()
+                token.id = user.id?.toString()
                 token.isVerified = user.isVerified
                 token.isAcceptingMessage = user.isAcceptingMessage
                 token.username = user.username
@@ -64,7 +69,7 @@ export const authOptions: NextAuthOptions = {
         },
         async session({ session, token }) {
             if (token) {
-                session.user._id = token._id
+                session.user.id = token.id
                 session.user.isVerified = token.isVerified
                 session.user.isAcceptingMessage = token.isAcceptingMessage
                 session.user.username = token.username

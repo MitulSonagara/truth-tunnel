@@ -1,12 +1,11 @@
-import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
 import { User } from "next-auth";
+import db from "@/lib/db";
 
 export async function DELETE(request: Request, { params }: { params: { messageId: string } }) {
     const messageId = params.messageId
-    await dbConnect()
 
     const session = await getServerSession(authOptions)
 
@@ -20,18 +19,28 @@ export async function DELETE(request: Request, { params }: { params: { messageId
     }
 
     try {
-        const updateResult = await UserModel.updateOne(
-            { _id: user._id },
-            { $pull: { messages: { _id: messageId } } }
-        )
-        if (updateResult.modifiedCount == 0) {
+
+        const updateResult = await db.message.findUnique({
+            where: {
+                id: messageId
+            },
+
+        })
+
+        if (!updateResult) {
             console.log("message not found or already deleted");
-            
+
             return Response.json({
                 success: false,
                 message: "Message not found or already deleted"
             }, { status: 404 })
         } else {
+            await db.message.delete({
+                where: {
+                    id: messageId
+                },
+
+            });
             return Response.json({
                 success: true,
                 message: "Message deleted"
