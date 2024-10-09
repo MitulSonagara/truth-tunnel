@@ -19,7 +19,7 @@ transporter.verify().then(() => {
     console.error("Error setting up nodemailer transporter:", error);
 });
 
-export async function sendVerificationEmail(email: string, username: string, verifyCode: string): Promise<{ success: boolean, message?: string }> {
+export async function sendVerificationEmail(email: string, username: string, verifyCode: string, forgot: boolean = false): Promise<{ success: boolean, message?: string }> {
     try {
         const htmlContent = `
             <html lang="en">
@@ -32,7 +32,7 @@ export async function sendVerificationEmail(email: string, username: string, ver
                             <h2>Hello ${username},</h2>
                         </div>
                         <div>
-                            <p>Thank you for registering. Please use the following verification code to complete your registration.</p>
+                            <p>${forgot ? "Yout forgot password OTP" : "Thank you for registering. Please use the following verification code to complete your registration."}</p>
                         </div>
                         <div>
                             <p><strong>${verifyCode}</strong></p>
