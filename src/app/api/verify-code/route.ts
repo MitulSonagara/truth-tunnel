@@ -1,14 +1,13 @@
-import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
+import db from "@/lib/db"
 
 export async function POST(request: Request) {
-    await dbConnect()
+
 
     try {
         const { username, code } = await request.json()
         const decodedUsername = decodeURIComponent(username)
 
-        const user = await UserModel.findOne({ username: decodedUsername })
+        const user = await db.user.findUnique({ where: { username: decodedUsername } });
 
         if (!user) {
             return Response.json({
@@ -21,8 +20,16 @@ export async function POST(request: Request) {
         const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date()
 
         if (isCodeValid && isCodeNotExpired) {
-            user.isVerified = true
-            await user.save()
+
+            await db.user.update({
+                where: {
+                    username: decodedUsername
+                },
+                data: {
+                    isVerified: true
+                }
+            })
+            // await user.save()
             return Response.json({
                 success: true,
                 message: "Account verified successfully"

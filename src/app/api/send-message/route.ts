@@ -1,13 +1,13 @@
-import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
+import db from "@/lib/db";
+
 
 export async function POST(request: Request) {
-    await dbConnect();
+
     const { username, content } = await request.json();
 
     try {
-        const user = await UserModel.findOne({ username });
-        
+        const user = await db.user.findUnique({ where: { username } });
+
         if (!user) {
             return new Response(JSON.stringify({
                 success: false,
@@ -16,16 +16,20 @@ export async function POST(request: Request) {
         }
 
         // Check if the user is accepting messages
-        if (!user.isAcceptingMessages) {
+        if (!user.isAcceptingMessage) {
             return new Response(JSON.stringify({
                 success: false,
                 message: "User is not accepting messages"
             }), { status: 403 });
         }
 
-        const newMessage = { content, createdAt: new Date() };
-        user.messages.push(newMessage);
-        await user.save();
+        const newMessage = await db.message.create({
+            data: {
+                content,
+                userId: user.id
+            }
+        })
+
         return new Response(JSON.stringify({
             success: true,
             message: "Message sent successfully"

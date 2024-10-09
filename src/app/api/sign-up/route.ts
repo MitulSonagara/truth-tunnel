@@ -1,18 +1,22 @@
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
-import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
+import db from "@/lib/db";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
-    await dbConnect();
+
 
     try {
         const { username, email, password } = await request.json();
-        // Check if username is already taken by a verified user
-        const existingUserVerifiedByUsername = await UserModel.findOne({
-            username,
-            isVerified: true
-        });
+        // const existingUserVerifiedByUsername = await UserModel.findOne({
+        //     username,
+        //     isVerified: true
+        // });
+        const existingUserVerifiedByUsername = await db.user.findUnique({
+            where: {
+                username,
+                isVerified: true
+            }
+        })
 
         if (existingUserVerifiedByUsername) {
             return new Response(JSON.stringify({
@@ -23,8 +27,10 @@ export async function POST(request: Request) {
             });
         }
 
-        // Check if email is already registered
-        const existingUserByEmail = await UserModel.findOne({ email });
+
+        // const existingUserByEmail = await UserModel.findOne({ email });
+        const existingUserByEmail = await db.user.findUnique({ where: { email } })
+
 
         // Generate a verification code
         const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -39,28 +45,52 @@ export async function POST(request: Request) {
             } else {
                 // Update existing user's password and verification code
                 const hashPassword = await bcrypt.hash(password, 10);
-                existingUserByEmail.password = hashPassword;
-                existingUserByEmail.verifyCode = verifyCode;
-                existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
-                await existingUserByEmail.save();
+
+                // existingUserByEmail.password = hashPassword;
+                // existingUserByEmail.verifyCode = verifyCode;
+                // existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000);
+                await db.user.update({
+                    where: {
+                        email,
+                    },
+                    data: {
+                        password: hashPassword,
+                        verifyCode,
+                        verifyCodeExpiry: new Date(Date.now() + 3600000)
+                    }
+                })
+
             }
         } else {
             // Create a new user
             const hashPassword = await bcrypt.hash(password, 10);
             const expiryDate = new Date(Date.now() + 3600000); // 1 hour expiry
 
-            const newUser = new UserModel({
-                username,
-                email,
-                password: hashPassword,
-                verifyCode,
-                verifyCodeExpiry: expiryDate,
-                isVerified: false, 
-                isAcceptingMessage: true,
-                messages: []
-            });
 
-            await newUser.save();
+            // const newUser = new UserModel({
+            //     username,
+            //     email,
+            //     password: hashPassword,
+            //     verifyCode,
+            //     verifyCodeExpiry: expiryDate,
+            //     isVerified: false,
+            //     isAcceptingMessage: true,
+            //     messages: []
+            // });
+
+            // await newUser.save();
+            await db.user.create({
+                data: {
+                    username,
+                    email,
+                    password: hashPassword,
+                    verifyCode,
+                    verifyCodeExpiry: expiryDate,
+                    isVerified: false,
+                    isAcceptingMessage: true,
+
+                }
+            })
         }
 
         const emailResponse = await sendVerificationEmail(email, username, verifyCode);
