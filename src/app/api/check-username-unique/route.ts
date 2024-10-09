@@ -7,6 +7,8 @@ const UsernameQuerySchema = z.object({
     username: usernameValidation
 });
 
+export const dynamic = 'force-static'
+
 export async function GET(request: Request) {
 
 
