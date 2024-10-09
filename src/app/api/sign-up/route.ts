@@ -8,6 +8,7 @@ export async function POST(request: Request) {
 
     try {
         const { username, email, password } = await request.json();
+        // Check if username is already taken by a verified user
         const existingUserVerifiedByUsername = await UserModel.findOne({
             username,
             isVerified: true
@@ -22,27 +23,31 @@ export async function POST(request: Request) {
             });
         }
 
+        // Check if email is already registered
         const existingUserByEmail = await UserModel.findOne({ email });
 
+        // Generate a verification code
         const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
 
         if (existingUserByEmail) {
+            // If the user already exists and is verified
             if (existingUserByEmail.isVerified) {
                 return new Response(JSON.stringify({
                     success: false,
                     message: "User already exists with this email."
                 }), { status: 400 });
             } else {
+                // Update existing user's password and verification code
                 const hashPassword = await bcrypt.hash(password, 10);
                 existingUserByEmail.password = hashPassword;
                 existingUserByEmail.verifyCode = verifyCode;
-                existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000);
+                existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
                 await existingUserByEmail.save();
             }
         } else {
+            // Create a new user
             const hashPassword = await bcrypt.hash(password, 10);
-            const expiryDate = new Date();
-            expiryDate.setHours(expiryDate.getHours() + 1);
+            const expiryDate = new Date(Date.now() + 3600000); // 1 hour expiry
 
             const newUser = new UserModel({
                 username,
@@ -50,7 +55,7 @@ export async function POST(request: Request) {
                 password: hashPassword,
                 verifyCode,
                 verifyCodeExpiry: expiryDate,
-                isVerified: false,
+                isVerified: false, 
                 isAcceptingMessage: true,
                 messages: []
             });
@@ -58,9 +63,7 @@ export async function POST(request: Request) {
             await newUser.save();
         }
 
-        // Send verification email
         const emailResponse = await sendVerificationEmail(email, username, verifyCode);
-
         if (!emailResponse.success) {
             return new Response(JSON.stringify({
                 success: false,
