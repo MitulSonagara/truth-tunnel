@@ -2,14 +2,15 @@
 import { z } from "zod";
 import { usernameValidation } from "@/schemas/signUpSchema";
 import db from "@/lib/db";
+import { NextRequest } from "next/server";
 
 const UsernameQuerySchema = z.object({
     username: usernameValidation
 });
 
-export const dynamic = 'force-static'
+export const dynamic = "force-dynamic";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
 
 
     try {
