@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
             return new Response(JSON.stringify({
                 success: false,
                 message: `${usernameErrors}`
-            }), { status: 400 });
+            }), { status: 200 });
         }
 
         const { username } = result.data;
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
             return new Response(JSON.stringify({
                 success: false,
                 message: "Username already taken"
-            }), { status: 400 });
+            }), { status: 200 });
         } else {
             return new Response(JSON.stringify({
                 success: true,
