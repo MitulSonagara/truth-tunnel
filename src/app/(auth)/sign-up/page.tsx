@@ -200,9 +200,8 @@ const Page = () => {
             >
               {isSubmitting ? <Loader2 className="animate-spin" /> : "Sign Up"}
             </Button>
-
-            {/* Divider */}
-            <div className="relative my-6">
+              {/* Divider */}
+              <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300"></div>
               </div>
@@ -223,6 +222,12 @@ const Page = () => {
               />
               <span>Continue with Google</span>
             </Button>
+            <p className="text-center text-sm">
+              Already have an account?{" "}
+              <Link href="/login" className="text-blue-600 hover:underline">
+                Log in
+              </Link>
+            </p>
           </form>
         </Form>
       </div>
