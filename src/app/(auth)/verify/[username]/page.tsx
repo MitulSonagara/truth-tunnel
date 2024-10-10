@@ -9,11 +9,13 @@ import { ApiResponse } from '@/types/ApiResponse';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios, { AxiosError } from 'axios';
 import { useParams, useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import LoaderOverlay from '@/components/Loader';
 
 const VerifyAccount = () => {
+    const [showLoaderOverlay, setShowLoaderOverlay] = useState(false);
     const router = useRouter()
 
     const params = useParams<{ username: string }>()
@@ -24,6 +26,7 @@ const VerifyAccount = () => {
 
     const onSubmit = async (data: z.infer<typeof verifySchema>) => {
         try {
+            setShowLoaderOverlay(true);
             const response = await axios.post(`/api/verify-code`, {
                 username: params.username,
                 code: data.code
@@ -35,12 +38,15 @@ const VerifyAccount = () => {
             const axiosError = error as AxiosError<ApiResponse>;
             let errorMessage = axiosError.response?.data.message;
             toast.error("Sign-up failed", { description: errorMessage })
+        }finally{
+            setShowLoaderOverlay(false);
         }
     }
 
 
     return (
         <div className="flex justify-center items-center min-h-screen">
+            {showLoaderOverlay && <LoaderOverlay />}
             <div className="w-full max-w-md p-8 space-y-8 rounded-lg shadow-md border">
                 <div className="text-center">
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
