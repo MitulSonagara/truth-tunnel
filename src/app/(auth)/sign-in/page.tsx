@@ -107,7 +107,7 @@ const Page = () => {
               type="button" // Prevent form submission
               onClick={() => {
                 console.log("Google sign-in button clicked");
-                signIn("google");
+                signIn("google", { callbackUrl: "/dashboard" })
               }}
               className="flex items-center justify-center space-x-2 w-full mt-4 rounded-xl bg-red-500 hover:bg-red-600 text-white"
             >

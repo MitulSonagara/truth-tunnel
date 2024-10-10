@@ -22,32 +22,40 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                try {
-                    const user = await db.user.findFirst({
-                        where: {
-                            OR: [
-                                { email: credentials.email },
-                                { username: credentials.email },
-                            ],
-                        },
-                    });
 
-                    if (!user) {
-                        throw new Error("No user found with this email");
-                    }
+                if (!credentials) {
+                    console.log("Credentials are missing");
+                    throw new Error("Missing credentials");
+                }
+                const user = await db.user.findFirst({
+                    where: {
+                        OR: [
+                            { email: credentials?.email },
+                            { username: credentials?.email },
+                        ],
+                    },
+                });
 
-                    if (!user.isVerified) {
-                        throw new Error("Please verify your account before login");
-                    }
+                if (!user) {
+                    console.log("No user found with this email/username");
+                    throw new Error("No user found with this email");
+                }
 
-                    const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
-                    if (isPasswordCorrect) {
-                        return user;
-                    } else {
-                        throw new Error("Incorrect password");
-                    }
-                } catch (err) {
-                    throw new Error(err);
+                if (!user.isVerified) {
+                    console.log("User found but not verified");
+                    throw new Error("Please verify your account before login");
+                }
+
+                const isPasswordCorrect = credentials.password && user.password
+                    ? await bcrypt.compare(credentials.password, user.password)
+                    : false;
+
+                if (isPasswordCorrect) {
+                    console.log("Password matched, returning user", user);
+                    return user;
+                } else {
+                    console.log("Incorrect password");
+                    throw new Error("Incorrect password");
                 }
             },
         }),
@@ -55,64 +63,83 @@ export const authOptions: NextAuthOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            async profile(profile) {
-                // Check for profile information
-                if (!profile || !profile.email) {
-                    throw new Error("Profile is null or does not contain email.");
-                }
-
-                // Find or create user in the database
-                let user = await db.user.findUnique({
-                    where: {
-                        email: profile.email,
-                    },
-                });
-
-                // If user doesn't exist, create it
-                if (!user) {
-                    user = await db.user.create({
-                        data: {
-                            email: profile.email,
-                            username: profile.email, // Default username to email
-                            isVerified: true, // assuming that email is already verified by Google provider
-                            isAcceptingMessage: true,
-                            messages: {
-                                create: [], // Create an empty array if you have a one-to-many relationship
-                            },
-                        },
-                    });
-                }
-
-                // Return the user object
+            allowDangerousEmailAccountLinking: true, // Enable email account linking
+            profile(profile) {
+                console.log("Google profile received", profile);
                 return {
-                    id: user.id,
+                    id: profile.sub, // Google user ID
                     name: profile.name,
                     email: profile.email,
+                    username: profile.email,
                     image: profile.picture,
                 };
             },
         }),
     ],
     pages: {
-        signIn: "/auth/signin", // Custom sign-in page
+        signIn: "/sign-in", // Custom sign-in page
+    },
+    session: {
+        strategy: "jwt",
     },
     callbacks: {
-        async jwt({ token, user }) {
-            if (user) {
-              token._id = user.id?.toString();
-              token.isVerified = user.isVerified;
-              token.isAcceptingMessage = user.isAcceptingMessage;
-              token.username = user.username;
+        async signIn({ profile }) {
+            console.log("Google signIn callback - profile", profile);
+            if (!profile) {
+                return false
             }
+
+            // Upsert the user in your database
+            const dbUser = await db.user.upsert({
+                where: { email: profile.email },
+                update: {
+                    name: profile.name,
+                    isVerified: true, // Assuming verified through Google
+                },
+                create: {
+                    email: profile.email || "",
+                    username: profile.email?.split('@')[0] || "", // Default username from email
+                    name: profile.name,
+                    isVerified: true, // Assuming verified through Google
+                    isAcceptingMessage: true,
+                    messages: {
+                        create: [],
+                    },
+                },
+            });
+
+            console.log("User upserted in DB", dbUser);
+
+            return true;
+        },
+        async jwt({ token, user }) {
+            console.log("JWT callback - token", token);
+            console.log("JWT callback - user", user);
+
+            if (user) {
+                token.id = user.id;
+                token.isVerified = user.isVerified;
+                token.isAcceptingMessage = user.isAcceptingMessage;
+                token.username = user.username;
+            }
+
+            console.log("JWT after update - token", token);
+
             return token;
         },
         async session({ session, token }) {
+            console.log("Session callback - session", session);
+            console.log("Session callback - token", token);
+
             if (token) {
-              session.user._id = token._id;
-              session.user.isVerified = token.isVerified;
-              session.user.isAcceptingMessage = token.isAcceptingMessage;
-              session.user.username = token.username;
+                session.user.id = token.id;
+                session.user.isVerified = token.isVerified;
+                session.user.isAcceptingMessage = token.isAcceptingMessage;
+                session.user.username = token.username;
             }
+
+            console.log("Session after update - session", session);
+
             return session;
         },
     },
