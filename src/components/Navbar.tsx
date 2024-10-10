@@ -5,6 +5,7 @@ import { useSession, signOut } from "next-auth/react";
 import { User } from "next-auth";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { ModeToggle } from "./ThemeToggle";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -25,12 +26,15 @@ const Navbar = () => {
               <h1 className="font-bold text-2xl md:text-3xl">
                 Welcome, {user?.username || user?.email}
               </h1>
-              <Button
-                onClick={() => signOut()}
-                className="w-full md:w-auto rounded-xl"
-              >
-                Sign Out
-              </Button>
+              <div className="flex items-center space-x-2">
+                <Button
+                  onClick={() => signOut()}
+                  className="w-full md:w-auto rounded-xl"
+                >
+                  Sign Out
+                </Button>
+                <ModeToggle />
+              </div>
             </>
           ) : (
             <>
@@ -43,9 +47,14 @@ const Navbar = () => {
                   className="mr-2"
                 />
               </div>
-              <Link href="/sign-in">
-                <Button className="w-full md:w-auto rounded-xl">Sign In</Button>
-              </Link>
+              <div className="flex items-center space-x-2">
+                <Link href="/sign-in">
+                  <Button className="w-full md:w-auto rounded-xl">
+                    Sign In
+                  </Button>
+                </Link>
+                <ModeToggle />
+              </div>
             </>
           )}
         </div>
