@@ -14,14 +14,14 @@ model User {
   username           String    @unique
   isVerified         Boolean   @default(false)
   image              String?
-  password           String
+  password           String?
   isAcceptingMessage Boolean   @default(true)
   accounts           Account[]
   sessions           Session[]
   messages           Message[]
-  verifyCode         String
+  verifyCode         String?
   forgotOTP          String?
-  verifyCodeExpiry   DateTime
+  verifyCodeExpiry   DateTime?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 }
@@ -42,6 +42,7 @@ model Account {
   provider          String
   providerAccountId String
   refresh_token     String? @db.String
+  
   access_token      String? @db.String
   expires_at        Int?
   token_type        String?

@@ -23,9 +23,9 @@ const MessageSchema: Schema<Message> = new Schema({
 export interface User extends Document {
     username: string;
     email: string;
-    password: string;
-    verifyCode: string;
-    verifyCodeExpiry: Date;
+    password?: string;
+    verifyCode?: string;
+    verifyCodeExpiry?: Date;
     isVerified: boolean;
     isAcceptingMessages: boolean;
     messages: Message[];  // Using Message schema type, not ObjectId
@@ -46,15 +46,18 @@ const UserSchema: Schema<User> = new Schema({
     },
     password: {
         type: String,
-        required: [true, "Password is required"]
+        required :false,
+        // required: [true, "Password is required"]
     },
     verifyCode: {
         type: String,
-        required: [true, "Verification code is required"]
+        required:false
+        // required: [true, "Verify code is required"]
     },
     verifyCodeExpiry: {
         type: Date,
-        required: [true, "Verification code expiry is required"]
+        required :false 
+        // required: [true, "Verify code expiry is required"]
     },
     isVerified: {
         type: Boolean,
@@ -80,8 +83,14 @@ UserSchema.methods.isVerifyCodeValid = function () {
 UserSchema.pre('save', async function (next) {
     // Ensure password is hashed only if modified
     if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 10);
-    next();
+    try {
+        // Await the result of the hashing and assign it to this.password
+        this.password = await bcrypt.hash(this.password!, 10);
+        next();
+    } catch (error: any) {
+        // Handle error in case hashing fails
+        next(error);
+    }
 });
 
 // Compile and export the User model
