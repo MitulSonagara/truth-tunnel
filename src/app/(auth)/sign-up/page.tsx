@@ -200,7 +200,7 @@ const Page = () => {
             </Button>
             <p className="text-center text-sm">
               Already have an account?{" "}
-              <Link href="/login" className="text-blue-600 hover:underline">
+              <Link href="/sign-in" className="text-blue-600 hover:underline">
                 Log in
               </Link>
             </p>
