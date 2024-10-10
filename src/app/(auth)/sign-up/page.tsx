@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import Image from "next/image";
 
@@ -29,6 +28,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import LoaderOverlay from "@/components/Loader";
 import { signIn } from "next-auth/react"; // Import signIn from next-auth
 
 const Page = () => {
@@ -36,6 +36,7 @@ const Page = () => {
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showLoaderOverlay, setShowLoaderOverlay] = useState(false);
   const [debouncedUsername] = useDebounce(username, 300);
   const router = useRouter();
 
@@ -60,7 +61,8 @@ const Page = () => {
           const response = await axios.get(
             `/api/check-username-unique?username=${debouncedUsername}`
           );
-          setUsernameMessage(response.data.message);
+          let msg = response.data.message;
+          setUsernameMessage(msg);
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
           setUsernameMessage(
@@ -75,11 +77,17 @@ const Page = () => {
   }, [debouncedUsername]);
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true); // Start showing the button loader
+    setShowLoaderOverlay(true); // Show the overlay loader
     try {
       const response = await axios.post<ApiResponse>("/api/sign-up", data);
       toast.success("Success", { description: response.data.message });
-      router.replace(`/verify/${data.username}`);
+
+      
+      setTimeout(() => {
+        setShowLoaderOverlay(false); 
+        router.replace(`/verify/${data.username}`);
+      }, 2000); // 2 seconds delay
     } catch (error) {
       console.error("Error in signup of user", error);
       const axiosError = error as AxiosError<ApiResponse>;
@@ -87,15 +95,15 @@ const Page = () => {
         axiosError.response?.data.message || "An error occurred"; // Fallback error message
       toast.error("Sign-up failed", { description: errorMessage });
     } finally {
-      setIsSubmitting(false);
+      setShowLoaderOverlay(false);
+      setIsSubmitting(false); // Stop showing the button loader
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-8 rounded-lg shadow-md border rounded-3xl">
-        {" "}
-        {/* Fixed spacing issue */}
+      {showLoaderOverlay && <LoaderOverlay />}
+      <div className="w-full max-w-md p-8 space-y-8 shadow-md border rounded-3xl">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Join <br />
@@ -153,8 +161,7 @@ const Page = () => {
                   </FormControl>
                   <FormMessage>
                     {form.formState.errors.email?.message}
-                  </FormMessage>{" "}
-                  {/* Display error message */}
+                  </FormMessage>
                 </FormItem>
               )}
             />
@@ -164,34 +171,34 @@ const Page = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="rounded-xl"
-                      type="password"
-                      placeholder="Enter Password"
-                      {...field}
-                    />
-                  </FormControl>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        className="rounded-xl"
+                        type={hidden ? "password" : "text"}
+                        placeholder="Enter Password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <div
+                      className="absolute right-4 top-1/2 -translate-y-1/2 py-2 cursor-pointer"
+                      onClick={() => setHidden(!hidden)}
+                    >
+                      {hidden ? <EyeOff /> : <Eye />}
+                    </div>
+                  </div>
                   <FormMessage>
                     {form.formState.errors.password?.message}
-                  </FormMessage>{" "}
-                  {/* Display error message */}
+                  </FormMessage>
                 </FormItem>
               )}
             />
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-xl w-full"
+              className="w-full rounded-full bg-blue-600 text-white hover:bg-blue-500"
             >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-4 h-4 w-4 animate-spin" />
-                  Please wait
-                </>
-              ) : (
-                "Sign Up"
-              )}
+              {isSubmitting ? <Loader2 className="animate-spin" /> : "Sign Up"}
             </Button>
 
             {/* Divider */}
@@ -206,7 +213,7 @@ const Page = () => {
             {/* Google Auth Button */}
             <Button
               onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-              className="flex items-center justify-center space-x-2 w-full mt-4 rounded-xl bg-red-500 hover:bg-red-600 text-white"
+              className="flex items-center justify-center space-x-2 w-full mt-4 rounded-xl bg-blue-600 text-white hover:bg-blue-500"
             >
               <Image
                 src="/google.svg"
@@ -218,14 +225,6 @@ const Page = () => {
             </Button>
           </form>
         </Form>
-        <div className="text-center mt-4">
-          <p>
-            Already a member?{" "}
-            <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
-              Sign In
-            </Link>
-          </p>
-        </div>
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ export async function POST(request: Request) {
                 isVerified: true
             }
         })
+
         if (existingUserVerifiedByUsername) {
             return new Response(JSON.stringify({
                 success: false,
@@ -27,19 +28,25 @@ export async function POST(request: Request) {
             });
         }
 
+
         // const existingUserByEmail = await UserModel.findOne({ email });
         const existingUserByEmail = await db.user.findUnique({ where: { email } })
 
+
+        // Generate a verification code
         const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
 
         if (existingUserByEmail) {
+            // If the user already exists and is verified
             if (existingUserByEmail.isVerified) {
                 return new Response(JSON.stringify({
                     success: false,
                     message: "User already exists with this email."
                 }), { status: 400 });
             } else {
+                // Update existing user's password and verification code
                 const hashPassword = await bcrypt.hash(password, 10);
+
                 // existingUserByEmail.password = hashPassword;
                 // existingUserByEmail.verifyCode = verifyCode;
                 // existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000);
@@ -53,11 +60,13 @@ export async function POST(request: Request) {
                         verifyCodeExpiry: new Date(Date.now() + 3600000)
                     }
                 })
+
             }
         } else {
+            // Create a new user
             const hashPassword = await bcrypt.hash(password, 10);
-            const expiryDate = new Date();
-            expiryDate.setHours(expiryDate.getHours() + 1);
+            const expiryDate = new Date(Date.now() + 3600000); // 1 hour expiry
+
 
             // const newUser = new UserModel({
             //     username,
@@ -80,14 +89,11 @@ export async function POST(request: Request) {
                     verifyCodeExpiry: expiryDate,
                     isVerified: false,
                     isAcceptingMessage: true,
-
                 }
             })
         }
 
-        // Send verification email
         const emailResponse = await sendVerificationEmail(email, username, verifyCode);
-
         if (!emailResponse.success) {
             return new Response(JSON.stringify({
                 success: false,
