@@ -20,6 +20,7 @@ model User {
   sessions           Session[]
   messages           Message[]
   verifyCode         String?
+  forgotOTP          String?
   verifyCodeExpiry   DateTime?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
