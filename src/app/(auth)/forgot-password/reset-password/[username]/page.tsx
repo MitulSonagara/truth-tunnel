@@ -9,7 +9,7 @@ import Link from "next/link";
 import {signIn} from "next-auth/react"
 import { useEffect, useState, useCallback } from "react";
 import { useDebounce } from 'use-debounce';
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { signUpSchema } from "@/schemas/signUpSchema";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
@@ -17,34 +17,35 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { signInSchema } from "@/schemas/signInSchema";
+import { resetPasswordSchema } from "@/schemas/resetPasswordSchema";
 
 const Page = () => {
     const router = useRouter();
     const [hidden, setHidden] = useState(true)
+    const params = useParams<{ username: string }>()
 
     //zod implementation
-    const form = useForm<z.infer<typeof signInSchema>>({
-        resolver: zodResolver(signInSchema),
+    const form = useForm<z.infer<typeof resetPasswordSchema>>({
+        resolver: zodResolver(resetPasswordSchema),
         defaultValues: {
-            identifier: "",
             password: "",
+            confirmPassword: "",
         },
     });
 
-    const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-        const result = await signIn('credentials', {
-            redirect:false,
-            identifier: data.identifier,
-            password:data.password
-        })
+    const onSubmit = async (data: z.infer<typeof resetPasswordSchema>) => {
+        console.log("hee");
+        
+        try {
+            const response = await axios.post(`/api/forgot-password/newpassword`, {
+                username: params.username,
+                password: data.password
+            })
+              toast.success('Success', { description: response.data.message })
 
-        if (result?.error) {
-            toast.error("Login Failed", { description: "Incorrect username or password" })
-        }
-
-        if (result?.url) {
-            router.replace("/dashboard")
+          router.replace("/sign-in")
+        } catch (error) {
+          toast.error("password reset failed", { description: "error in resetting password" })
         }
     };
 
@@ -53,28 +54,16 @@ const Page = () => {
             <div className="w-full max-w-md p-8 space-y-8 rounded-3xl shadow-md border">
                 <div className="text-center">
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
-                        Join <br />Truth-Tunnel
+                        Enter <br />New Password
                     </h1>
                     <p className="mb-4">
-                        Sign In to start your anonymous adventure.
+                        change your password.
                     </p>
                 </div>
 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <FormField
-                            name="identifier"
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email/Username</FormLabel>
-                                    <FormControl>
-                                        <Input className="rounded-xl" placeholder="Enter Email/Username" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        
                         <FormField
                             name="password"
                             control={form.control}
@@ -82,8 +71,27 @@ const Page = () => {
                                 <FormItem>
                                     <FormLabel className="flex justify-between">
                                         <p>Password</p>
-                                        <Link href="/forgot-password/email">Forgot Password?</Link>
-                                        </FormLabel>
+                                    </FormLabel>
+                                    <div className="relative">
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 py-2" onClick={()=>setHidden(!hidden)}>
+                                            { hidden ? <EyeOff/> : <Eye /> }
+                                        </div>
+                                        <FormControl>
+                                            <Input className="rounded-xl" type={hidden ? "password" : "text"} placeholder="Enter Password" {...field} />
+                                        </FormControl>
+                                    </div>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            name="confirmPassword"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="flex justify-between">
+                                        <p>Confirm Password</p>
+                                    </FormLabel>
                                     <div className="relative">
                                         <div className="absolute right-4 top-1/2 -translate-y-1/2 py-2" onClick={()=>setHidden(!hidden)}>
                                             { hidden ? <EyeOff/> : <Eye /> }
@@ -97,16 +105,10 @@ const Page = () => {
                             )}
                         />
                         <Button type="submit" className="rounded-xl">
-                            Sign In
+                            Reset Password
                         </Button>
                     </form>
                 </Form>
-                <div className="text-center mt-4">
-                    <p>
-                        Don{"'"}t have an account?{' '}
-                        <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">Sign Up</Link>
-                    </p>
-                </div>
             </div>
         </div>
     );
