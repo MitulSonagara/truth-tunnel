@@ -1,6 +1,6 @@
 datasource db {
   provider = "mongodb"
-  url      = env("MONGODB_URI")
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -41,7 +41,6 @@ model Account {
   provider          String
   providerAccountId String
   refresh_token     String? @db.String
-  
   access_token      String? @db.String
   expires_at        Int?
   token_type        String?
