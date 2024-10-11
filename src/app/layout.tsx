@@ -26,7 +26,7 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <AuthProvider>
           <body className={inter.className}>
-            <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true}>
               {/* <Navbar/> */}
               {children}
               <Toaster richColors expand={true} />
