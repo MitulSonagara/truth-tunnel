@@ -16,9 +16,9 @@ const Navbar = () => {
   const loading = status === "loading";
   const loggedIn = !!session;
 
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const logoSrc =
-    theme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
+  resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
 
   return (
     <>
