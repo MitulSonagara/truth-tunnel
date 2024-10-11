@@ -104,7 +104,7 @@ const Page = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="rounded-xl" disabled={loading}>
+                        <Button type="submit" className="rounded-3xl w-full" disabled={loading}>
                             {loading ? <Loader2 className="animate-spin" /> : "Sign In"} {/* Loading indicator */}
                         </Button>
                     </form>
