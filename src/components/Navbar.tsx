@@ -6,6 +6,7 @@ import { User } from "next-auth";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ModeToggle } from "./ThemeToggle";
+import { useTheme } from "next-themes";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -14,6 +15,10 @@ const Navbar = () => {
   // Determine if session is loading, logged in, or logged out
   const loading = status === "loading";
   const loggedIn = !!session;
+
+  const { resolvedTheme } = useTheme();
+  const logoSrc =
+  resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
 
   return (
     <>
@@ -40,7 +45,7 @@ const Navbar = () => {
             <>
               <div className="flex items-center">
                 <Image
-                  src="/assets/logo1.png"
+                  src={logoSrc}
                   alt="Truth Tunnel Logo"
                   width={180}
                   height={180}
