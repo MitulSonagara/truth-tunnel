@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
+import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
@@ -107,6 +108,33 @@ const Page = () => {
                         <Button type="submit" className="rounded-xl" disabled={loading}>
                             {loading ? <Loader2 className="animate-spin" /> : "Sign In"} {/* Loading indicator */}
                         </Button>
+ {/* Divider */}
+ <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 text-white"></span>
+              </div>
+            </div>
+            {/* Google Auth Button */}
+            <Button
+              type="button" // Prevent form submission
+              onClick={() => {
+                console.log("Google sign-in button clicked");
+                signIn("google", { callbackUrl: "/dashboard" })
+              }}
+              className="flex items-center justify-center space-x-2 w-full mt-4 rounded-xl bg-red-500 hover:bg-red-600 text-white"
+            >
+              <Image
+                src="/google.svg"
+                alt="google logomark"
+                width={25}
+                height={25}
+              />
+              <span>Continue with Google</span>
+            </Button>
+
                     </form>
                 </Form>
                 <div className="text-center mt-4">

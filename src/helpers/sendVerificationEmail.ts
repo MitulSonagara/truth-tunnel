@@ -12,7 +12,9 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+
 // Verify transporter setup
+
 transporter.verify().then(() => {
     console.log("Nodemailer transporter is ready.");
 }).catch((error) => {
