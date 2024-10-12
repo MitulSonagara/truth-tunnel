@@ -22,6 +22,8 @@
 </div>
 <br>
 
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Overview 📌
 
@@ -34,6 +36,9 @@
 </ul>
 
 <p align="center"> <img src="/public/assets/dashboard.png" alt="Truth-Tunnel Preview" width="900" /> </p>
+
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Live Demo 🎥
 
@@ -57,12 +62,18 @@ Truth-Tunnel is built using the following technologies:
   - OTP (One-Time Password) for verification
   - bcrypt for password hashing
 
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
+
 ## Prerequisites 👈🏻
 
 Before setting up the project, ensure you have the following installed:
 
 - **Node.js**: Download and install from [nodejs.org](https://nodejs.org/).
 - **MongoDB**: Set up an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Installation 🛠️
 
@@ -103,6 +114,9 @@ npm run build
 ```bash
 npm start
 ```
+
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Contributing 🌟
 
@@ -159,8 +173,8 @@ Go to the original repository and click on the "Pull Request" button to submit y
 ![Contributors](https://contrib.rocks/image?repo=anuragverma108/SwapReads&v=1)
 </div>
 
-
----
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 <!-- Added the Team section -->
 ## 👥 Team
@@ -170,6 +184,9 @@ Go to the original repository and click on the "Pull Request" button to submit y
 | [![LinkedIn](https://img.icons8.com/fluency/32/000000/linkedin.png)](https://www.linkedin.com/in/mitul-songara-4b199b225/) |
 
 For any inquiries or feedback, please contact. Happy Contributing 🫡
+
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 <!-- Added a Support section for the project README -->
 ## ⭐️ Support the Project
