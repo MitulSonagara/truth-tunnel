@@ -43,7 +43,4 @@ What type of changes does your code introduce? (Check all that apply)
 
 ---
 
-## Reminder:
-Please ensure your pull request is made to the `test` branch, not `main`.
-
 *Thank you for contributing to Truth-Tunnel! We look forward to reviewing your PR and getting it merged!*
