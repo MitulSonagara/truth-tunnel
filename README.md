@@ -11,7 +11,18 @@
 <p>Truth-Tunnel is a web application that allows users to send and receive messages securely while maintaining anonymity. With a robust login system featuring OTP (One-Time Password) verification, your safety and privacy are our top priority.</p>
 
 <!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
+<!-- Added Hacktoberfest 2024 and GSSoc Extended 2024 banners -->
+### This project is now OFFICIALLY accepted for
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/SwanandD121/FeatherPerfect_fe/refs/heads/main/Untitled%20design.png" alt="GSSoC 2024 Extd" width="80%">
+  <img src="https://cdn.discordapp.com/attachments/657543125190967316/1294560786114674748/Screenshot_2024-10-12_122347.png?ex=670b752f&is=670a23af&hm=26ddd7f41740b8b19ee4985e7568b3892091384b3b85e7165770a4b10f4d1050&" alt="Hacktoberfest 2024" width="80%">
+</div>
+<br>
+
+<!--Line-->
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Overview 📌
@@ -25,6 +36,9 @@
 </ul>
 
 <p align="center"> <img src="/public/assets/dashboard.png" alt="Truth-Tunnel Preview" width="900" /> </p>
+
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Live Demo 🎥
 
@@ -48,12 +62,18 @@ Truth-Tunnel is built using the following technologies:
   - OTP (One-Time Password) for verification
   - bcrypt for password hashing
 
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
+
 ## Prerequisites 👈🏻
 
 Before setting up the project, ensure you have the following installed:
 
 - **Node.js**: Download and install from [nodejs.org](https://nodejs.org/).
 - **MongoDB**: Set up an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Installation 🛠️
 
@@ -94,6 +114,9 @@ npm run build
 ```bash
 npm start
 ```
+
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Contributing 🌟
 
@@ -142,24 +165,31 @@ Go to the original repository and click on the "Pull Request" button to submit y
 
 <!--Line--> <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
-## 👀 Our Contributors
+<div>
+  <h2 align = "center"><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Red%20Heart.png" width="35" height="35">Our Contributors</h2>
+  <div align = "center">
+ <h3>Thank you for contributing to our repository</h3>
 
-- We extend our heartfelt gratitude for your invaluable contribution to our project! Your efforts play a pivotal role in elevating this project to greater heights.
-- Make sure you show some love by giving ⭐ to our repository.
-
-<div align="center">
-  <a href="https://github.com/MitulSonagara/truth-tunnel">
-    <img src="https://contrib.rocks/image?repo=MitulSonagara/truth-tunnel&&max=100" />
-  </a>
+![Contributors](https://contrib.rocks/image?repo=anuragverma108/SwapReads&v=1)
 </div>
 
----
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
-## Contact
+<!-- Added the Team section -->
+## 👥 Team
+| ![Mitul Sonagara](https://avatars.githubusercontent.com/u/95460188?v=4&s=80) |
+|:--:|
+| **Mitul Sonagara** <br> <sub>Project Admin</sub> | 
+| [![LinkedIn](https://img.icons8.com/fluency/32/000000/linkedin.png)](https://www.linkedin.com/in/mitul-songara-4b199b225/) |
 
-For any queries or issues, please reach out to:
+For any inquiries or feedback, please contact. Happy Contributing 🫡
 
-- Link: [mitulsonagara.com](https://portfolio-phi-topaz-23.vercel.app/)
-- GitHub: [MitulSonagara](https://github.com/MitulSonagara)
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
+
+<!-- Added a Support section for the project README -->
+## ⭐️ Support the Project
+If you find this project helpful, please consider giving it a ⭐ on GitHub! Your support helps to grow the project and reach more contributors.
 
 ## Made with ❤️ by Mitul Sonagara.
