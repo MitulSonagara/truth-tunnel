@@ -79,8 +79,8 @@ const Page = ({ params }: { params: { username: string } }) => {
             Send secret message to @{usernameParams}.
           </p>
           <p>
-            Don't worry about privacy. They won't be able to track you! Say what
-            you feel.
+            Don&apos;t worry about privacy. They won&apos;t be able to track
+            you! Say what you feel.
           </p>
           <Form {...form}>
             <form
