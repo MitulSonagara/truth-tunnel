@@ -5,6 +5,8 @@ import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import db from "@/lib/db";
 
+
+
 // Check for Google OAuth credentials
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     throw new Error("Google OAuth credentials are missing in environment variables");
@@ -21,7 +23,7 @@ export const authOptions: NextAuthOptions = {
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" },
             },
-            async authorize(credentials) {
+            async authorize(credentials:any) {
 
                 if (!credentials) {
                     console.log("Credentials are missing");
@@ -30,8 +32,8 @@ export const authOptions: NextAuthOptions = {
                 const user = await db.user.findFirst({
                     where: {
                         OR: [
-                            { email: credentials?.email },
-                            { username: credentials?.email },
+                            { email: credentials.identifier },
+                            { username: credentials.identifier },
                         ],
                     },
                 });
@@ -83,12 +85,16 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt",
     },
     callbacks: {
-        async signIn({ profile }) {
+        async signIn({  user, profile,account  }) {
+            if(account?.provider == "credentials" && user ){
+                return true;
+            }
             console.log("Google signIn callback - profile", profile);
             if (!profile) {
+                
                 return false
             }
-
+        
             // Upsert the user in your database
             const dbUser = await db.user.upsert({
                 where: { email: profile.email },
@@ -108,28 +114,19 @@ export const authOptions: NextAuthOptions = {
                 },
             });
 
-            console.log("User upserted in DB", dbUser);
-
             return true;
         },
         async jwt({ token, user }) {
-            console.log("JWT callback - token", token);
-            console.log("JWT callback - user", user);
-
             if (user) {
                 token.id = user.id;
                 token.isVerified = user.isVerified;
                 token.isAcceptingMessage = user.isAcceptingMessage;
                 token.username = user.username;
             }
-
-            console.log("JWT after update - token", token);
-
             return token;
         },
         async session({ session, token }) {
-            console.log("Session callback - session", session);
-            console.log("Session callback - token", token);
+          
 
             if (token) {
                 session.user.id = token.id;
@@ -137,9 +134,6 @@ export const authOptions: NextAuthOptions = {
                 session.user.isAcceptingMessage = token.isAcceptingMessage;
                 session.user.username = token.username;
             }
-
-            console.log("Session after update - session", session);
-
             return session;
         },
     },
