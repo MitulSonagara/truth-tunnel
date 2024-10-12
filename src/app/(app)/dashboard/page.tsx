@@ -24,8 +24,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import Navbar from "@/components/Navbar";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, RefreshCcw } from "lucide-react";
+import { Loader2, RefreshCcw, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import momment from "moment";
 
 const Page = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -47,7 +48,7 @@ const Page = () => {
     }
   };
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const form = useForm({
     resolver: zodResolver(acceptMessageSchema),
   });
@@ -138,6 +139,15 @@ const Page = () => {
     });
   };
 
+  if (status == "loading") {
+    return (
+      <>
+        <Navbar />
+        <div className="flex justify-center mt-5">Loading. Please Wait</div>
+      </>
+    );
+  }
+
   if (!session || !session.user) {
     return (
       <>
@@ -150,7 +160,8 @@ const Page = () => {
     <>
       <Navbar />
       <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-full max-w-6xl">
-        <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
+        <h1 className="text-4xl font-bold mb-4">Hi {username.username},</h1>
+
         <div className="mb-4">
           <div className="mt-2 border p-2 rounded-2xl flex items-center gap-3">
             <Input
@@ -177,62 +188,65 @@ const Page = () => {
           </span>
         </div>
         <Separator />
-        <Button
-          className="mt-4 rounded-xl"
-          variant="outline"
-          onClick={(e) => {
-            e.preventDefault();
-            fetchMessages(true);
-          }}
-        >
-          {loading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <RefreshCcw className="h-4 w-4" />
-          )}
-        </Button>
-        <div className="mt-5 flex flex-wrap">
+        <div className="flex justify-between items-center py-2">
+          <p className="text-xl">Your Anonymous Transmissions</p>
+          <Button
+            className="rounded-xl"
+            variant="outline"
+            onClick={(e) => {
+              e.preventDefault();
+              fetchMessages(true);
+            }}
+          >
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <RefreshCcw className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
+
+        <div className="mt-5 ">
           {messages.length > 0 ? (
             messages.map(({ content, id, createdAt }, index) => (
-              <div
-                key={index}
-                className="shadow-md border rounded-2xl p-3 w-fit m-2 flex gap-2 md:gap-20"
-              >
-                <div className="flex flex-col gap-2">
-                  <p className="font-bold  md:text-2xl">{content}</p>
-                  <p>{createdAt.toString()}</p>
-                </div>
-                <div>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button className="rounded-xl" variant="destructive">
-                        X
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Are you absolutely sure?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          This action cannot be undone &#46; This will
-                          permanently delete your message and remove your data
-                          from our servers &#46;
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel className="rounded-xl">
-                          Cancel
-                        </AlertDialogCancel>
-                        <AlertDialogAction
-                          className="bg-red-500 rounded-xl"
-                          onClick={() => handleDeleteMessages(id as string)}
-                        >
-                          Delete
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+              <div key={index} className="shadow-md border rounded-2xl p-3 m-2">
+                <div className="p-4 flex justify-between items-start">
+                  <div>
+                    <p className="font-bold  md:text-2xl">{content}</p>
+                    <p>{momment(createdAt).fromNow()}</p>
+                  </div>
+                  <div>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button className="rounded-xl" variant="destructive">
+                          <Trash2 className="h-5 w-5" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Are you absolutely sure?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone &#46; This will
+                            permanently delete your message and remove your data
+                            from our servers &#46;
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel className="rounded-xl">
+                            Cancel
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            className="bg-red-500 rounded-xl"
+                            onClick={() => handleDeleteMessages(id as string)}
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
                 </div>
               </div>
             ))
