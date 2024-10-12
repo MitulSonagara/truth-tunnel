@@ -13,9 +13,7 @@
 <!--Line-->
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
-https://raw.githubusercontent.com/SwanandD121/FeatherPerfect_fe/refs/heads/main/Untitled%20design.png
-
-
+<!-- Added Hacktoberfest 2024 and GSSoc Extended 2024 banners -->
 ### This project is now OFFICIALLY accepted for
 
 <div align="center">
