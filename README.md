@@ -106,7 +106,7 @@ Click the "Fork" button at the top-right corner of the repository page to create
 **Clone your forked repository**
 
 ```bash
-git clone https://github.com/your-username/scruter.git
+git clone https://github.com/your-username/truth-tunnel.git
 cd scruter
 ```
 
