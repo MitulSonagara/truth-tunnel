@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, User } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -112,7 +112,12 @@ export const authOptions: NextAuthOptions = {
 
             return true;
         },
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger, session }) {
+
+            if (trigger === "update" && session) {
+                token.username = session.user.username;
+            };
+
             console.log("JWT callback - token", token);
             console.log("JWT callback - user", user);
 

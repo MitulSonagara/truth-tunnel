@@ -4,6 +4,9 @@ import "./globals.css";
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/context/ThemeProvider";
+import { UsernameChangeForm } from "@/components/UsernameChangeForm";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/options";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,20 +19,26 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptions);
   return (
     <>
       <html lang="en" suppressHydrationWarning>
-        <AuthProvider>
+        <AuthProvider session={session}>
           <body className={inter.className}>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem={true}
+            >
               {/* <Navbar/> */}
               {children}
               <Toaster richColors expand={true} />
+              <UsernameChangeForm />
             </ThemeProvider>
           </body>
         </AuthProvider>

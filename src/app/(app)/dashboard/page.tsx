@@ -22,18 +22,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
 import Navbar from "@/components/Navbar";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, RefreshCcw, Trash2 } from "lucide-react";
+import { Edit3, Loader2, RefreshCcw, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import momment from "moment";
+import { useUsernameModal } from "@/stores/username-form-store";
 
 const Page = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
   const [baseUrl, setBaseUrl] = useState("");
-
+  const modal = useUsernameModal();
   const handleDeleteMessages = async (messageId: string) => {
     setMessages(messages.filter((message) => message.id !== messageId));
     try {
@@ -170,6 +172,16 @@ const Page = () => {
               disabled
               className="input rounded-xl input-bordered w-full p-2 mr-2"
             />
+
+            <Button
+              className="rounded-full"
+              variant="outline"
+              size="icon"
+              onClick={() => modal.onOpen(username.username)}
+            >
+              <Edit3 className="h-5 w-5" />
+            </Button>
+
             <Button onClick={copyToClipboard} className="rounded-xl">
               Copy
             </Button>
