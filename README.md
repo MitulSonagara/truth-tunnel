@@ -155,11 +155,13 @@ Go to the original repository and click on the "Pull Request" button to submit y
 
 ---
 
-## Contact
+<!-- Added the Team section -->
+## 👥 Team
+| ![Mitul Sonagara](https://avatars.githubusercontent.com/u/95460188?v=4&s=80) |
+|:--:|
+| **Mitul Sonagara** <br> <sub>Project Admin</sub> | 
+| [![LinkedIn](https://img.icons8.com/fluency/32/000000/linkedin.png)](https://www.linkedin.com/in/mitul-songara-4b199b225/) |
 
-For any queries or issues, please reach out to:
-
-- Link: [mitulsonagara.com](https://portfolio-phi-topaz-23.vercel.app/)
-- GitHub: [MitulSonagara](https://github.com/MitulSonagara)
+For any inquiries or feedback, please contact. Happy Contributing 🫡
 
 ## Made with ❤️ by Mitul Sonagara.
