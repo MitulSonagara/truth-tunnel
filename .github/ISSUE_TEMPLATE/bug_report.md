@@ -1,35 +1,38 @@
 ---
 name: Bug report
-about: Report any issues with the platform
-title: ""
-labels: ["🐛 bug"]
-assignees: ""
+about: Create a report to help us improve
+title: "[BUG]"
+labels: bug
+assignees: ''
+
 ---
 
-Found a bug? Please fill out the sections below. 👍
+**Describe the bug**
+A clear and concise description of what the bug is.
 
-### Issue Summary
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
-A summary of the issue. This needs to be a clear detailed-rich summary.
+**Expected behavior**
+A clear and concise description of what you expected to happen.
 
-### Steps to Reproduce
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
 
-1. (for example) Went to ...
-2. Clicked on...
-3. ...
+**Desktop (please complete the following information):**
+ - OS: [e.g. iOS]
+ - Browser [e.g. chrome, safari]
+ - Version [e.g. 22]
 
-Any other relevant information. For example, why do you consider this a bug and what did you expect to happen instead?
+**Smartphone (please complete the following information):**
+ - Device: [e.g. iPhone6]
+ - OS: [e.g. iOS8.1]
+ - Browser [e.g. stock browser, safari]
+ - Version [e.g. 22]
 
-### Actual Results
-
-- What's happening right now that is different from what is expected
-
-### Expected Results
-
-- This is an ideal result that the system should get after the tests are performed
-
-### Technical details
-
-- Browser version, screen recording, console logs, network requests.
-- Node.js version
-- Anything else that you think could be an issue.
+**Additional context**
+Add any other context about the problem here.
