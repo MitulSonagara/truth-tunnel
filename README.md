@@ -164,4 +164,8 @@ Go to the original repository and click on the "Pull Request" button to submit y
 
 For any inquiries or feedback, please contact. Happy Contributing 🫡
 
+<!-- Added a Support section for the project README -->
+## ⭐️ Support the Project
+If you find this project helpful, please consider giving it a ⭐ on GitHub! Your support helps to grow the project and reach more contributors.
+
 ## Made with ❤️ by Mitul Sonagara.
