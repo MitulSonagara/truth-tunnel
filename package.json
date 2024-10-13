@@ -75,10 +75,8 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
     "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
     "postcss": "^8",
     "prisma": "^5.20.0",
-    "shell-quote": "^1.8.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
