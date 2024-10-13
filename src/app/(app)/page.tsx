@@ -6,12 +6,14 @@ import { ChevronRight, Eye, Shield, Zap } from "lucide-react";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import ScrollToTopButton from "@/components/ScrollToTopButton"; // Import the new component
+import ScrollProgressBar from "@/components/ScrollProgressBar"; // Import the progress bar
 
 const Page = async () => {
   const session = await getServerSession();
   return (
     <>
       <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
+        <ScrollProgressBar /> {/* Add the scroll progress bar here */}
         <Navbar />
 
         {/* Hero Section */}
