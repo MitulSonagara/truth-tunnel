@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import db from "@/lib/db";
-
+import { generateUniqueUsername } from '../../../../helpers/usernameGenerator';
 
 
 // Check for Google OAuth credentials
@@ -94,7 +94,7 @@ export const authOptions: NextAuthOptions = {
                 
                 return false
             }
-        
+            const randomname = await generateUniqueUsername()
             // Upsert the user in your database
             const dbUser = await db.user.upsert({
                 where: { email: profile.email },
@@ -104,7 +104,7 @@ export const authOptions: NextAuthOptions = {
                 },
                 create: {
                     email: profile.email || "",
-                    username: profile.email?.split('@')[0] || "", // Default username from email
+                    username: randomname, // randomly generated username
                     name: profile.name,
                     isVerified: true, // Assuming verified through Google
                     isAcceptingMessage: true,
