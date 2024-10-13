@@ -185,7 +185,7 @@ const Page = () => {
                 <AlertDescription>
                   Your account is not yet secured. Please generate an encryption
                   key. <br />
-                  You won't recieve any message until to generate.
+                  You won&apos;t recieve any message until to generate.
                 </AlertDescription>
               </div>
               <Button onClick={() => encryptionKeyModal.onOpen()}>
