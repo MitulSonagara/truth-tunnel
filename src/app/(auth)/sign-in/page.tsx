@@ -36,22 +36,22 @@ const Page = () => {
     const onSubmit = async (data: z.infer<typeof signInSchema>) => {
         setLoading(true); // Set loading to true
         setShowLoaderOverlay(true);
-        try{
+        try {
             const result = await signIn('credentials', {
-            redirect: false,
-            identifier: data.identifier,
-            password: data.password
-        });
+                redirect: false,
+                identifier: data.identifier,
+                password: data.password
+            });
 
-        setLoading(false); // Reset loading to false
+            setLoading(false); // Reset loading to false
 
-        if (result?.url) {
-            router.replace("/dashboard");
-        }
-        }catch(error){
+            if (result?.url) {
+                router.replace("/dashboard");
+            }
+        } catch (error) {
             console.error("Error in signin of user", error);
             toast.error("Login Failed", { description: "Incorrect username or password" });
-        }finally{
+        } finally {
             setShowLoaderOverlay(false);
         }
     };
@@ -92,7 +92,7 @@ const Page = () => {
                                     <FormLabel className="flex justify-between">
                                         <p>Password</p>
                                         <Link href="/forgot-password/email">Forgot Password?</Link>
-                                        </FormLabel>
+                                    </FormLabel>
                                     <div className="relative">
                                         <div className="absolute right-4 top-1/2 -translate-y-1/2 py-2" onClick={() => setHidden(!hidden)}>
                                             {hidden ? <EyeOff /> : <Eye />}
@@ -108,33 +108,32 @@ const Page = () => {
                         <Button type="submit" className="rounded-3xl w-full" disabled={loading}>
                             {loading ? <Loader2 className="animate-spin" /> : "Sign In"} {/* Loading indicator */}
                         </Button>
- {/* Divider */}
- <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 text-white"></span>
-              </div>
-            </div>
-            {/* Google Auth Button */}
-            <Button
-              type="button" // Prevent form submission
-              onClick={() => {
-                console.log("Google sign-in button clicked");
-                signIn("google", { callbackUrl: "/dashboard" })
-              }}
-              className="flex items-center justify-center space-x-2 w-full mt-4 rounded-xl bg-red-500 hover:bg-red-600 text-white"
-            >
-              <Image
-                src="/google.svg"
-                alt="google logomark"
-                width={25}
-                height={25}
-              />
-              <span>Continue with Google</span>
-            </Button>
-
+                        {/* Divider */}
+                        <div className="relative my-6">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-gray-300"></div>
+                            </div>
+                            <div className="relative flex justify-center text-sm">
+                                <span className="px-2 text-white"></span>
+                            </div>
+                        </div>
+                        {/* Google Auth Button */}
+                        <Button
+                            type="button" // Prevent form submission
+                            onClick={() => {
+                                console.log("Google sign-in button clicked");
+                                signIn("google", { callbackUrl: "/dashboard" })
+                            }}
+                            className="flex items-center justify-center space-x-2 w-full mt-4 rounded-xl bg-red-500 hover:bg-red-600 text-white"
+                        >
+                            <Image
+                                src="/google.svg"
+                                alt="google logomark"
+                                width={25}
+                                height={25}
+                            />
+                            <span>Continue with Google</span>
+                        </Button>
                     </form>
                 </Form>
                 <div className="text-center mt-4">
@@ -142,6 +141,15 @@ const Page = () => {
                         Don{"'"}t have an account?{' '}
                         <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">Sign Up</Link>
                     </p>
+                </div>
+                {/* Back to Home Button */}
+                <div className="text-center mt-4">
+                    <Button 
+                        onClick={() => router.push('/')} 
+                        className="w-full rounded-3xl bg-orange-500 hover:bg-orange-700 text-white"
+                    >
+                        Back to Home
+                    </Button>
                 </div>
             </div>
         </div>
