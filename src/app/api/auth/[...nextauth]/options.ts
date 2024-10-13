@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" },
             },
-            async authorize(credentials:any) {
+            async authorize(credentials: any) {
 
                 if (!credentials) {
                     console.log("Credentials are missing");
@@ -85,13 +85,13 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt",
     },
     callbacks: {
-        async signIn({  user, profile,account  }) {
-            if(account?.provider == "credentials" && user ){
+        async signIn({ user, profile, account }) {
+            if (account?.provider == "credentials" && user) {
                 return true;
             }
             console.log("Google signIn callback - profile", profile);
             if (!profile) {
-                
+
                 return false
             }
             const randomname = await generateUniqueUsername()
@@ -119,11 +119,14 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user, trigger, session }) {
 
             if (trigger === "update" && session) {
-                token.username = session.user.username;
-            };
+                if (session.type == "change_key") {
+                    token.hasEncryptionKey = session.key;
 
-            console.log("JWT callback - token", token);
-            console.log("JWT callback - user", user);
+                } else {
+
+                    token.username = session.user.username;
+                }
+            };
 
             if (user) {
                 token.id = user.id;
@@ -134,9 +137,13 @@ export const authOptions: NextAuthOptions = {
             return token;
         },
         async session({ session, token }) {
-          
 
             if (token) {
+                const encryptionKey = await db.encryptionKey.findUnique({
+                    where: { userId: token.id },
+                });
+                // Add the encryption key status to the session
+                session.user.hasEncryptionKey = !!encryptionKey;
                 session.user.id = token.id;
                 session.user.isVerified = token.isVerified;
                 session.user.isAcceptingMessage = token.isAcceptingMessage;
