@@ -97,10 +97,13 @@ npm install
    Create a .env file in the root directory and configure the following variables:
 
 ```bash
-DATABASE_URL=""
+DATABASE_URL=
 NEXTAUTH_SECRET=""
-EMAIL_USER=""
-EMAIL_PASS=""
+EMAIL_PASS= #App password for your email account from which you want to send the email
+EMAIL_USER= #Email address from which you want to send the email
+
+GOOGLE_CLIENT_ID= #Your Google client ID
+GOOGLE_CLIENT_SECRET= #your Google client secret
 ```
 
 4. Build the application:
