@@ -173,7 +173,7 @@ Go to the original repository and click on the "Pull Request" button to submit y
   <div align = "center">
  <h3>Thank you for contributing to our repository</h3>
 
-![Contributors](https://contrib.rocks/image?repo=anuragverma108/SwapReads&v=1)
+![Contributors](https://contrib.rocks/image?repo=MitulSonagara/truth-tunnel)
 </div>
 
 <!--Line-->
