@@ -1,16 +1,11 @@
 "use client";
 import Image from "next/image";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
-
 import * as z from "zod";
-
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
-
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { signUpSchema } from "@/schemas/signUpSchema";
@@ -83,9 +78,8 @@ const Page = () => {
       const response = await axios.post<ApiResponse>("/api/sign-up", data);
       toast.success("Success", { description: response.data.message });
 
-      
       setTimeout(() => {
-        setShowLoaderOverlay(false); 
+        setShowLoaderOverlay(false);
         router.replace(`/verify/${data.username}`);
       }, 2000); // 2 seconds delay
     } catch (error) {
@@ -200,8 +194,8 @@ const Page = () => {
             >
               {isSubmitting ? <Loader2 className="animate-spin" /> : "Sign Up"}
             </Button>
-              {/* Divider */}
-              <div className="relative my-6">
+            {/* Divider */}
+            <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300"></div>
               </div>
@@ -230,6 +224,14 @@ const Page = () => {
             </p>
           </form>
         </Form>
+        {/* Back to Home Button */}
+        <div className="text-center mt-4">
+          <Link href="/">
+            <Button className="w-full rounded-full bg-blue-700 text-white hover:bg-blue-600">
+              Back to Home
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );
