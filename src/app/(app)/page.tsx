@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, Eye, Shield, Zap } from "lucide-react";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
+import ScrollToTopButton from "@/components/ScrollToTopButton"; // Import the new component
+
 const Page = async () => {
   const session = await getServerSession();
   return (
@@ -29,11 +31,13 @@ const Page = async () => {
           </Link>
         </section>
 
+        {/* Advanced Covert Features Section */}
         <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
             Advanced Covert Features
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* Feature Cards */}
             <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-red-800 hover:border-red-500 dark:hover:border-red-500 transition-colors duration-300">
               <CardContent className="p-6">
                 <Shield className="h-12 w-12 mb-4 text-red-500" />
@@ -41,8 +45,7 @@ const Page = async () => {
                   Impenetrable Security
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Military-grade encryption protects your messages from prying
-                  eyes.
+                  Military-grade encryption protects your messages from prying eyes.
                 </p>
               </CardContent>
             </Card>
@@ -53,8 +56,7 @@ const Page = async () => {
                   Instant Transmission
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Messages delivered at the speed of light, leaving no trace
-                  behind.
+                  Messages delivered at the speed of light, leaving no trace behind.
                 </p>
               </CardContent>
             </Card>
@@ -65,21 +67,20 @@ const Page = async () => {
                   Invisible Presence
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Advanced cloaking ensures your digital footprint remains
-                  undetectable.
+                  Advanced cloaking ensures your digital footprint remains undetectable.
                 </p>
               </CardContent>
             </Card>
           </div>
         </section>
+
         {/* CTA Section */}
         <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
             Ready to Disappear?
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-            Join the elite network of shadow communicators. Sign up for priority
-            access now.
+            Join the elite network of shadow communicators. Sign up for priority access now.
           </p>
           <Link href={session ? "/dashboard" : "/sign-in"}>
             <Button className="bg-red-600 hover:bg-red-700 text-white font-bold">
@@ -91,12 +92,12 @@ const Page = async () => {
         {/* Footer */}
         <footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-center text-gray-600 dark:text-gray-400">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p>
-              &copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum
-              encryption.
-            </p>
+            <p>&copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum encryption.</p>
           </div>
         </footer>
+
+        {/* Scroll to Top Button */}
+        <ScrollToTopButton />
       </div>
     </>
   );
