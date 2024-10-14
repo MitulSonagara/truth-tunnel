@@ -38,7 +38,7 @@ import { useUsernameModal } from "@/stores/username-form-store";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useEncryptionKeyModal } from "@/stores/encryption-key-modal-store";
 import { decryptMessage } from "@/lib/crypto";
-import { checkEncryptionKey } from "@/lib/utils";
+import { useCheckEncryptionKey } from "@/lib/utils";
 import { useChangeEncryptionKeyModal } from "@/stores/change-encryption-modal-store";
 
 const Page = () => {
@@ -47,7 +47,7 @@ const Page = () => {
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
   const [baseUrl, setBaseUrl] = useState("");
   const modal = useUsernameModal();
-  const hasEncryptionKey = checkEncryptionKey();
+  const hasEncryptionKey = useCheckEncryptionKey();
   const encryptionKeyModal = useEncryptionKeyModal();
   const changeEncryptionKeyModal = useChangeEncryptionKeyModal();
   const handleDeleteMessages = async (messageId: string) => {

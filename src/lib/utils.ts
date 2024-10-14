@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
-export function checkEncryptionKey() {
+export function useCheckEncryptionKey() {
   const { data: session } = useSession();
   if (session) {
     if (!session.user.hasEncryptionKey) return true;
