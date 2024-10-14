@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/context/ThemeProvider";
 import { UsernameChangeForm } from "@/components/UsernameChangeForm";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/options";
+import EncryptionKeyModal from "@/components/EncryptionKeyModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,6 +40,7 @@ export default async function RootLayout({
               {children}
               <Toaster richColors expand={true} />
               <UsernameChangeForm />
+              <EncryptionKeyModal />
             </ThemeProvider>
           </body>
         </AuthProvider>

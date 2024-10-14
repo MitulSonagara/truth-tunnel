@@ -1,3 +1,4 @@
+import { encryptMessage } from "@/lib/crypto";
 import db from "@/lib/db";
 
 
@@ -6,7 +7,7 @@ export async function POST(request: Request) {
     const { username, content } = await request.json();
 
     try {
-        const user = await db.user.findUnique({ where: { username } });
+        const user = await db.user.findUnique({ where: { username }, include: { encryptionKey: true } });
 
         if (!user) {
             return new Response(JSON.stringify({
@@ -23,9 +24,20 @@ export async function POST(request: Request) {
             }), { status: 403 });
         }
 
+        const encriptionKey = await db.encryptionKey.findUnique({ where: { userId: user.id } })
+
+        if (!encriptionKey) {
+            return new Response(JSON.stringify({
+                success: false,
+                message: "User's encryption key is not generated yet."
+            }), { status: 403 });
+        }
+
+        // Encrypt the message using the receiver's public key
+        const encryptedMessage = encryptMessage(encriptionKey.publicKey, content);
         const newMessage = await db.message.create({
             data: {
-                content,
+                content: encryptedMessage,
                 userId: user.id
             }
         })
