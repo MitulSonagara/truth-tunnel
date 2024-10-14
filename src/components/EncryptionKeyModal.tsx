@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { generateKeyPair } from "../lib/crypto"; // Assuming you have the crypto logic in lib/crypto
 import { useEncryptionKeyModal } from "@/stores/encryption-key-modal-store";
-import Cookies from "js-cookie"; // Import js-cookie library
 import {
   AlertDialog,
   AlertDialogContent,
@@ -38,13 +37,7 @@ export default function EncryptionKeyModal() {
       setPrivateKey(privateKey);
       setPublicKey(publicKey);
 
-      // Store private key in cookie (make it HttpOnly in real apps)
-      Cookies.set("privateKey", privateKey, {
-        secure: true,
-        sameSite: "strict",
-        expires: 7,
-      });
-
+      localStorage.setItem("privateKey", privateKey);
       // Send public key to server to store it
       const response = await axios.post("/api/savePublicKey", { publicKey });
 
