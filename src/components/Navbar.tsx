@@ -34,12 +34,19 @@ const Navbar = () => {
           {loading ? (
             <p className="text-xs text-gray-500">Loading...</p>
           ) : loggedIn ? (
-            <Button
-              onClick={() => signOut()}
-              className="text-xs px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200"
-            >
-              Sign Out
-            </Button>
+            <>
+              <Link href="/dashboard">
+                <Button className="text-xs px-3 py-1 rounded-md bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200">
+                  Dashboard
+                </Button>
+              </Link>
+              <Button
+                onClick={() => signOut()}
+                className="text-xs px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200"
+              >
+                Sign Out
+              </Button>
+            </>
           ) : (
             <Link href="/sign-in">
               <Button className="text-xs px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200">
