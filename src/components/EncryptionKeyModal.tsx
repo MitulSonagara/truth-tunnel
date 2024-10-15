@@ -55,7 +55,7 @@ export default function EncryptionKeyModal() {
       console.error("Error generating keys:", error);
       toast.error("Error", {
         description:
-          axiosError.response?.data.message || "Failed to change username",
+          axiosError.response?.data.message || "Failed to generate keys",
       });
     } finally {
       setLoading(false); // Stop loading
