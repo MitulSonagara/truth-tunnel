@@ -36,9 +36,14 @@ const Navbar = () => {
           ) : loggedIn ? (
             <>
               <Link href="/dashboard">
-                <Button className="text-xs px-3 py-1 rounded-md bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200">
+                <span className="text-xs text-white transition-all duration-200">
                   Dashboard
-                </Button>
+                </span>
+              </Link>
+              <Link href="/">
+                <span className="text-xs text-white transition-all duration-200">
+                  Home
+                </span>
               </Link>
               <Button
                 onClick={() => signOut()}
