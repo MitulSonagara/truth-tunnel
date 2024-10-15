@@ -3,6 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import React, { useState } from "react";
+import { Loader2 } from "lucide-react";
+
 import {
   Dialog,
   DialogContent,
@@ -37,6 +40,7 @@ const FormSchema = z.object({
 
 export default function UsernameChangeForm() {
   const modal = useUsernameModal();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { update } = useSession();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -46,6 +50,7 @@ export default function UsernameChangeForm() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setIsLoading(true);
     try {
       const response = await axios.post("/api/change-username", data);
       toast.success(response.data.message, {
@@ -68,6 +73,8 @@ export default function UsernameChangeForm() {
         description:
           axiosError.response?.data.message || "Failed to change username",
       });
+    }finally {
+      setIsLoading(false); // Set loading state to false when API call ends
     }
   }
 
@@ -102,7 +109,13 @@ export default function UsernameChangeForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Change</Button>
+           <Button type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  "Change"
+                )}
+            </Button>
           </form>
         </Form>
       </DialogContent>
