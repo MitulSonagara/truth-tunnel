@@ -35,7 +35,7 @@ const FormSchema = z.object({
     .regex(/^[a-z0-9_]+$/, "Username must not contain capital letters"),
 });
 
-export function UsernameChangeForm() {
+export default function UsernameChangeForm() {
   const modal = useUsernameModal();
   const { update } = useSession();
   const form = useForm<z.infer<typeof FormSchema>>({

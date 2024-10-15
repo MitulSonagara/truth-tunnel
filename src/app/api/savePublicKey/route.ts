@@ -2,6 +2,7 @@
 import db from "@/lib/db";
 import { getServerSession, User } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
+import { encryptMessage } from "@/lib/crypto";
 
 
 export async function POST(request: Request) {
@@ -27,11 +28,13 @@ export async function POST(request: Request) {
     }
 
 
+    const testEncryption = encryptMessage(publicKey, "secured")
 
     const encriptionKey = await db.encryptionKey.create({
       data: {
         publicKey,
         userId: user.id!,
+        testEncryption,
       }
     })
 

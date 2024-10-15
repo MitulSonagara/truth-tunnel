@@ -4,10 +4,9 @@ import "./globals.css";
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/context/ThemeProvider";
-import { UsernameChangeForm } from "@/components/UsernameChangeForm";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/options";
-import EncryptionKeyModal from "@/components/EncryptionKeyModal";
+import Modals from "@/context/ModalProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,8 +38,7 @@ export default async function RootLayout({
               {/* <Navbar/> */}
               {children}
               <Toaster richColors expand={true} />
-              <UsernameChangeForm />
-              <EncryptionKeyModal />
+              <Modals />
             </ThemeProvider>
           </body>
         </AuthProvider>

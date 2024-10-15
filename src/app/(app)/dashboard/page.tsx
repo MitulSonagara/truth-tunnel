@@ -22,16 +22,24 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import Cookies from "js-cookie";
 import Navbar from "@/components/Navbar";
 import { Separator } from "@/components/ui/separator";
-import { AlertCircle, Edit3, Loader2, RefreshCcw, Trash2 } from "lucide-react";
+import {
+  AlertCircle,
+  Edit3,
+  GlobeLockIcon,
+  Loader2,
+  RefreshCcw,
+  Trash2,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import momment from "moment";
 import { useUsernameModal } from "@/stores/username-form-store";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useEncryptionKeyModal } from "@/stores/encryption-key-modal-store";
 import { decryptMessage } from "@/lib/crypto";
+import { useCheckEncryptionKey } from "@/lib/utils";
+import { useChangeEncryptionKeyModal } from "@/stores/change-encryption-modal-store";
 
 const Page = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -39,7 +47,9 @@ const Page = () => {
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
   const [baseUrl, setBaseUrl] = useState("");
   const modal = useUsernameModal();
+  const hasEncryptionKey = useCheckEncryptionKey();
   const encryptionKeyModal = useEncryptionKeyModal();
+  const changeEncryptionKeyModal = useChangeEncryptionKeyModal();
   const handleDeleteMessages = async (messageId: string) => {
     setMessages(messages.filter((message) => message.id !== messageId));
     try {
@@ -83,7 +93,7 @@ const Page = () => {
   }, [setValue, toast, watch]);
 
   const renderDecryptedMessage = (message: string) => {
-    const privateKey = Cookies.get("privateKey");
+    const privateKey = localStorage.getItem("privateKey");
     if (privateKey) {
       return decryptMessage(privateKey, message);
     } else {
@@ -194,6 +204,23 @@ const Page = () => {
             </div>
           </Alert>
         )}
+        {!hasEncryptionKey && (
+          <Alert variant="destructive" className="my-4">
+            <AlertCircle className="h-4 w-4" />
+            <div className="flex justify-between items-center">
+              <div>
+                <AlertTitle>Action Required!</AlertTitle>
+                <AlertDescription>
+                  Your account has generate encryption key. Please add that to
+                  decrypt the messages. <br />
+                </AlertDescription>
+              </div>
+              <Button onClick={() => changeEncryptionKeyModal.onOpen()}>
+                Add Encryption Key
+              </Button>
+            </div>
+          </Alert>
+        )}
         <h1 className="text-4xl font-bold mb-4">Hi {username.username},</h1>
 
         <div className="mb-4">
@@ -204,7 +231,6 @@ const Page = () => {
               disabled
               className="input rounded-xl input-bordered w-full p-2 mr-2"
             />
-
             <Button
               className="rounded-full"
               variant="outline"
@@ -213,7 +239,14 @@ const Page = () => {
             >
               <Edit3 className="h-5 w-5" />
             </Button>
-
+            <Button
+              className="rounded-full"
+              variant="outline"
+              size="icon"
+              onClick={() => changeEncryptionKeyModal.onOpen()}
+            >
+              <GlobeLockIcon className="h-5 w-5" />
+            </Button>
             <Button onClick={copyToClipboard} className="rounded-xl">
               Copy
             </Button>

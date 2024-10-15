@@ -25,6 +25,6 @@ export function decryptMessage(privateKeyPem: string, encryptedMessage: string):
     return privateKey.decrypt(decodedMessage, 'RSA-OAEP');
   } catch (error) {
     console.log("MESSAGE IN NOT ENCRYPTED");
-    return encryptedMessage;
+    return encryptedMessage.substring(0, 25);
   }
 }

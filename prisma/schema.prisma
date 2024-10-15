@@ -28,10 +28,11 @@ model User {
 }
 
 model EncryptionKey {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  publicKey String @unique
-  userId    String @unique @db.ObjectId
-  user      User   @relation(fields: [userId], references: [id])
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  publicKey      String @unique
+  userId         String @unique @db.ObjectId
+  testEncryption String @default("unsecured")
+  user           User   @relation(fields: [userId], references: [id])
 }
 
 model Message {
