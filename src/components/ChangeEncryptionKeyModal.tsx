@@ -86,7 +86,7 @@ export default function ChangeEncryptionKeyModal() {
         </AlertDialogHeader>
         <Button
           variant="link"
-          className="text-muted-foreground"
+          className="text-muted-foreground text-red-500"
           onClick={() => {
             modal.onClose();
             forgetEncryptionModal.onOpen();
