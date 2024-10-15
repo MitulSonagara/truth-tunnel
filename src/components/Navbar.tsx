@@ -22,7 +22,8 @@ const Navbar = () => {
   return (
     <>
       <nav>
-        <div className="flex justify-between p-8 border items-center md:px-28">
+        <div className="flex bg-gray-200 dark:bg-transparent 
+        shadow-xl justify-between p-8 border items-center md:px-28">
           <div className="flex items-center">
             <Link href="/">
               <Image
