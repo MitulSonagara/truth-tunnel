@@ -97,11 +97,11 @@ npm install
    Create a .env file in the root directory and configure the following variables:
 
 ```bash
-DATABASE_URL=
-NEXTAUTH_SECRET=""
+DATABASE_URL= #Prisma Database url
+NEXTAUTH_SECRET= #Any Secret code for next auth secret
 EMAIL_PASS= #App password for your email account from which you want to send the email
 EMAIL_USER= #Email address from which you want to send the email
-
+NEXTAUTH_URL=http://localhost:3000
 GOOGLE_CLIENT_ID= #Your Google client ID
 GOOGLE_CLIENT_SECRET= #your Google client secret
 ```
