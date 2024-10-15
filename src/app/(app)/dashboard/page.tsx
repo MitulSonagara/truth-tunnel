@@ -28,6 +28,7 @@ import {
   AlertCircle,
   Edit3,
   GlobeLockIcon,
+  ListX,
   Loader2,
   RefreshCcw,
   Trash2,
@@ -40,6 +41,7 @@ import { useEncryptionKeyModal } from "@/stores/encryption-key-modal-store";
 import { decryptMessage } from "@/lib/crypto";
 import { useCheckEncryptionKey } from "@/lib/utils";
 import { useChangeEncryptionKeyModal } from "@/stores/change-encryption-modal-store";
+import { useDeleteModal } from "@/stores/delete-modal-store";
 
 const Page = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -50,10 +52,11 @@ const Page = () => {
   const hasEncryptionKey = useCheckEncryptionKey();
   const encryptionKeyModal = useEncryptionKeyModal();
   const changeEncryptionKeyModal = useChangeEncryptionKeyModal();
+  const deleteMessagesModal = useDeleteModal();
   const handleDeleteMessages = async (messageId: string) => {
     setMessages(messages.filter((message) => message.id !== messageId));
     try {
-      const res = await axios.delete(`/api/delete-message/${messageId}`);
+      const res = await axios.delete(`/api/messages/delete/${messageId}`);
       toast.success("Success", { description: "Message deleted Successfully" });
     } catch (error) {
       console.error(error);
@@ -267,20 +270,31 @@ const Page = () => {
         <Separator />
         <div className="flex justify-between items-center py-2">
           <p className="text-xl">Your Anonymous Transmissions</p>
-          <Button
-            className="rounded-xl"
-            variant="outline"
-            onClick={(e) => {
-              e.preventDefault();
-              fetchMessages(true);
-            }}
-          >
-            {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <RefreshCcw className="h-4 w-4" />
+          <div className="flex space-x-2 items-center">
+            <Button
+              className="rounded-xl"
+              variant="outline"
+              onClick={(e) => {
+                e.preventDefault();
+                fetchMessages(true);
+              }}
+            >
+              {loading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <RefreshCcw className="h-4 w-4" />
+              )}
+            </Button>
+            {messages.length > 0 && (
+              <Button
+                className="rounded-xl"
+                variant="outline"
+                onClick={(e) => deleteMessagesModal.onOpen()}
+              >
+                <ListX />
+              </Button>
             )}
-          </Button>
+          </div>
         </div>
 
         <div className="mt-5 ">
