@@ -26,10 +26,12 @@ import { toast } from "sonner";
 import { ApiResponse } from "@/types/ApiResponse";
 import { useUsernameModal } from "@/stores/username-form-store";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
+
 const FormSchema = z.object({
   username: z
     .string()
-    .min(2, "Username must be atleast 2 characters")
+    .min(2, "Username must be at least 2 characters")
     .max(20, "Username must be no more than 20 characters")
     .regex(/^[a-zA-Z0-9_]+$/, "Username must not contain special characters")
     .regex(/^[a-z0-9_]+$/, "Username must not contain capital letters"),
@@ -38,6 +40,9 @@ const FormSchema = z.object({
 export default function UsernameChangeForm() {
   const modal = useUsernameModal();
   const { update } = useSession();
+  const [isOpen, setIsOpen] = useState(modal.isOpen);
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -46,6 +51,7 @@ export default function UsernameChangeForm() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setIsLoading(true);
     try {
       const response = await axios.post("/api/change-username", data);
       toast.success(response.data.message, {
@@ -56,23 +62,26 @@ export default function UsernameChangeForm() {
           username: data.username,
         },
       });
+      setIsOpen(false);
       modal.onClose();
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       if (axiosError.response?.status == 400) {
         form.setError("username", {
-          message: "Usernam already exists.",
+          message: "Username already exists.",
         });
       }
       toast.error("Error", {
         description:
           axiosError.response?.data.message || "Failed to change username",
       });
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
-    <Dialog open={modal.isOpen} onOpenChange={() => modal.onClose()}>
+    <Dialog open={isOpen} onOpenChange={() => setIsOpen(false)}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Change your username</DialogTitle>
@@ -102,7 +111,13 @@ export default function UsernameChangeForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Change</Button>
+            <Button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-600 text-white"
+              disabled={isLoading}
+            >
+              {isLoading ? "Changing..." : "Change"}
+            </Button>
           </form>
         </Form>
       </DialogContent>
