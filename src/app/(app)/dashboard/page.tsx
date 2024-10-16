@@ -21,7 +21,6 @@ import {
 import { Input } from "@/components/ui/input";
 import momment from "moment";
 import { decryptMessage } from "@/lib/crypto";
-import { renderDecryptedMessage, useCheckEncryptionKey } from "@/lib/utils";
 import {
   useUsernameModal,
   useChangeEncryptionKeyModal,
@@ -37,6 +36,7 @@ import {
   fetchMessages,
 } from "@/lib/queries";
 import Messages from "@/components/Messages";
+import { useCheckEncryptionKey } from "@/hooks/check-encryptionkey";
 
 const Page = () => {
   const modal = useUsernameModal();
