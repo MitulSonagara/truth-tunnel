@@ -14,10 +14,8 @@ import { ApiResponse } from "@/types/ApiResponse";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -55,7 +53,7 @@ const Page = () => {
         setUsernameMessage("");
         try {
           const response = await axios.get(
-            `/api/check-username-unique?username=${debouncedUsername}`
+            `/api/check/username?username=${debouncedUsername}`
           );
           let msg = response.data.message;
           setUsernameMessage(msg);
@@ -100,9 +98,10 @@ const Page = () => {
       <Navbar />
       <div className="flex justify-center mt-8 items-center h-full">
         {showLoaderOverlay && <LoaderOverlay />}
-        <div className="w-full max-w-md border-gray-200 shadow-lg bg-gray-200
-         dark:bg-transparent transition-colors duration-300 p-8 space-y-8 rounded-xl shadow-md border">
-
+        <div
+          className="w-full max-w-md border-gray-200 shadow-lg bg-gray-200
+         dark:bg-transparent transition-colors duration-300 p-8 space-y-8 rounded-xl border"
+        >
           <div className="text-center">
             <h1 className="text-xl font-bold text-red-500 tracking-tight lg:text-5xl mb-2">
               Truth-Tunnel
@@ -116,7 +115,6 @@ const Page = () => {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-
                     <FormControl>
                       <Input
                         className="rounded-xl dark:border-gray-300"
@@ -149,7 +147,6 @@ const Page = () => {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-
                     <FormControl>
                       <Input
                         className="rounded-xl dark:border-gray-300 "
@@ -168,7 +165,6 @@ const Page = () => {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-
                     <div className="relative">
                       <FormControl>
                         <Input
@@ -196,7 +192,11 @@ const Page = () => {
                 disabled={isSubmitting}
                 className="rounded-xl bg-gray-700 w-full hover:bg-gray-900 dark:hover:bg-gray-500 hover:shadow-xl"
               >
-                {isSubmitting ? <Loader2 className="animate-spin" /> : "Sign Up"}
+                {isSubmitting ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  "Sign Up"
+                )}
               </Button>
               {/* Divider */}
               <div className="relative my-6">
@@ -210,8 +210,9 @@ const Page = () => {
               {/* Google Auth Button */}
               <Button
                 onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-                className="flex items-center justify-center space-x-2 w-full mt-4 rounded-xl 
-                dark:bg-gray-700 hover:bg-red-400 dark:hover:bg-gray-500 text-white">
+                className="flex items-center justify-center space-x-2 w-full mt-4 rounded-xl
+                dark:bg-gray-700 hover:bg-red-400 dark:hover:bg-gray-500 text-white"
+              >
                 <Image
                   src="/google.svg"
                   alt="google logomark"
@@ -231,9 +232,10 @@ const Page = () => {
           {/* Back to Home Button */}
           <div className="text-center">
             <Link href="/">
-              <Button className="w-full rounded-xl dark:bg-gray-700 dark:hover:bg-gray-500
-               hover:bg-red-400 text-white">
-
+              <Button
+                className="w-full rounded-xl dark:bg-gray-700 dark:hover:bg-gray-500
+               hover:bg-red-400 text-white"
+              >
                 Back to Home
               </Button>
             </Link>

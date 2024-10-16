@@ -9,12 +9,12 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
   AlertDialogAction,
-} from "./ui/alert-dialog";
+} from "../ui/alert-dialog";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import { toast } from "sonner";
-import { useDeleteModal } from "@/stores/delete-modal-store";
 import { useRouter } from "next/navigation";
+import { useDeleteModal } from "@/stores/modals-store";
 
 export default function DeletConfirmationModal() {
   const modal = useDeleteModal();

@@ -1,31 +1,16 @@
 "use client";
-import { Message } from "@/model/User";
 import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
-import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { User } from "next-auth";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import Navbar from "@/components/Navbar";
 import { Separator } from "@/components/ui/separator";
 import {
-  AlertCircle,
   Edit3,
   GlobeLockIcon,
   ListX,
@@ -35,131 +20,75 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import momment from "moment";
-import { useUsernameModal } from "@/stores/username-form-store";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useEncryptionKeyModal } from "@/stores/encryption-key-modal-store";
 import { decryptMessage } from "@/lib/crypto";
-import { useCheckEncryptionKey } from "@/lib/utils";
-import { useChangeEncryptionKeyModal } from "@/stores/change-encryption-modal-store";
-import { useDeleteModal } from "@/stores/delete-modal-store";
+import {
+  useUsernameModal,
+  useChangeEncryptionKeyModal,
+  useDeleteModal,
+} from "@/stores/modals-store";
+import GenerateEncryptionAlert from "@/components/alerts/generate-encryption-alert";
+import AddEncryptionAlert from "@/components/alerts/add-encryption-alert";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  toggleAcceptMessages,
+  deleteMessage,
+  fetchAcceptMessages,
+  fetchMessages,
+} from "@/lib/queries";
+import Messages from "@/components/Messages";
+import { useCheckEncryptionKey } from "@/hooks/check-encryptionkey";
 
 const Page = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
-  const [baseUrl, setBaseUrl] = useState("");
   const modal = useUsernameModal();
   const hasEncryptionKey = useCheckEncryptionKey();
-  const encryptionKeyModal = useEncryptionKeyModal();
   const changeEncryptionKeyModal = useChangeEncryptionKeyModal();
   const deleteMessagesModal = useDeleteModal();
-  const handleDeleteMessages = async (messageId: string) => {
-    setMessages(messages.filter((message) => message.id !== messageId));
-    try {
-      const res = await axios.delete(`/api/messages/delete/${messageId}`);
-      toast.success("Success", { description: "Message deleted Successfully" });
-    } catch (error) {
-      console.error(error);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        ...messages.filter((m) => m.id === messageId),
-      ]);
-    }
-  };
-
   const { data: session, status } = useSession();
+
+  const queryClient = useQueryClient();
+
+  // Mutation to toggle accept messages
+  const toggleAcceptMessagesMutation = useMutation({
+    mutationFn: toggleAcceptMessages,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["acceptMessages"],
+      });
+      setValue("accept-messages", !acceptMessages);
+      toast.success(data.message);
+    },
+    onError: (error: any) => {
+      toast.error("Error", {
+        description:
+          error.response?.data.message || "Failed to update message settings",
+      });
+    },
+  });
+
   const form = useForm({
     resolver: zodResolver(acceptMessageSchema),
   });
 
-  const { register, watch, setValue } = form;
+  const { register, setValue } = form;
 
-  const acceptMessages = watch("accept-messages");
+  // Query to fetch messages
+  const { data: messagesData, isLoading: isMessagesLoading } = useQuery({
+    queryKey: ["messages"],
+    queryFn: fetchMessages,
+  });
 
-  const fetchAcceptMessages = useCallback(async () => {
-    setIsSwitchLoading(true);
-    try {
-      const response = await axios.get<ApiResponse>(`/api/accept-messages`);
-      setValue("accept-messages", response.data.isAcceptingMessages);
-      console.log("adaf", acceptMessages);
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-      toast.error("Error", {
-        description:
-          axiosError.response?.data.message ||
-          "Failed to fetch message settings",
-      });
-    } finally {
-      setIsSwitchLoading(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setValue, toast, watch]);
+  // Query to fetch accept messages status
+  const { data: acceptMessages, isLoading: isSwitchLoading } = useQuery({
+    queryKey: ["acceptMessages"],
+    queryFn: fetchAcceptMessages,
+  });
 
-  const renderDecryptedMessage = (message: string) => {
-    const privateKey = localStorage.getItem("privateKey");
-    if (privateKey) {
-      return decryptMessage(privateKey, message);
-    } else {
-      return "Message is encrypted.";
-    }
+  const handleSwitchChange = () => {
+    toggleAcceptMessagesMutation.mutate(!acceptMessages);
   };
 
-  const fetchMessages = useCallback(
-    async (refresh: boolean = false) => {
-      setLoading(true);
-      setIsSwitchLoading(false);
-      try {
-        const response = await axios.get<ApiResponse>(`/api/get-messages`);
-        setMessages(response.data.messages || []);
-        if (refresh) {
-          toast.success("Refreshed Messages", {
-            description: "Showing latest messages",
-          });
-        }
-      } catch (error) {
-        const axiosError = error as AxiosError<ApiResponse>;
-        if (axiosError.response?.status == 404) return;
-
-        toast.error("Error", {
-          description:
-            axiosError.response?.data.message ||
-            "Failed to fetch message settings",
-        });
-      } finally {
-        setIsSwitchLoading(false);
-        setLoading(false);
-      }
-    },
-    [setIsSwitchLoading, setMessages, toast]
-  );
-
-  useEffect(() => {
-    if (!session || !session.user) return;
-    setBaseUrl(`${window.location.protocol}//${window.location.host}`);
-    fetchAcceptMessages();
-    fetchMessages();
-  }, [session, setValue, fetchAcceptMessages, fetchMessages]);
-
-  const handleSwitchChange = async () => {
-    try {
-      const response = await axios.post("/api/accept-messages", {
-        acceptMessages: !acceptMessages,
-      });
-      setValue("accept-messages", !acceptMessages);
-      toast.success(response.data.message);
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-
-      toast.error("Error", {
-        description:
-          axiosError.response?.data.message ||
-          "Failed to fetch message settings",
-      });
-    }
-  };
-
-  const username = session?.user as User;
-  const profileUrl = `${baseUrl}/u/${username?.username}`;
+  const user = session?.user as User;
+  const profileUrl = `${window.location.protocol}//${window.location.host}/u/${user?.username}`;
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast.success("URL copied", {
@@ -189,42 +118,9 @@ const Page = () => {
     <>
       <Navbar />
       <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-full max-w-6xl">
-        {!username.hasEncryptionKey && (
-          <Alert variant="destructive" className="my-4">
-            <AlertCircle className="h-4 w-4" />
-            <div className="flex justify-between items-center">
-              <div>
-                <AlertTitle>Action Required!</AlertTitle>
-                <AlertDescription>
-                  Your account is not yet secured. Please generate an encryption
-                  key. <br />
-                  You won&apos;t recieve any message until to generate.
-                </AlertDescription>
-              </div>
-              <Button onClick={() => encryptionKeyModal.onOpen()}>
-                Generate Encryption Key
-              </Button>
-            </div>
-          </Alert>
-        )}
-        {!hasEncryptionKey && (
-          <Alert variant="destructive" className="my-4">
-            <AlertCircle className="h-4 w-4" />
-            <div className="flex justify-between items-center">
-              <div>
-                <AlertTitle>Action Required!</AlertTitle>
-                <AlertDescription>
-                  Your account has generate encryption key. Please add that to
-                  decrypt the messages. <br />
-                </AlertDescription>
-              </div>
-              <Button onClick={() => changeEncryptionKeyModal.onOpen()}>
-                Add Encryption Key
-              </Button>
-            </div>
-          </Alert>
-        )}
-        <h1 className="text-4xl font-bold mb-4">Hi {username.username},</h1>
+        {!user.hasEncryptionKey && <GenerateEncryptionAlert />}
+        {!hasEncryptionKey && <AddEncryptionAlert />}
+        <h1 className="text-4xl font-bold mb-4">Hi {user.username},</h1>
 
         <div className="mb-4">
           <div className="mt-2 border p-2 rounded-2xl flex items-center gap-3">
@@ -238,7 +134,7 @@ const Page = () => {
               className="rounded-full"
               variant="outline"
               size="icon"
-              onClick={() => modal.onOpen(username.username)}
+              onClick={() => modal.onOpen(user.username)}
             >
               <Edit3 className="h-5 w-5" />
             </Button>
@@ -276,16 +172,12 @@ const Page = () => {
               variant="outline"
               onClick={(e) => {
                 e.preventDefault();
-                fetchMessages(true);
+                queryClient.invalidateQueries({ queryKey: ["messages"] });
               }}
             >
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <RefreshCcw className="h-4 w-4" />
-              )}
+              <RefreshCcw className="h-4 w-4" />
             </Button>
-            {messages.length > 0 && (
+            {messagesData && messagesData.length > 0 && (
               <Button
                 className="rounded-xl"
                 variant="outline"
@@ -298,53 +190,12 @@ const Page = () => {
         </div>
 
         <div className="mt-5 ">
-          {messages.length > 0 ? (
-            messages.map(({ content, id, createdAt }, index) => (
-              <div key={index} className="shadow-md border rounded-2xl p-3 m-2">
-                <div className="p-4 flex justify-between items-start">
-                  <div>
-                    <p className="font-bold  md:text-2xl">
-                      {renderDecryptedMessage(content)}
-                    </p>
-                    <p>{momment(createdAt).fromNow()}</p>
-                  </div>
-                  <div>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button className="rounded-xl" variant="destructive">
-                          <Trash2 className="h-5 w-5" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            Are you absolutely sure?
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This action cannot be undone &#46; This will
-                            permanently delete your message and remove your data
-                            from our servers &#46;
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel className="rounded-xl">
-                            Cancel
-                          </AlertDialogCancel>
-                          <AlertDialogAction
-                            className="bg-red-500 rounded-xl"
-                            onClick={() => handleDeleteMessages(id as string)}
-                          >
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </div>
-                </div>
-              </div>
-            ))
+          {isMessagesLoading ? (
+            <div className="flex justify-center mt-5">
+              <Loader2 className="w-6 h-6 animate-spin" />
+            </div>
           ) : (
-            <p>No messages</p>
+            <Messages messages={messagesData} />
           )}
         </div>
       </div>

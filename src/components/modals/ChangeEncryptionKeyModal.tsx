@@ -8,13 +8,15 @@ import {
   AlertDialogTitle,
   AlertDialogFooter,
   AlertDialogCancel,
-} from "./ui/alert-dialog";
+} from "../ui/alert-dialog";
 import { toast } from "sonner";
-import { useChangeEncryptionKeyModal } from "@/stores/change-encryption-modal-store";
 import axios from "axios";
 import { decryptMessage } from "@/lib/crypto";
-import { Button } from "./ui/button";
-import { useForgetEncryptionKeyModal } from "@/stores/forget-encryption-modal-store";
+import { Button } from "../ui/button";
+import {
+  useChangeEncryptionKeyModal,
+  useForgetEncryptionKeyModal,
+} from "@/stores/modals-store";
 
 export default function ChangeEncryptionKeyModal() {
   const modal = useChangeEncryptionKeyModal();

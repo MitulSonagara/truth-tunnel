@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { generateKeyPair } from "../lib/crypto"; // Assuming you have the crypto logic in lib/crypto
-import { useEncryptionKeyModal } from "@/stores/encryption-key-modal-store";
+import { generateKeyPair } from "../../lib/crypto";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -11,14 +10,15 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
   AlertDialogAction,
-} from "./ui/alert-dialog";
-import { Button } from "./ui/button";
+} from "../ui/alert-dialog";
+import { Button } from "../ui/button";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import { toast } from "sonner";
-import { Checkbox } from "./ui/checkbox";
+import { Checkbox } from "../ui/checkbox";
 import { Copy, Printer } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useEncryptionKeyModal } from "@/stores/modals-store";
 
 export default function EncryptionKeyModal() {
   const modal = useEncryptionKeyModal();
