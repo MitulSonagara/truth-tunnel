@@ -19,7 +19,7 @@ const Navbar = () => {
     resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
 
   return (
-    <nav className="bg-gray-100 dark:bg-transparent shadow-md border-b">
+    <nav className="fixed top-0 w-full z-50 bg-black bg-opacity-70 backdrop-blur-md shadow-md border-b">
       <div className="flex justify-between items-center p-3 md:px-16">
         <Link href="/">
           <Image
