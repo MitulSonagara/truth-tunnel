@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 
 import {
@@ -17,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,8 +26,9 @@ import { Input } from "@/components/ui/input";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { ApiResponse } from "@/types/ApiResponse";
-import { useUsernameModal } from "@/stores/username-form-store";
 import { useSession } from "next-auth/react";
+import { useDebounce } from "use-debounce";
+import { useUsernameModal } from "@/stores/modals-store";
 const FormSchema = z.object({
   username: z
     .string()
@@ -41,6 +41,10 @@ const FormSchema = z.object({
 export default function UsernameChangeForm() {
   const modal = useUsernameModal();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [username, setUsername] = useState("");
+  const [usernameMessage, setUsernameMessage] = useState("");
   const { update } = useSession();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -48,11 +52,36 @@ export default function UsernameChangeForm() {
       username: modal.username,
     },
   });
+  const [debouncedUsername] = useDebounce(form.getValues("username"), 300);
+
+  useEffect(() => {
+    const checkUsernameUnique = async () => {
+      if (debouncedUsername) {
+        setIsCheckingUsername(true);
+        setUsernameMessage("");
+        try {
+          const response = await axios.get(
+            `/api/check/username?username=${debouncedUsername}`
+          );
+          let msg = response.data.message;
+          setUsernameMessage(msg);
+        } catch (error) {
+          const axiosError = error as AxiosError<ApiResponse>;
+          setUsernameMessage(
+            axiosError.response?.data.message ?? "Error checking username"
+          );
+        } finally {
+          setIsCheckingUsername(false);
+        }
+      }
+    };
+    checkUsernameUnique();
+  }, [debouncedUsername]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
     try {
-      const response = await axios.post("/api/change-username", data);
+      const response = await axios.post("/api/change/username", data);
       toast.success(response.data.message, {
         description: "Changes will reflect soon.",
       });
@@ -73,7 +102,7 @@ export default function UsernameChangeForm() {
         description:
           axiosError.response?.data.message || "Failed to change username",
       });
-    }finally {
+    } finally {
       setIsLoading(false); // Set loading state to false when API call ends
     }
   }
@@ -100,21 +129,37 @@ export default function UsernameChangeForm() {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="username" {...field} />
+                    <Input
+                      placeholder="username"
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setUsername(e.target.value);
+                        setUsernameMessage(""); // Clear message on input change
+                      }}
+                    />
                   </FormControl>
-                  <FormDescription>
-                    This is your public username.
-                  </FormDescription>
-                  <FormMessage />
+                  {isCheckingUsername && <Loader2 className="animate-spin" />}
+                  <FormMessage>
+                    <span
+                      className={
+                        usernameMessage === "Username is available"
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }
+                    >
+                      {usernameMessage}
+                    </span>
+                  </FormMessage>
                 </FormItem>
               )}
             />
-           <Button type="submit" disabled={isLoading}>
-                {isLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  "Change"
-                )}
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                "Change"
+              )}
             </Button>
           </form>
         </Form>

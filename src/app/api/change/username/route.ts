@@ -1,6 +1,6 @@
 import db from "@/lib/db";
 import { getServerSession, User } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/options";
+import { authOptions } from "../../auth/[...nextauth]/options";
 
 
 export async function POST(request: Request) {
