@@ -9,7 +9,7 @@ import Image from "next/image";
 
 // Correct social media icon paths
 const fbIcon = "/assets/fb.png"; // Facebook icon
-const twitterIcon = "/assets/tw.png"; // Twitter icon
+const youtubeIcon = "/assets/youtube.png"; // Twitter icon
 const instagramIcon = "/assets/insta.png"; // Instagram icon
 const linkedinIcon = "/assets/link.png"; // LinkedIn icon
 
@@ -95,14 +95,7 @@ const Page = async () => {
           height={24}
         />
       </a>
-      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-        <Image
-          src={twitterIcon}
-          alt="Twitter"
-          width={22}
-          height={22}
-        />
-      </a>
+      
       <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
         <Image
           src={instagramIcon}
@@ -115,6 +108,14 @@ const Page = async () => {
         <Image
           src={linkedinIcon}
           alt="LinkedIn"
+          width={24}
+          height={24}
+        />
+      </a>
+      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+        <Image
+          src={youtubeIcon}
+          alt="Youtube"
           width={24}
           height={24}
         />
