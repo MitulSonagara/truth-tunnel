@@ -22,13 +22,26 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
 import Navbar from "@/components/Navbar";
 import { Separator } from "@/components/ui/separator";
-import { Edit3, Loader2, RefreshCcw, Trash2 } from "lucide-react";
+import {
+  AlertCircle,
+  Edit3,
+  GlobeLockIcon,
+  ListX,
+  Loader2,
+  RefreshCcw,
+  Trash2,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import momment from "moment";
 import { useUsernameModal } from "@/stores/username-form-store";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useEncryptionKeyModal } from "@/stores/encryption-key-modal-store";
+import { decryptMessage } from "@/lib/crypto";
+import { useCheckEncryptionKey } from "@/lib/utils";
+import { useChangeEncryptionKeyModal } from "@/stores/change-encryption-modal-store";
+import { useDeleteModal } from "@/stores/delete-modal-store";
 
 const Page = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -36,10 +49,14 @@ const Page = () => {
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
   const [baseUrl, setBaseUrl] = useState("");
   const modal = useUsernameModal();
+  const hasEncryptionKey = useCheckEncryptionKey();
+  const encryptionKeyModal = useEncryptionKeyModal();
+  const changeEncryptionKeyModal = useChangeEncryptionKeyModal();
+  const deleteMessagesModal = useDeleteModal();
   const handleDeleteMessages = async (messageId: string) => {
     setMessages(messages.filter((message) => message.id !== messageId));
     try {
-      const res = await axios.delete(`/api/delete-message/${messageId}`);
+      const res = await axios.delete(`/api/messages/delete/${messageId}`);
       toast.success("Success", { description: "Message deleted Successfully" });
     } catch (error) {
       console.error(error);
@@ -77,6 +94,15 @@ const Page = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setValue, toast, watch]);
+
+  const renderDecryptedMessage = (message: string) => {
+    const privateKey = localStorage.getItem("privateKey");
+    if (privateKey) {
+      return decryptMessage(privateKey, message);
+    } else {
+      return "Message is encrypted.";
+    }
+  };
 
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
@@ -158,10 +184,46 @@ const Page = () => {
       </>
     );
   }
+
   return (
     <>
       <Navbar />
       <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-full max-w-6xl">
+        {!username.hasEncryptionKey && (
+          <Alert variant="destructive" className="my-4">
+            <AlertCircle className="h-4 w-4" />
+            <div className="flex justify-between items-center">
+              <div>
+                <AlertTitle>Action Required!</AlertTitle>
+                <AlertDescription>
+                  Your account is not yet secured. Please generate an encryption
+                  key. <br />
+                  You won&apos;t recieve any message until to generate.
+                </AlertDescription>
+              </div>
+              <Button onClick={() => encryptionKeyModal.onOpen()}>
+                Generate Encryption Key
+              </Button>
+            </div>
+          </Alert>
+        )}
+        {!hasEncryptionKey && (
+          <Alert variant="destructive" className="my-4">
+            <AlertCircle className="h-4 w-4" />
+            <div className="flex justify-between items-center">
+              <div>
+                <AlertTitle>Action Required!</AlertTitle>
+                <AlertDescription>
+                  Your account has generate encryption key. Please add that to
+                  decrypt the messages. <br />
+                </AlertDescription>
+              </div>
+              <Button onClick={() => changeEncryptionKeyModal.onOpen()}>
+                Add Encryption Key
+              </Button>
+            </div>
+          </Alert>
+        )}
         <h1 className="text-4xl font-bold mb-4">Hi {username.username},</h1>
 
         <div className="mb-4">
@@ -172,7 +234,6 @@ const Page = () => {
               disabled
               className="input rounded-xl input-bordered w-full p-2 mr-2"
             />
-
             <Button
               className="rounded-full"
               variant="outline"
@@ -181,7 +242,14 @@ const Page = () => {
             >
               <Edit3 className="h-5 w-5" />
             </Button>
-
+            <Button
+              className="rounded-full"
+              variant="outline"
+              size="icon"
+              onClick={() => changeEncryptionKeyModal.onOpen()}
+            >
+              <GlobeLockIcon className="h-5 w-5" />
+            </Button>
             <Button onClick={copyToClipboard} className="rounded-xl">
               Copy
             </Button>
@@ -202,20 +270,31 @@ const Page = () => {
         <Separator />
         <div className="flex justify-between items-center py-2">
           <p className="text-xl">Your Anonymous Transmissions</p>
-          <Button
-            className="rounded-xl"
-            variant="outline"
-            onClick={(e) => {
-              e.preventDefault();
-              fetchMessages(true);
-            }}
-          >
-            {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <RefreshCcw className="h-4 w-4" />
+          <div className="flex space-x-2 items-center">
+            <Button
+              className="rounded-xl"
+              variant="outline"
+              onClick={(e) => {
+                e.preventDefault();
+                fetchMessages(true);
+              }}
+            >
+              {loading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <RefreshCcw className="h-4 w-4" />
+              )}
+            </Button>
+            {messages.length > 0 && (
+              <Button
+                className="rounded-xl"
+                variant="outline"
+                onClick={(e) => deleteMessagesModal.onOpen()}
+              >
+                <ListX />
+              </Button>
             )}
-          </Button>
+          </div>
         </div>
 
         <div className="mt-5 ">
@@ -224,7 +303,9 @@ const Page = () => {
               <div key={index} className="shadow-md border rounded-2xl p-3 m-2">
                 <div className="p-4 flex justify-between items-start">
                   <div>
-                    <p className="font-bold  md:text-2xl">{content}</p>
+                    <p className="font-bold  md:text-2xl">
+                      {renderDecryptedMessage(content)}
+                    </p>
                     <p>{momment(createdAt).fromNow()}</p>
                   </div>
                   <div>

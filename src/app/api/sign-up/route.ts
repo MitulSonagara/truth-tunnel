@@ -4,14 +4,9 @@ import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
 
-
     try {
-        
+
         const { username, email, password } = await request.json();
-        // const existingUserVerifiedByUsername = await UserModel.findOne({
-        //     username,
-        //     isVerified: true
-        // });
         const existingUserVerifiedByUsername = await db.user.findUnique({
             where: {
                 username,
@@ -29,7 +24,6 @@ export async function POST(request: Request) {
         }
 
 
-        // const existingUserByEmail = await UserModel.findOne({ email });
         const existingUserByEmail = await db.user.findUnique({ where: { email } })
 
 
@@ -46,10 +40,6 @@ export async function POST(request: Request) {
             } else {
                 // Update existing user's password and verification code
                 const hashPassword = await bcrypt.hash(password, 10);
-
-                // existingUserByEmail.password = hashPassword;
-                // existingUserByEmail.verifyCode = verifyCode;
-                // existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000);
                 await db.user.update({
                     where: {
                         email,
@@ -66,20 +56,6 @@ export async function POST(request: Request) {
             // Create a new user
             const hashPassword = await bcrypt.hash(password, 10);
             const expiryDate = new Date(Date.now() + 3600000); // 1 hour expiry
-
-
-            // const newUser = new UserModel({
-            //     username,
-            //     email,
-            //     password: hashPassword,
-            //     verifyCode,
-            //     verifyCodeExpiry: expiryDate,
-            //     isVerified: false,
-            //     isAcceptingMessage: true,
-            //     messages: []
-            // });
-
-            // await newUser.save();
             await db.user.create({
                 data: {
                     username,
@@ -89,6 +65,7 @@ export async function POST(request: Request) {
                     verifyCodeExpiry: expiryDate,
                     isVerified: false,
                     isAcceptingMessage: true,
+
                 }
             })
         }

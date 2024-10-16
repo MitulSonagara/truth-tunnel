@@ -6,6 +6,7 @@ declare module "next-auth" {
         isVerified?: boolean;
         isAcceptingMessage?: boolean;
         username?: string;
+        hasEncryptionKey?: boolean;
     }
     interface Session {
         user: {
@@ -13,6 +14,7 @@ declare module "next-auth" {
             isVerified?: boolean;
             isAcceptingMessage?: boolean;
             username?: string;
+            hasEncryptionKey?: boolean;
         } & DefaultSession["user"]
     }
 }
@@ -23,5 +25,6 @@ declare module "next-auth/jwt" {
         isVerified?: boolean;
         isAcceptingMessage?: boolean;
         username?: string;
+        hasEncryptionKey?: boolean;
     }
 }

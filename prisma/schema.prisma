@@ -8,22 +8,31 @@ generator client {
 }
 
 model User {
-  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+  id                 String         @id @default(auto()) @map("_id") @db.ObjectId
   name               String?
-  email              String    @unique
-  username           String    @unique
-  isVerified         Boolean   @default(false)
+  email              String         @unique
+  username           String         @unique
+  isVerified         Boolean        @default(false)
   image              String?
   password           String?
-  isAcceptingMessage Boolean   @default(true)
+  isAcceptingMessage Boolean        @default(true)
   accounts           Account[]
   sessions           Session[]
   messages           Message[]
   verifyCode         String?
   forgotOTP          String?
   verifyCodeExpiry   DateTime?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  encryptionKey      EncryptionKey?
+}
+
+model EncryptionKey {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  publicKey      String @unique
+  userId         String @unique @db.ObjectId
+  testEncryption String @default("unsecured")
+  user           User   @relation(fields: [userId], references: [id])
 }
 
 model Message {
@@ -42,13 +51,13 @@ model Account {
   provider          String
   providerAccountId String
   refresh_token     String? @db.String
-  
-  access_token      String? @db.String
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.String
-  session_state     String?
+
+  access_token  String? @db.String
+  expires_at    Int?
+  token_type    String?
+  scope         String?
+  id_token      String? @db.String
+  session_state String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
