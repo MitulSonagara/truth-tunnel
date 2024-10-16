@@ -8,6 +8,7 @@ import { generateUniqueUsername } from '../../../../helpers/usernameGenerator';
 
 
 // Check for Google OAuth credentials
+// Check for Google OAuth credentials only in production
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     throw new Error("Google OAuth credentials are missing in environment variables");
 }

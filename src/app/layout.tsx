@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/context/ThemeProvider";
 import { UsernameChangeForm } from "@/components/UsernameChangeForm";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/options";
+import Sidebar from "@/components/Footer"; // Import Sidebar
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,10 +36,11 @@ export default async function RootLayout({
               defaultTheme="system"
               enableSystem={true}
             >
-              {/* <Navbar/> */}
+               {/* Include Sidebar here */}
               {children}
               <Toaster richColors expand={true} />
               <UsernameChangeForm />
+              {/* <Sidebar /> */}
             </ThemeProvider>
           </body>
         </AuthProvider>
