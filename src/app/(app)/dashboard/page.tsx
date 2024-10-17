@@ -10,17 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import Navbar from "@/components/Navbar";
 import { Separator } from "@/components/ui/separator";
-import {
-  Edit3,
-  GlobeLockIcon,
-  ListX,
-  Loader2,
-  RefreshCcw,
-  Trash2,
-} from "lucide-react";
+import { Edit3, GlobeLockIcon, ListX, Loader2, RefreshCcw } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import momment from "moment";
-import { decryptMessage } from "@/lib/crypto";
 import {
   useUsernameModal,
   useChangeEncryptionKeyModal,
@@ -31,7 +22,6 @@ import AddEncryptionAlert from "@/components/alerts/add-encryption-alert";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   toggleAcceptMessages,
-  deleteMessage,
   fetchAcceptMessages,
   fetchMessages,
 } from "@/lib/queries";
@@ -75,6 +65,9 @@ const Page = () => {
   const { data: messagesData, isLoading: isMessagesLoading } = useQuery({
     queryKey: ["messages"],
     queryFn: fetchMessages,
+    retry: (failureCount, error) => {
+      return false;
+    },
   });
 
   // Query to fetch accept messages status
