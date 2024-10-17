@@ -3,9 +3,8 @@ import React from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { ModeToggle } from "./ThemeToggle";
-import { useTheme } from "next-themes";
+import Logo from "./Logo";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -14,21 +13,11 @@ const Navbar = () => {
   const loading = status === "loading";
   const loggedIn = !!session;
 
-  const { resolvedTheme } = useTheme();
-  const logoSrc =
-    resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
-
   return (
     <nav className="bg-gray-100 dark:bg-transparent shadow-md border-b">
       <div className="flex justify-between items-center p-3 md:px-16">
         <Link href="/">
-          <Image
-            src={logoSrc}
-            alt="Truth Tunnel Logo"
-            width={120}
-            height={120}
-            className="mr-2 cursor-pointer"
-          />
+          <Logo className="cursor-pointer fill-current dark:bg-white dark:text-black text-gray-100 bg-black w-14 h-14" />
         </Link>
         <div className="flex items-center space-x-3">
           {loading ? (
@@ -36,12 +25,12 @@ const Navbar = () => {
           ) : loggedIn ? (
             <>
               <Link href="/dashboard">
-                <span className="text-xs text-white transition-all duration-200">
+                <span className="text-xs transition-all duration-200">
                   Dashboard
                 </span>
               </Link>
               <Link href="/">
-                <span className="text-xs text-white transition-all duration-200">
+                <span className="text-xs transition-all duration-200">
                   Home
                 </span>
               </Link>
