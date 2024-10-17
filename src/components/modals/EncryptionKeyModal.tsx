@@ -20,6 +20,7 @@ import { useSession } from "next-auth/react";
 import { useEncryptionKeyModal } from "@/stores/modals-store";
 import { IGenerateKeyWorker } from "@/types/comlinkWorkerTypes";
 import { wrap } from "comlink";
+import { savePrivateKey } from "@/lib/indexedDB";
 
 export default function EncryptionKeyModal() {
   const modal = useEncryptionKeyModal();
@@ -46,7 +47,8 @@ export default function EncryptionKeyModal() {
       setPrivateKey(privateKey);
       setPublicKey(publicKey);
       worker.terminate();
-      localStorage.setItem("privateKey", privateKey);
+
+      await savePrivateKey(privateKey);
       // Send public key to server to store it
       const response = await axios.post("/api/savePublicKey", { publicKey });
 

@@ -17,6 +17,7 @@ import {
   useChangeEncryptionKeyModal,
   useForgetEncryptionKeyModal,
 } from "@/stores/modals-store";
+import { savePrivateKey } from "@/lib/indexedDB";
 
 export default function ChangeEncryptionKeyModal() {
   const modal = useChangeEncryptionKeyModal();
@@ -37,16 +38,13 @@ export default function ChangeEncryptionKeyModal() {
 
         // Decrypt the message
         const decodedMessage = decryptMessage(privateKey, data.message);
+        await savePrivateKey(privateKey);
         if (decodedMessage == "secured") {
-          // Store new private key in local storage
-          localStorage.setItem("privateKey", privateKey);
           toast.success("Encryption key is saved!");
           modal.onClose();
           return;
         }
         if (decodedMessage == "unsecured") {
-          // Store new private key in local storage
-          localStorage.setItem("privateKey", privateKey);
           toast.info("Encryption key is saved!", {
             description: "Please generate new encryption key.",
           });

@@ -1,4 +1,3 @@
-import { renderDecryptedMessage } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
 import React from "react";
 import { Button } from "./ui/button";
@@ -7,6 +6,7 @@ import moment from "moment";
 import { deleteMessage } from "@/lib/queries";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useDecryptedMessages } from "@/hooks/use-decrypt-message";
 
 export default function Messages({
   messages,
@@ -33,27 +33,42 @@ export default function Messages({
   const handleDeleteMessages = (messageId: string) => {
     deleteMessageMutation.mutate(messageId);
   };
+
+  const messageContents = messages?.map((message) => message.content) || [];
+  const { decryptedMessages, loading } = useDecryptedMessages(messageContents); // Use the custom hook
+
   return (
     <div>
       {messages && messages.length > 0 ? (
         <ul className="space-y-4">
-          {messages.map(({ content, createdAt, id }) => (
-            <li key={id} className="border p-4 rounded-xl flex justify-between">
-              <div>
-                <p className="font-bold  md:text-2xl">
-                  {renderDecryptedMessage(content)}
-                </p>
-                <p>{moment(createdAt).fromNow()}</p>
-              </div>
-              <Button
-                variant="destructive"
-                className="rounded-full"
-                onClick={() => handleDeleteMessages(id)}
+          {messages.map(({ content, createdAt, id }, index) => {
+            return (
+              <li
+                key={id}
+                className="border p-4 rounded-xl flex justify-between"
               >
-                <Trash2 className="h-5 w-5" />
-              </Button>
-            </li>
-          ))}
+                <div>
+                  {loading[index] ? ( // Show loading state for this message
+                    <p>Decrypting...</p>
+                  ) : (
+                    <>
+                      <p className="font-bold md:text-2xl">
+                        {decryptedMessages[index]}
+                      </p>
+                      <p>{moment(createdAt).fromNow()}</p>
+                    </>
+                  )}
+                </div>
+                <Button
+                  variant="destructive"
+                  className="rounded-full"
+                  onClick={() => handleDeleteMessages(id)}
+                >
+                  <Trash2 className="h-5 w-5" />
+                </Button>
+              </li>
+            );
+          })}
         </ul>
       ) : (
         <p className="text-center text-gray-500">No messages yet.</p>
