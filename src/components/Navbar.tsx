@@ -36,12 +36,12 @@ const Navbar = () => {
           ) : loggedIn ? (
             <>
               <Link href="/dashboard">
-                <span className="text-xs text-white transition-all duration-200">
+                <span className="text-xs ${darkMode ? 'text-white' : 'text-black'}`} transition-all duration-200">
                   Dashboard
                 </span>
               </Link>
               <Link href="/">
-                <span className="text-xs text-white transition-all duration-200">
+                <span className="text-xs ${darkMode ? 'text-white' : 'text-black'}`} transition-all duration-200">
                   Home
                 </span>
               </Link>
