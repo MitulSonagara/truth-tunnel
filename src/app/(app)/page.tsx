@@ -129,11 +129,15 @@ const Page = async () => {
         </section>
         {/* Footer */}
         {/* Footer */}
-        <footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-gray-600 dark:text-gray-400 mr-16">
+<footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-gray-600 dark:text-gray-400 mr-16">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
-    <p className="text-left mb-4 sm:mb-0">
-      &copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum encryption.
-    </p>
+    <div className="text-left mb-4 sm:mb-0">
+      <p>&copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum encryption.</p>
+      <p className="mt-2">
+        <Link href="/terms" className="text-red-600 hover:text-red-800">Terms of Use</Link>
+      </p>
+    </div>
+
     <div className="flex flex-wrap justify-center sm:justify-end space-x-4">
       <Link href="https://facebook.com" target="_blank">
         <Image 
@@ -174,6 +178,7 @@ const Page = async () => {
     </div>
   </div>
 </footer>
+
 
 
         {/* Scroll to Top Button */}
