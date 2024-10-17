@@ -32,7 +32,7 @@ export const useDecryptedMessages = (messages: string[]) => {
     };
 
     decryptAllMessages();
-  }, [messages]);
+  }, [messages, loading]);
 
   return { decryptedMessages, loading };
 };
