@@ -24,20 +24,9 @@ export async function POST(request: Request) {
             }), { status: 403 });
         }
 
-        const encriptionKey = await db.encryptionKey.findUnique({ where: { userId: user.id } })
-
-        if (!encriptionKey) {
-            return new Response(JSON.stringify({
-                success: false,
-                message: "User's encryption key is not generated yet."
-            }), { status: 403 });
-        }
-
-        // Encrypt the message using the receiver's public key
-        const encryptedMessage = encryptMessage(encriptionKey.publicKey, content);
         const newMessage = await db.message.create({
             data: {
-                content: encryptedMessage,
+                content: content,
                 userId: user.id
             }
         })
