@@ -97,7 +97,7 @@ export default function ForgetEncryptionKeyModal() {
             <>
               <h3 className="text-lg font-semibold mb-2">Your Private Key</h3>
               <textarea
-                className="w-full p-2 border rounded mb-4 overflow-hidden"
+                className="w-full p-2 border rounded mb-4 overflow-auto"
                 value={privateKey ?? ""}
                 readOnly
                 rows={6}
