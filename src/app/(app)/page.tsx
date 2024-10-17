@@ -13,9 +13,9 @@ const Page = async () => {
   const session = await getServerSession();
   return (
     <>
+      <Navbar />
       <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
         <ScrollProgressBar /> {/* Add the scroll progress bar here */}
-        <Navbar />
         {/* Hero Section */}
         <section
           style={{ padding: "12rem" }}
@@ -136,7 +136,7 @@ const Page = async () => {
     </p>
     <div className="flex flex-wrap justify-center sm:justify-end space-x-4">
       <Link href="https://facebook.com" target="_blank">
-        <Image 
+        <Image
           src="/assets/fb.png" // Update with your image path
           alt="Facebook"
           width={32} // Set appropriate width
