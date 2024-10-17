@@ -27,6 +27,7 @@ import {
 } from "@/lib/queries";
 import Messages from "@/components/Messages";
 import { useCheckEncryptionKey } from "@/hooks/check-encryptionkey";
+import { useProfileUrl } from "@/hooks/useProfileUrl";
 
 const Page = () => {
   const modal = useUsernameModal();
@@ -81,7 +82,7 @@ const Page = () => {
   };
 
   const user = session?.user as User;
-  const profileUrl = `${window.location.protocol}//${window.location.host}/u/${user?.username}`;
+  const profileUrl = useProfileUrl(user.username) ?? "";
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast.success("URL copied", {
