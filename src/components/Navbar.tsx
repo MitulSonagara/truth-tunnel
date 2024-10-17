@@ -5,6 +5,8 @@ import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "./ThemeToggle";
 import Logo from "./Logo";
+import { useTheme } from "next-themes";
+import Image from "next/image";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -12,12 +14,20 @@ const Navbar = () => {
   // Determine if session is loading, logged in, or logged out
   const loading = status === "loading";
   const loggedIn = !!session;
+  const { theme } = useTheme();
+  const logoSrc = theme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
 
   return (
     <nav className="bg-gray-100 dark:bg-transparent shadow-md border-b">
       <div className="flex justify-between items-center p-3 md:px-16">
         <Link href="/">
-          <Logo className="cursor-pointer fill-current dark:bg-white dark:text-black text-gray-100 bg-black w-14 h-14" />
+          <Image
+            src={logoSrc}
+            alt="Truth Tunnel Logo"
+            width={120}
+            height={120}
+            className="mr-2 cursor-pointer"
+          />{" "}
         </Link>
         <div className="flex items-center space-x-3">
           {loading ? (
@@ -25,9 +35,7 @@ const Navbar = () => {
           ) : loggedIn ? (
             <>
               <Link href="/dashboard">
-
                 <span className="text-xs ${darkMode ? 'text-white' : 'text-black'}`} transition-all duration-200">
-
                   Dashboard
                 </span>
               </Link>
