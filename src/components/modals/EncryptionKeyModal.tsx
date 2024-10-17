@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { generateKeyPair } from "../../lib/crypto";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -19,6 +18,8 @@ import { Checkbox } from "../ui/checkbox";
 import { Copy, Printer } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEncryptionKeyModal } from "@/stores/modals-store";
+import { IGenerateKeyWorker } from "@/types/comlinkWorkerTypes";
+import { wrap } from "comlink";
 
 export default function EncryptionKeyModal() {
   const modal = useEncryptionKeyModal();
@@ -33,10 +34,18 @@ export default function EncryptionKeyModal() {
     try {
       // Generate key pair (RSA or whichever algorithm you're using)
       console.log("GENERATING...");
-      const { publicKey, privateKey } = generateKeyPair();
+      const worker = new Worker(
+        new URL("../../workers/crypto.ts", import.meta.url),
+        {
+          type: "module",
+        }
+      );
+
+      const { generateKeyPair } = wrap<IGenerateKeyWorker>(worker);
+      const { publicKey, privateKey } = await generateKeyPair();
       setPrivateKey(privateKey);
       setPublicKey(publicKey);
-
+      worker.terminate();
       localStorage.setItem("privateKey", privateKey);
       // Send public key to server to store it
       const response = await axios.post("/api/savePublicKey", { publicKey });
