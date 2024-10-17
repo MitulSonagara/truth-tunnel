@@ -3,9 +3,10 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { ModeToggle } from "./ThemeToggle";
+import Logo from "./Logo";
 import { useTheme } from "next-themes";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,14 +14,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import Image from "next/image";
+
+
 const Navbar = () => {
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const loggedIn = !!session;
 
+
   const { resolvedTheme } = useTheme();
   const logoSrc = resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
   const profileIconSrc = "/assets/profile-icon.jpg"; // Replace with your profile icon source
+
 
   return (
     <nav className="bg-gray-100 dark:bg-transparent shadow-md border-b">
@@ -32,7 +38,7 @@ const Navbar = () => {
             width={120}
             height={120}
             className="mr-2 cursor-pointer"
-          />
+          />{" "}
         </Link>
         <div className="flex items-center relative">
           {loading ? (

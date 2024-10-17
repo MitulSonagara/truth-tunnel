@@ -27,8 +27,8 @@ export async function GET(request: Request) {
         if (!result || result.length === 0) {
             return new Response(JSON.stringify({
                 success: false,
-                message: "Messages not found"
-            }), { status: 404 });
+                message: "No Messages"
+            }));
         }
 
         return new Response(JSON.stringify({
