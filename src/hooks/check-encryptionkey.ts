@@ -1,6 +1,6 @@
-
 "use client";
 
+import { getPrivateKey } from "@/lib/indexedDB";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -9,19 +9,22 @@ export function useCheckEncryptionKey() {
   const [hasEncryptionKey, setHasEncryptionKey] = useState<boolean>(true);
 
   useEffect(() => {
-    if (session) {
-      if (!session.user.hasEncryptionKey) {
-        setHasEncryptionKey(false);
-      } else {
-        // Ensure that we're in the browser and `localStorage` is available
-        const privateKey = typeof window !== "undefined" ? localStorage.getItem("privateKey") : null;
-        if (privateKey) {
-          setHasEncryptionKey(true);
-        } else {
+    const checkEncryptionKey = async () => {
+      if (session) {
+        if (!session.user.hasEncryptionKey) {
           setHasEncryptionKey(false);
+        } else {
+          const privateKey = await getPrivateKey();
+          if (privateKey) {
+            setHasEncryptionKey(true);
+          } else {
+            setHasEncryptionKey(false);
+          }
         }
       }
-    }
+    };
+
+    checkEncryptionKey();
   }, [session]);
 
   return hasEncryptionKey;

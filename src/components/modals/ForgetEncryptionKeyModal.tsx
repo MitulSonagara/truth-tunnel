@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { Checkbox } from "../ui/checkbox";
 import { Copy, Printer } from "lucide-react";
 import { useForgetEncryptionKeyModal } from "@/stores/modals-store";
+import { savePrivateKey } from "@/lib/indexedDB";
 
 export default function ForgetEncryptionKeyModal() {
   const modal = useForgetEncryptionKeyModal();
@@ -39,7 +40,7 @@ export default function ForgetEncryptionKeyModal() {
       const response = await axios.post("/api/change/encryption", {
         publicKey,
       });
-      localStorage.setItem("privateKey", privateKey);
+      await savePrivateKey(privateKey);
       setIsGenerated(true); // Successfully generated and saved
       toast.success("Public key is saved. Copy Private Key!", {
         description: "We have saved only public key.",
