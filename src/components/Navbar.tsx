@@ -3,9 +3,10 @@ import React from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { ModeToggle } from "./ThemeToggle";
+import Logo from "./Logo";
 import { useTheme } from "next-themes";
+import Image from "next/image";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -13,10 +14,8 @@ const Navbar = () => {
   // Determine if session is loading, logged in, or logged out
   const loading = status === "loading";
   const loggedIn = !!session;
-
-  const { resolvedTheme } = useTheme();
-  const logoSrc =
-    resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
+  const { theme } = useTheme();
+  const logoSrc = theme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
 
   return (
     <nav className="bg-gray-100 dark:bg-transparent shadow-md border-b">
@@ -28,7 +27,7 @@ const Navbar = () => {
             width={120}
             height={120}
             className="mr-2 cursor-pointer"
-          />
+          />{" "}
         </Link>
         <div className="flex items-center space-x-3">
           {loading ? (

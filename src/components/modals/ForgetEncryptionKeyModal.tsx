@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { generateKeyPair } from "../../lib/crypto"; // Assuming you have the crypto logic in lib/crypto
 import {
   AlertDialog,
   AlertDialogContent,
@@ -18,6 +17,8 @@ import { toast } from "sonner";
 import { Checkbox } from "../ui/checkbox";
 import { Copy, Printer } from "lucide-react";
 import { useForgetEncryptionKeyModal } from "@/stores/modals-store";
+import { wrap } from "comlink";
+import { IGenerateKeyWorker } from "@/types/comlinkWorkerTypes";
 import { savePrivateKey } from "@/lib/indexedDB";
 
 export default function ForgetEncryptionKeyModal() {
@@ -32,10 +33,18 @@ export default function ForgetEncryptionKeyModal() {
     try {
       // Generate key pair (RSA or whichever algorithm you're using)
       console.log("GENERATING...");
-      const { publicKey, privateKey } = generateKeyPair();
+      const worker = new Worker(
+        new URL("../../workers/crypto.ts", import.meta.url),
+        {
+          type: "module",
+        }
+      );
+
+      const { generateKeyPair } = wrap<IGenerateKeyWorker>(worker);
+      const { publicKey, privateKey } = await generateKeyPair();
       setPrivateKey(privateKey);
       setPublicKey(publicKey);
-
+      worker.terminate();
       // Send public key to server to store it
       const response = await axios.post("/api/change/encryption", {
         publicKey,
