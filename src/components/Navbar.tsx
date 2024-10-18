@@ -16,17 +16,15 @@ import {
 
 import Image from "next/image";
 
-
 const Navbar = () => {
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const loggedIn = !!session;
 
-
   const { resolvedTheme } = useTheme();
-  const logoSrc = resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
+  const logoSrc =
+    resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
   const profileIconSrc = "/assets/profile-icon.jpg"; // Replace with your profile icon source
-
 
   return (
     <nav className="bg-gray-100 dark:bg-transparent shadow-md border-b">
@@ -56,14 +54,10 @@ const Navbar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <Link href="/dashboard" passHref>
-                  <DropdownMenuItem>
-                    Dashboard
-                  </DropdownMenuItem>
+                  <DropdownMenuItem>Dashboard</DropdownMenuItem>
                 </Link>
                 <Link href="/" passHref>
-                  <DropdownMenuItem>
-                    Home
-                  </DropdownMenuItem>
+                  <DropdownMenuItem>Home</DropdownMenuItem>
                 </Link>
                 <DropdownMenuItem onClick={() => signOut()}>
                   Sign Out
