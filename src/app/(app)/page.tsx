@@ -18,7 +18,7 @@ const Page = async () => {
         <ScrollProgressBar /> {/* Add the scroll progress bar here */}
         {/* Hero Section */}
         <section
-          style={{ padding: "12rem" }}
+          //style={{ padding: "12rem" }} -- caused issue in responsiveness
           className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 text-center overflow-hidden"
         >
           {/* Checkered background */}
@@ -32,7 +32,7 @@ const Page = async () => {
 
           {/* Content */}
           <div className="relative z-20">
-            <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
+            <h1 className="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
               Secure Communication in a Dangerous World
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
