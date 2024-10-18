@@ -1,9 +1,9 @@
 import React from "react";
-import UsernameChangeForm from "@/components/UsernameChangeForm";
-import EncryptionKeyModal from "@/components/EncryptionKeyModal";
-import ChangeEncryptionKeyModal from "@/components/ChangeEncryptionKeyModal";
-import ForgetEncryptionKeyModal from "@/components/ForgetEncryptionKeyModal";
-import DeletConfirmationModal from "@/components/DeletionConfirmModal";
+import UsernameChangeForm from "@/components/modals/UsernameChangeModal";
+import EncryptionKeyModal from "@/components/modals/EncryptionKeyModal";
+import ChangeEncryptionKeyModal from "@/components/modals/ChangeEncryptionKeyModal";
+import ForgetEncryptionKeyModal from "@/components/modals/ForgetEncryptionKeyModal";
+import DeletConfirmationModal from "@/components/modals/DeletionConfirmModal";
 
 export default function Modals() {
   return (

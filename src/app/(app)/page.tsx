@@ -7,14 +7,15 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import ScrollToTopButton from "@/components/ScrollToTopButton"; // Import the new component
 import ScrollProgressBar from "@/components/ScrollProgressBar"; // Import the progress bar
+import Image from "next/image";
 
 const Page = async () => {
   const session = await getServerSession();
   return (
     <>
+      <Navbar />
       <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
         <ScrollProgressBar /> {/* Add the scroll progress bar here */}
-        <Navbar />
         {/* Hero Section */}
         <section
           style={{ padding: "12rem" }}
@@ -127,14 +128,54 @@ const Page = async () => {
           </Link>
         </section>
         {/* Footer */}
-        <footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-center text-gray-600 dark:text-gray-400">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p>
-              &copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum
-              encryption.
-            </p>
-          </div>
-        </footer>
+        {/* Footer */}
+        <footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-gray-600 dark:text-gray-400 mr-16">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
+    <p className="text-left mb-4 sm:mb-0">
+      &copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum encryption.
+    </p>
+    <div className="flex flex-wrap justify-center sm:justify-end space-x-4">
+      <Link href="https://facebook.com" target="_blank">
+        <Image
+          src="/assets/fb.png" // Update with your image path
+          alt="Facebook"
+          width={32} // Set appropriate width
+          height={32} // Set appropriate height
+          className="hover:opacity-75 transition-opacity" // Optional: hover effect
+        />
+      </Link>
+      <Link href="https://youtube.com" target="_blank">
+        <Image 
+          src="/assets/youtube.png" // Update with your image path
+          alt="Youtube"
+          width={32}
+          height={32}
+          className="hover:opacity-75 transition-opacity"
+        />
+      </Link>
+      <Link href="https://instagram.com" target="_blank">
+        <Image 
+          src="/assets/insta.png" // Update with your image path
+          alt="Instagram"
+          width={32}
+          height={32}
+          className="hover:opacity-75 transition-opacity"
+        />
+      </Link>
+      <Link href="https://linkedin.com" target="_blank">
+        <Image 
+          src="/assets/linkedin.png" // Update with your image path
+          alt="LinkedIn"
+          width={32}
+          height={32}
+          className="hover:opacity-75 transition-opacity"
+        />
+      </Link>
+    </div>
+  </div>
+</footer>
+
+
         {/* Scroll to Top Button */}
         <ScrollToTopButton />
       </div>

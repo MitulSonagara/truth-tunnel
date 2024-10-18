@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/context/ThemeProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/options";
 import Modals from "@/context/ModalProvider";
+import QueryProvider from "@/context/QueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,20 +29,21 @@ export default async function RootLayout({
   return (
     <>
       <html lang="en" suppressHydrationWarning>
-        <AuthProvider session={session}>
-          <body className={inter.className}>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem={true}
-            >
-              {/* <Navbar/> */}
-              {children}
-              <Toaster richColors expand={true} />
-              <Modals />
-            </ThemeProvider>
-          </body>
-        </AuthProvider>
+        <QueryProvider>
+          <AuthProvider session={session}>
+            <body className={inter.className}>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem={true}
+              >
+                {children}
+                <Toaster richColors expand={true} />
+                <Modals />
+              </ThemeProvider>
+            </body>
+          </AuthProvider>
+        </QueryProvider>
       </html>
     </>
   );
