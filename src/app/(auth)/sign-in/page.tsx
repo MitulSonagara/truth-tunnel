@@ -81,8 +81,10 @@ const Page = () => {
         {showLoaderOverlay && <LoaderOverlay />}
         {/* Outer container */}
         <div
-          className="w-full bg-gray-200
-         dark:bg-transparent max-w-md border-gray-200
+
+          className="mt-10 w-full bg-gray-200
+         dark:bg-transparent max-w-md border-gray-200 
+
                  transition-colors duration-300 p-8 space-y-8 rounded-xl shadow-md border"
         >
           <div className="text-center">
