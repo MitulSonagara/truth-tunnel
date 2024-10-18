@@ -29,7 +29,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className="fixed top-0 w-full z-50 dark:bg-black bg-white">
+    <nav className="bg-gray-100 dark:bg-transparent shadow-md border-b">
       <div className="flex justify-between items-center p-3 md:px-16">
         <Link href="/">
           <Image
