@@ -14,12 +14,12 @@ const Page = async () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
+      <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300 border-2 border-black">
         <ScrollProgressBar /> {/* Add the scroll progress bar here */}
         {/* Hero Section */}
         <section
-          style={{ padding: "12rem" }}
-          className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 text-center overflow-hidden"
+          style={{ padding: "5rem" }}
+          className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 text-center overflow-hidden flex flex-col items-center"
         >
           {/* Checkered background */}
           <div className="absolute inset-0 opacity-10">
@@ -31,19 +31,43 @@ const Page = async () => {
           </div>
 
           {/* Content */}
-          <div className="relative z-20">
-            <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
-              Secure Communication in a Dangerous World
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Experience unbreakable encryption and total anonymity. Truth
-              Tunnel: Where your secrets remain hidden.
+         <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800 p-3">
+            Secure Communication in a Dangerous World
+          </h1>
+          <div className="border-2 border-red-500 w-5/12 py-2 px-2 flex items-center justify-center mt-2 rounded-lg bg-red-100 shadow-md shadow-red-400 border-none">
+            <p className="font-bold text-red-900  font-sans text-lg">
+              <span className="italic">Truth Tunnel</span>: Where your secrets
+              remain hidden.
             </p>
-            <Link href={session ? "/dashboard" : "/sign-in"}>
-              <Button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-lg">
-                Enter the Shadows <ChevronRight className="ml-2" />
-              </Button>
-            </Link>
+          </div>
+          <div className="relative flex z-20 items-center w-10/12 mt-10 justify-center   ">
+            <div className="w-full ml-20 text-center  ">
+              {/* <p className="text-3xl text-[#df6b59] dark:text-gray-300 mb-7  font-bold ">
+                Welcome to Truth Tunnel!
+              </p> */}
+              <p className="text-lg text-[#df6b59] dark:text-gray-300  font-semibold  mb-10 w-11/12">
+                 Experience unparalleled privacy
+                and security in your communications. Join a community where
+                anonymity is prioritized, and your identity remains hidden.
+                Start your journey to secure conversations today!
+              </p>
+
+             
+                <Link href={session ? "/dashboard" : "/sign-in"}>
+                  <Button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-lg ">
+                    Enter the Shadows <ChevronRight className="ml-2" />
+                  </Button>
+                </Link>
+             
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-lg shadow-red-400 opacity-50">
+              <Image
+                src="/assets/secret.webp"
+                width={500}
+                height={400}
+                alt=""
+              />
+            </div>
           </div>
         </section>
         {/* Advanced Covert Features Section */}
@@ -130,52 +154,51 @@ const Page = async () => {
         {/* Footer */}
         {/* Footer */}
         <footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-gray-600 dark:text-gray-400 mr-16">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
-    <p className="text-left mb-4 sm:mb-0">
-      &copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum encryption.
-    </p>
-    <div className="flex flex-wrap justify-center sm:justify-end space-x-4">
-      <Link href="https://facebook.com" target="_blank">
-        <Image
-          src="/assets/fb.png" // Update with your image path
-          alt="Facebook"
-          width={32} // Set appropriate width
-          height={32} // Set appropriate height
-          className="hover:opacity-75 transition-opacity" // Optional: hover effect
-        />
-      </Link>
-      <Link href="https://youtube.com" target="_blank">
-        <Image 
-          src="/assets/youtube.png" // Update with your image path
-          alt="Youtube"
-          width={32}
-          height={32}
-          className="hover:opacity-75 transition-opacity"
-        />
-      </Link>
-      <Link href="https://instagram.com" target="_blank">
-        <Image 
-          src="/assets/insta.png" // Update with your image path
-          alt="Instagram"
-          width={32}
-          height={32}
-          className="hover:opacity-75 transition-opacity"
-        />
-      </Link>
-      <Link href="https://linkedin.com" target="_blank">
-        <Image 
-          src="/assets/linkedin.png" // Update with your image path
-          alt="LinkedIn"
-          width={32}
-          height={32}
-          className="hover:opacity-75 transition-opacity"
-        />
-      </Link>
-    </div>
-  </div>
-</footer>
-
-
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
+            <p className="text-left mb-4 sm:mb-0">
+              &copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum
+              encryption.
+            </p>
+            <div className="flex flex-wrap justify-center sm:justify-end space-x-4">
+              <Link href="https://facebook.com" target="_blank">
+                <Image
+                  src="/assets/fb.png" // Update with your image path
+                  alt="Facebook"
+                  width={32} // Set appropriate width
+                  height={32} // Set appropriate height
+                  className="hover:opacity-75 transition-opacity" // Optional: hover effect
+                />
+              </Link>
+              <Link href="https://youtube.com" target="_blank">
+                <Image
+                  src="/assets/youtube.png" // Update with your image path
+                  alt="Youtube"
+                  width={32}
+                  height={32}
+                  className="hover:opacity-75 transition-opacity"
+                />
+              </Link>
+              <Link href="https://instagram.com" target="_blank">
+                <Image
+                  src="/assets/insta.png" // Update with your image path
+                  alt="Instagram"
+                  width={32}
+                  height={32}
+                  className="hover:opacity-75 transition-opacity"
+                />
+              </Link>
+              <Link href="https://linkedin.com" target="_blank">
+                <Image
+                  src="/assets/linkedin.png" // Update with your image path
+                  alt="LinkedIn"
+                  width={32}
+                  height={32}
+                  className="hover:opacity-75 transition-opacity"
+                />
+              </Link>
+            </div>
+          </div>
+        </footer>
         {/* Scroll to Top Button */}
         <ScrollToTopButton />
       </div>
