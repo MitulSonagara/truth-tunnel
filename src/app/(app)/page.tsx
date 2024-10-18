@@ -19,7 +19,7 @@ const Page = async () => {
         {/* Hero Section */}
         <section
           style={{ padding: "5rem" }}
-          className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 text-center overflow-hidden flex flex-col items-center"
+          className="relative z-10 py-24 px-4 sm:px-6 lg:px-8  overflow-hidden flex flex-col items-center"
         >
           {/* Checkered background */}
           <div className="absolute inset-0 opacity-10">
@@ -36,16 +36,16 @@ const Page = async () => {
           </h1>
           <div className="border-2 border-red-500 w-5/12 py-2 px-2 flex items-center justify-center mt-2 rounded-lg bg-red-100 shadow-md shadow-red-400 border-none">
             <p className="font-bold text-red-900  font-sans text-lg">
-              <span className="italic">Truth Tunnel</span>: Where your secrets
+             Where your secrets
               remain hidden.
             </p>
           </div>
-          <div className="relative flex z-20 items-center w-10/12 mt-10 justify-center   ">
-            <div className="w-full ml-20 text-center  ">
-              {/* <p className="text-3xl text-[#df6b59] dark:text-gray-300 mb-7  font-bold ">
+          <div className="relative flex z-20 items-center w-10/12 mt-10  ">
+            <div className="w-full ml-8   ">
+              <p className="text-3xl text-[#A34343] dark:text-gray-300 mb-7  font-bold ">
                 Welcome to Truth Tunnel!
-              </p> */}
-              <p className="text-lg text-[#df6b59] dark:text-gray-300  font-semibold  mb-10 w-11/12">
+              </p>
+              <p className="text-lg text-[#df6b59] dark:text-gray-300  font-semibold  mb-10 w-10/12 leading-relaxed">
                  Experience unparalleled privacy
                 and security in your communications. Join a community where
                 anonymity is prioritized, and your identity remains hidden.
