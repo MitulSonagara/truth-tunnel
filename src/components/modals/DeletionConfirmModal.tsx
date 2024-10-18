@@ -13,7 +13,7 @@ import {
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useDeleteModal } from "@/stores/modals-store";
 
 export default function DeletConfirmationModal() {

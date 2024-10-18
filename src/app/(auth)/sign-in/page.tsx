@@ -9,7 +9,7 @@ import * as z from "zod";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { signInSchema } from "@/schemas/signInSchema";
 import {
   Form,
@@ -81,8 +81,10 @@ const Page = () => {
         {showLoaderOverlay && <LoaderOverlay />}
         {/* Outer container */}
         <div
+
           className="mt-10 w-full bg-gray-200
          dark:bg-transparent max-w-md border-gray-200 
+
                  transition-colors duration-300 p-8 space-y-8 rounded-xl shadow-md border"
         >
           <div className="text-center">
