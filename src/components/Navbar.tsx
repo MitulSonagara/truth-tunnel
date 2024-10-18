@@ -16,17 +16,15 @@ import {
 
 import Image from "next/image";
 
-
 const Navbar = () => {
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const loggedIn = !!session;
 
-
   const { resolvedTheme } = useTheme();
-  const logoSrc = resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
+  const logoSrc =
+    resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
   const profileIconSrc = "/assets/profile-icon.jpg"; // Replace with your profile icon source
-
 
   return (
     <nav className="bg-gray-100 dark:bg-transparent shadow-md border-b">
@@ -40,36 +38,47 @@ const Navbar = () => {
             className="mr-2 cursor-pointer"
           />{" "}
         </Link>
-        <div className="flex items-center relative">
+        <div className="flex items-center space-x-6">
           {loading ? (
             <p className="text-xs text-gray-500">Loading...</p>
           ) : loggedIn ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Image
-                  src={profileIconSrc}
-                  alt="Profile"
-                  width={40}
-                  height={40}
-                  className="cursor-pointer mr-2"
-                />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <Link href="/dashboard" passHref>
-                  <DropdownMenuItem>
-                    Dashboard
-                  </DropdownMenuItem>
-                </Link>
-                <Link href="/" passHref>
-                  <DropdownMenuItem>
-                    Home
-                  </DropdownMenuItem>
-                </Link>
-                <DropdownMenuItem onClick={() => signOut()}>
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <>
+              <Link href="/about">
+                <span className="text-xs text-white transition-all duration-200 flex items-center">
+                  About
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="white"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-4 h-4 ml-1"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 1.5c5.799 0 10.5 4.701 10.5 10.5S17.799 22.5 12 22.5 1.5 17.799 1.5 12 6.201 1.5 12 1.5zm3 8.25h-1.5v-1.5c0-.621-.504-1.125-1.125-1.125S11.25 7.629 11.25 8.25v1.5H9.75c-.621 0-1.125.504-1.125 1.125s.504 1.125 1.125 1.125h1.5v1.5c0 .621.504 1.125 1.125 1.125s1.125-.504 1.125-1.125v-1.5H15c.621 0 1.125-.504 1.125-1.125S15.621 9.75 15 9.75z"
+                    />
+                  </svg>
+                </span>
+              </Link>
+              <Link href="/dashboard">
+                <span className="text-xs text-white transition-all duration-200">
+                  Dashboard
+                </span>
+              </Link>
+              <Link href="/">
+                <span className="text-xs text-white transition-all duration-200">
+                  Home
+                </span>
+              </Link>
+              <Button
+                onClick={() => signOut()}
+                className="text-xs px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200"
+              >
+                Sign Out
+              </Button>
+            </>
           ) : (
             <Link href="/sign-in">
               <Button className="text-xs mr-2 px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200">
