@@ -1,11 +1,12 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "./ThemeToggle";
-import Logo from "./Logo";
 import { useTheme } from "next-themes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 import {
   DropdownMenu,
@@ -15,11 +16,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import Image from "next/image";
+import {
+  useChangeEncryptionKeyModal,
+  useUsernameModal,
+} from "@/stores/modals-store";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const loggedIn = !!session;
+
+  const usernameChangeModal = useUsernameModal();
+  const changeEncryptionKeyModal = useChangeEncryptionKeyModal();
 
   const { resolvedTheme } = useTheme();
   const logoSrc =
@@ -59,6 +67,18 @@ const Navbar = () => {
                 <Link href="/" passHref>
                   <DropdownMenuItem>Home</DropdownMenuItem>
                 </Link>
+                <DropdownMenuItem
+                  onClick={() =>
+                    usernameChangeModal.onOpen(session.user.username)
+                  }
+                >
+                  Change Username
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => changeEncryptionKeyModal.onOpen()}
+                >
+                  Change Keys
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => signOut()}>
                   Sign Out
                 </DropdownMenuItem>
@@ -72,6 +92,15 @@ const Navbar = () => {
             </Link>
           )}
           <ModeToggle />
+          {/* GitHub Icon */}
+          <a
+            href="https://github.com/MitulSonagara/truth-tunnel"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-black dark:text-white transition-all duration-200 hover:text-gray-800"
+          >
+            <FontAwesomeIcon icon={faGithub} size="2x" />
+          </a>
         </div>
       </div>
     </nav>

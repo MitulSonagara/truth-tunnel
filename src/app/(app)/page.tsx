@@ -71,7 +71,7 @@ const Page = async () => {
           </div>
         </section>
         {/* Advanced Covert Features Section */}
-        <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 bg-black dark:bg-black">
+        <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-black">
           <h2 className="text-4xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
             Advanced Covert Features
           </h2>

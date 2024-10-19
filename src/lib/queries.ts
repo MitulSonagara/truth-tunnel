@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
-import { Message } from "@prisma/client";
+import { Message, User } from "@prisma/client";
 
 // Fetch all messages
 export const fetchMessages = async (): Promise<Message[] | undefined> => {
@@ -26,4 +26,10 @@ export const toggleAcceptMessages = async (acceptMessages: boolean): Promise<Api
 export const deleteMessage = async (messageId: string): Promise<ApiResponse> => {
   const { data } = await axios.delete<ApiResponse>(`/api/messages/delete/${messageId}`);
   return data;
+};
+
+
+export const suggestedUsers = async (): Promise<User[]> => {
+  const { data } = await axios.get<ApiResponse>(`/api/search`);
+  return data.users;
 };

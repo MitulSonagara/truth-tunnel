@@ -3,7 +3,7 @@ import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { User } from "next-auth";
 import { Button } from "@/components/ui/button";
@@ -17,13 +17,10 @@ import {
   Loader2,
   RefreshCcw,
   Search,
+  Copy
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import {
-  useUsernameModal,
-  useChangeEncryptionKeyModal,
-  useDeleteModal,
-} from "@/stores/modals-store";
+import { useDeleteModal } from "@/stores/modals-store";
 import GenerateEncryptionAlert from "@/components/alerts/generate-encryption-alert";
 import AddEncryptionAlert from "@/components/alerts/add-encryption-alert";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -39,10 +36,11 @@ import { useProfileUrl } from "@/hooks/useProfileUrl";
 import SearchUser from "@/components/search";
 import checkAndSaveKeys from "@/helpers/checkAndSaveKeys";
 
+import { useSearchSheet } from "@/stores/sheets-store";
+
 const Page = () => {
-  const modal = useUsernameModal();
   const hasEncryptionKey = useCheckEncryptionKey();
-  const changeEncryptionKeyModal = useChangeEncryptionKeyModal();
+
   const deleteMessagesModal = useDeleteModal();
   const { data: session, status, update } = useSession();
 
@@ -75,6 +73,7 @@ const Page = () => {
   }, [hasEncryptionKey, update]);
 
   const queryClient = useQueryClient();
+  const searchSheet = useSearchSheet();
 
   // Mutation to toggle accept messages
   const toggleAcceptMessagesMutation = useMutation({
@@ -153,7 +152,6 @@ const Page = () => {
         {session && !user.hasEncryptionKey && <GenerateEncryptionAlert />}
         {session && !hasEncryptionKey && <AddEncryptionAlert />}
         <h1 className="text-4xl font-bold mb-4">Hi {user.username},</h1>
-        <SearchUser />
         <div className="mb-4">
           <div className="mt-2 border p-2 rounded-2xl flex items-center gap-3">
             <Input
@@ -163,23 +161,19 @@ const Page = () => {
               className="input rounded-xl input-bordered w-full p-2 mr-2"
             />
             <Button
+              onClick={copyToClipboard}
               className="rounded-full"
-              variant="outline"
               size="icon"
-              onClick={() => modal.onOpen(user.username)}
             >
-              <Edit3 className="h-5 w-5" />
+              <Copy className="h-5 w-5" />
             </Button>
             <Button
               className="rounded-full"
               variant="outline"
               size="icon"
-              onClick={() => changeEncryptionKeyModal.onOpen()}
+              onClick={() => searchSheet.onOpen()}
             >
-              <GlobeLockIcon className="h-5 w-5" />
-            </Button>
-            <Button onClick={copyToClipboard} className="rounded-xl">
-              Copy
+              <Search className="h-5 w-5" />
             </Button>
           </div>
         </div>
