@@ -1,10 +1,9 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "./ThemeToggle";
-import Logo from "./Logo";
 import { useTheme } from "next-themes";
 
 import {
@@ -15,18 +14,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import Image from "next/image";
-
+import {
+  useChangeEncryptionKeyModal,
+  useUsernameModal,
+} from "@/stores/modals-store";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const loggedIn = !!session;
-
+  const usernameChangeModal = useUsernameModal();
+  const changeEncryptionKeyModal = useChangeEncryptionKeyModal();
 
   const { resolvedTheme } = useTheme();
-  const logoSrc = resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
+  const logoSrc =
+    resolvedTheme === "dark" ? "/assets/logo1.png" : "/assets/logo.png";
   const profileIconSrc = "/assets/profile-icon.jpg"; // Replace with your profile icon source
-
 
   return (
     <nav className="bg-gray-100 dark:bg-transparent shadow-md border-b">
@@ -56,15 +59,23 @@ const Navbar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <Link href="/dashboard" passHref>
-                  <DropdownMenuItem>
-                    Dashboard
-                  </DropdownMenuItem>
+                  <DropdownMenuItem>Dashboard</DropdownMenuItem>
                 </Link>
                 <Link href="/" passHref>
-                  <DropdownMenuItem>
-                    Home
-                  </DropdownMenuItem>
+                  <DropdownMenuItem>Home</DropdownMenuItem>
                 </Link>
+                <DropdownMenuItem
+                  onClick={() =>
+                    usernameChangeModal.onOpen(session.user.username)
+                  }
+                >
+                  Change Username
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => changeEncryptionKeyModal.onOpen()}
+                >
+                  Change Keys
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => signOut()}>
                   Sign Out
                 </DropdownMenuItem>
