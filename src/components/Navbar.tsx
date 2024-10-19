@@ -5,6 +5,8 @@ import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "./ThemeToggle";
 import { useTheme } from "next-themes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 import {
   DropdownMenu,
@@ -89,6 +91,15 @@ const Navbar = () => {
             </Link>
           )}
           <ModeToggle />
+          {/* GitHub Icon */}
+          <a
+            href="https://github.com/MitulSonagara/truth-tunnel"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-black dark:text-white transition-all duration-200 hover:text-gray-800"
+          >
+            <FontAwesomeIcon icon={faGithub} size="2x" />
+          </a>
         </div>
       </div>
     </nav>
