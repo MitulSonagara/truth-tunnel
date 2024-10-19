@@ -15,4 +15,8 @@ export const signUpSchema = z.object({
     password: z
         .string()
         .min(6, { message: "Password must be atleast 6 characters" })
+        .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" }) // Uppercase letter
+        .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" }) // Lowercase letter
+        .regex(/\d/, { message: "Password must contain at least one digit" }) // At least one digit
+        .regex(/[\W_]/, { message: "Password must contain at least one special character" }) // At least one special character
 })
