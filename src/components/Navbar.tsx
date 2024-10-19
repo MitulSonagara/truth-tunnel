@@ -43,9 +43,42 @@ const Navbar = () => {
             width={120}
             height={120}
             className="mr-2 cursor-pointer"
-          />{" "}
+          />
         </Link>
+
         <div className="flex items-center relative">
+          {/* Always visible links with hover border */}
+          <Link
+            href="/dashboard"
+            className="mr-4 border border-transparent hover:border-white px-2 py-1 transition-colors duration-200"
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="/"
+            className="mr-4 border border-transparent hover:border-white px-2 py-1 transition-colors duration-200"
+          >
+            Home
+          </Link>
+          <Link
+            href="/contactus"
+            className="mr-4 border border-transparent hover:border-white px-2 py-1 transition-colors duration-200"
+          >
+            Contact Us
+          </Link>
+          <Link
+            href="/about"
+            className="mr-4 border border-transparent hover:border-white px-2 py-1 transition-colors duration-200"
+          >
+            About
+          </Link>
+          <Link
+            href="/contributors"
+            className="mr-4 border border-transparent hover:border-white px-2 py-1 transition-colors duration-200"
+          >
+            Contributors
+          </Link>
+
           {loading ? (
             <p className="text-xs text-gray-500">Loading...</p>
           ) : loggedIn ? (
@@ -60,12 +93,6 @@ const Navbar = () => {
                 />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <Link href="/dashboard" passHref>
-                  <DropdownMenuItem>Dashboard</DropdownMenuItem>
-                </Link>
-                <Link href="/" passHref>
-                  <DropdownMenuItem>Home</DropdownMenuItem>
-                </Link>
                 <DropdownMenuItem
                   onClick={() =>
                     usernameChangeModal.onOpen(session.user.username)
