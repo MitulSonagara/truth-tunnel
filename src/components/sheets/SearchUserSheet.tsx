@@ -8,16 +8,14 @@ import {
 import { useSearchSheet } from "@/stores/sheets-store";
 import { User } from "@prisma/client";
 import axios from "axios";
-import { Loader2, Search, UserPlus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Search } from "lucide-react";
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
 import Link from "next/link";
 import { Input } from "../ui/input";
 import { ScrollArea } from "../ui/scroll-area";
 import { suggestedUsers } from "@/lib/queries";
 import { useQuery } from "@tanstack/react-query";
-import { useDebounce } from "use-debounce";
 
 export default function SearchUserSheet() {
   const state = useSearchSheet();
@@ -25,7 +23,6 @@ export default function SearchUserSheet() {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState("");
-  const [debouncedQuery] = useDebounce(query, 500); // 500ms debounce
   // Query to fetch messages
   const { data: suggestions, isLoading } = useQuery({
     queryKey: ["suggested-users"],
@@ -51,12 +48,6 @@ export default function SearchUserSheet() {
     }
   };
 
-  useEffect(() => {
-    if (debouncedQuery) {
-      handleSearch(debouncedQuery);
-    }
-  }, [debouncedQuery]);
-
   return (
     <Sheet open={state.isOpen} onOpenChange={() => state.onClose()}>
       <SheetContent>
@@ -69,6 +60,7 @@ export default function SearchUserSheet() {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onSubmit={() => handleSearch(query)}
               type="search"
               placeholder="Search users..."
               className="pl-8"
