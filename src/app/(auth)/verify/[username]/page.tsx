@@ -70,12 +70,21 @@ const VerifyAccount = () => {
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-2/3 space-y-6"
+            style={{
+              width: "24rem",
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
+              flexDirection: "column",
+            }}
           >
             <FormField
               name="code"
               control={form.control}
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex flex-col items-center">
+                  {" "}
+                  {/* Add the desired classes here */}
                   <FormLabel>Verification Code</FormLabel>
                   <FormControl>
                     <InputOTP maxLength={6} {...field}>
@@ -96,7 +105,6 @@ const VerifyAccount = () => {
                 </FormItem>
               )}
             />
-
             <Button type="submit" className="rounded-2xl">
               Submit
             </Button>
