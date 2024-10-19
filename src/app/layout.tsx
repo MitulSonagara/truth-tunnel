@@ -27,11 +27,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(authOptions);
+
   return (
     <>
       <html lang="en" suppressHydrationWarning>
-        <QueryProvider>
-          <AuthProvider session={session}>
+        <AuthProvider session={session}>
+          <QueryProvider>
             <body className={inter.className}>
               <ThemeProvider
                 attribute="class"
@@ -49,8 +50,8 @@ export default async function RootLayout({
                 <Modals />
               </ThemeProvider>
             </body>
-          </AuthProvider>
-        </QueryProvider>
+          </QueryProvider>
+        </AuthProvider>
       </html>
     </>
   );

@@ -10,7 +10,14 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import Navbar from "@/components/Navbar";
 import { Separator } from "@/components/ui/separator";
-import { Edit3, GlobeLockIcon, ListX, Loader2, RefreshCcw, Search } from "lucide-react";
+import {
+  Edit3,
+  GlobeLockIcon,
+  ListX,
+  Loader2,
+  RefreshCcw,
+  Search,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   useUsernameModal,
@@ -29,16 +36,43 @@ import Messages from "@/components/Messages";
 import { useCheckEncryptionKey } from "@/hooks/check-encryptionkey";
 import { useProfileUrl } from "@/hooks/useProfileUrl";
 
-
-
- import SearchUser from "@/components/search";
+import SearchUser from "@/components/search";
+import checkAndSaveKeys from "@/helpers/checkAndSaveKeys";
 
 const Page = () => {
   const modal = useUsernameModal();
   const hasEncryptionKey = useCheckEncryptionKey();
   const changeEncryptionKeyModal = useChangeEncryptionKeyModal();
   const deleteMessagesModal = useDeleteModal();
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
+
+  useEffect(() => {
+    const generateKeysIfNeeded = async () => {
+      if (!hasEncryptionKey) {
+        try {
+          // checks and generates key and save in IndexDB
+          const success = await checkAndSaveKeys();
+          if (success) {
+            await update({
+              type: "change_key",
+              key: true,
+            });
+            window.location.reload();
+          } else {
+            toast.error("Error", {
+              description: "Failed to auto generate keys",
+            });
+          }
+        } catch (error) {
+          toast.error("Error", {
+            description: "An unexpected error occurred while generating keys",
+          });
+        }
+      }
+    };
+
+    generateKeysIfNeeded();
+  }, [hasEncryptionKey, update]);
 
   const queryClient = useQueryClient();
 
@@ -116,10 +150,10 @@ const Page = () => {
     <>
       <Navbar />
       <div className="my-8 mt-10 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-screen max-w-6xl">
-        {!user.hasEncryptionKey && <GenerateEncryptionAlert />}
-        {!hasEncryptionKey && <AddEncryptionAlert />}
+        {session && !user.hasEncryptionKey && <GenerateEncryptionAlert />}
+        {session && !hasEncryptionKey && <AddEncryptionAlert />}
         <h1 className="text-4xl font-bold mb-4">Hi {user.username},</h1>
-<SearchUser/>
+        <SearchUser />
         <div className="mb-4">
           <div className="mt-2 border p-2 rounded-2xl flex items-center gap-3">
             <Input

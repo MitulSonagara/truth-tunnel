@@ -32,7 +32,7 @@ model EncryptionKey {
   publicKey      String @unique
   userId         String @unique @db.ObjectId
   testEncryption String @default("unsecured")
-  user           User   @relation(fields: [userId], references: [id])
+  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Message {
@@ -41,7 +41,7 @@ model Message {
   userId    String   @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  User      User     @relation(fields: [userId], references: [id])
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
