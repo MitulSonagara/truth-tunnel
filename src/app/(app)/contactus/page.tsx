@@ -122,7 +122,6 @@ const EnhancedFormPage = () => {
                 onChange={(e) => setMessage(e.target.value)}
                 required
                 className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-red-500"
-                rows="4"
               />
             </div>
 
