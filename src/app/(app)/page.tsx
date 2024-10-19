@@ -14,7 +14,7 @@ const Page = async () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
+      <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300 border-2 border-black">
         <ScrollProgressBar /> {/* Add the scroll progress bar here */}
         {/* Hero Section */}
         <section
@@ -31,6 +31,7 @@ const Page = async () => {
           </div>
 
           {/* Content */}
+
           <div className="relative z-20">
             <h1 className="mt-10 text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
               Secure Communication in a Dangerous World
@@ -39,15 +40,39 @@ const Page = async () => {
               Experience unbreakable encryption and total anonymity. Truth
               Tunnel: Where your secrets remain hidden.
             </p>
-            <Link href={session ? "/dashboard" : "/sign-in"}>
-              <Button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-lg">
-                Enter the Shadows <ChevronRight className="ml-2" />
-              </Button>
-            </Link>
+          </div>
+          <div className="relative flex z-20 items-center w-10/12 mt-10  ">
+            <div className="w-full ml-8   ">
+              <p className="text-3xl text-[#A34343] dark:text-gray-300 mb-7  font-bold ">
+                Welcome to Truth Tunnel!
+              </p>
+              <p className="text-lg text-[#df6b59] dark:text-gray-300  font-semibold  mb-10 w-10/12 leading-relaxed">
+                 Experience unparalleled privacy
+                and security in your communications. Join a community where
+                anonymity is prioritized, and your identity remains hidden.
+                Start your journey to secure conversations today!
+              </p>
+
+             
+                <Link href={session ? "/dashboard" : "/sign-in"}>
+                  <Button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-lg ">
+                    Enter the Shadows <ChevronRight className="ml-2" />
+                  </Button>
+                </Link>
+             
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-lg shadow-red-400 opacity-50">
+              <Image
+                src="/assets/secret.webp"
+                width={500}
+                height={400}
+                alt=""
+              />
+            </div>
           </div>
         </section>
         {/* Advanced Covert Features Section */}
-        <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 bg-black dark:bg-black">
+        <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-black">
           <h2 className="text-4xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
             Advanced Covert Features
           </h2>
@@ -129,11 +154,16 @@ const Page = async () => {
         </section>
         {/* Footer */}
         {/* Footer */}
-        <footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-gray-600 dark:text-gray-400 mr-16">
+
+<footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-gray-600 dark:text-gray-400 mr-16">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
-    <p className="text-left mb-4 sm:mb-0">
-      &copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum encryption.
-    </p>
+    <div className="text-left mb-4 sm:mb-0">
+      <p>&copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum encryption.</p>
+      <p className="mt-2">
+        <Link href="/terms" className="text-red-600 hover:text-red-800">Terms of Use</Link>
+      </p>
+    </div>
+
     <div className="flex flex-wrap justify-center sm:justify-end space-x-4">
       <Link href="https://facebook.com" target="_blank">
         <Image

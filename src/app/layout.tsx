@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/options";
 import Modals from "@/context/ModalProvider";
 import QueryProvider from "@/context/QueryProvider";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +38,12 @@ export default async function RootLayout({
                 defaultTheme="system"
                 enableSystem={true}
               >
+                <NextTopLoader
+                  color="#991b1b"
+                  showSpinner
+                  template='<div class="bar" role="bar"><div class="peg"></div></div>
+                <div class="spinner" role="spinner"><div class="spinner-icon fixed bottom-0 right-0 m-2"></div></div>'
+                />
                 {children}
                 <Toaster richColors expand={true} />
                 <Modals />
