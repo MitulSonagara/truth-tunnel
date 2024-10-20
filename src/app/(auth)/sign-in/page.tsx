@@ -49,8 +49,12 @@ const Page = () => {
         identifier: data.identifier,
         password: data.password,
       });
-
       setLoading(false);
+
+      if (result?.error) {
+        toast.error("Login Failed", { description: result.error });
+        return;
+      }
 
       if (result?.ok && result.url) {
         toast.success("Login Successful", {
@@ -83,7 +87,7 @@ const Page = () => {
         <div
 
           className="mt-10 w-full bg-gray-200
-         dark:bg-transparent max-w-md border-gray-200 
+         dark:bg-transparent max-w-md border-gray-200
 
                  transition-colors duration-300 p-8 space-y-8 rounded-xl shadow-md border"
         >
