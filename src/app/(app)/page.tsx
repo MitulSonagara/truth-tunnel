@@ -18,8 +18,8 @@ const Page = async () => {
         <ScrollProgressBar /> {/* Add the scroll progress bar here */}
         {/* Hero Section */}
         <section
-          style={{ padding: "5rem" }}
-          className="relative z-10 py-24 px-4 sm:px-6 lg:px-8  overflow-hidden flex flex-col items-center"
+          //style={{ padding: "12rem" }} -- caused issue in responsiveness
+          className="mt-10 relative z-10 py-24 px-4 sm:px-6 lg:px-8 text-center overflow-hidden"
         >
           {/* Checkered background */}
           <div className="absolute inset-0 opacity-10">
@@ -31,13 +31,14 @@ const Page = async () => {
           </div>
 
           {/* Content */}
-         <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800 p-3">
-            Secure Communication in a Dangerous World
-          </h1>
-          <div className="border-2 border-red-500 w-5/12 py-2 px-2 flex items-center justify-center mt-2 rounded-lg bg-red-100 shadow-md shadow-red-400 border-none">
-            <p className="font-bold text-red-900  font-sans text-lg">
-             Where your secrets
-              remain hidden.
+
+          <div className="relative z-20">
+            <h1 className="mt-10 text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
+              Secure Communication in a Dangerous World
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+              Experience unbreakable encryption and total anonymity. Truth
+              Tunnel: Where your secrets remain hidden.
             </p>
           </div>
           <div className="relative flex z-20 items-center w-10/12 mt-10  ">
