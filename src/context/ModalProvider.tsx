@@ -4,6 +4,7 @@ import EncryptionKeyModal from "@/components/modals/EncryptionKeyModal";
 import ChangeEncryptionKeyModal from "@/components/modals/ChangeEncryptionKeyModal";
 import ForgetEncryptionKeyModal from "@/components/modals/ForgetEncryptionKeyModal";
 import DeletConfirmationModal from "@/components/modals/DeletionConfirmModal";
+import SearchUserSheet from "@/components/sheets/SearchUserSheet";
 
 export default function Modals() {
   return (
@@ -13,6 +14,7 @@ export default function Modals() {
       <ChangeEncryptionKeyModal />
       <ForgetEncryptionKeyModal />
       <DeletConfirmationModal />
+      <SearchUserSheet />
     </>
   );
 }

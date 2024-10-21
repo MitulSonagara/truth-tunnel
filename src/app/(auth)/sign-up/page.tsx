@@ -99,7 +99,7 @@ const Page = () => {
       <div className="flex justify-center mt-8 items-center h-full">
         {showLoaderOverlay && <LoaderOverlay />}
         <div
-          className="w-full max-w-md border-gray-200 shadow-lg bg-gray-200
+          className="mt-10 w-full max-w-md border-gray-200 shadow-lg bg-gray-200
          dark:bg-transparent transition-colors duration-300 p-8 space-y-8 rounded-xl border"
         >
           <div className="text-center">
