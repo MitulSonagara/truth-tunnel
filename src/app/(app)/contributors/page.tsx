@@ -27,7 +27,7 @@ const ContributorsPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-center mb-6">
@@ -46,7 +46,7 @@ const ContributorsPage = () => {
               rel="noopener noreferrer"
               className="block" // To make the entire div clickable
             >
-              <div className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 border border-gray-300 rounded-xl p-4 mb-4 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 cursor-pointer">
+              <div className="flex items-center justify-between bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl p-4 mb-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 cursor-pointer">
                 <div className="flex items-center">
                   <Image
                     src={contributor.avatar_url}
@@ -55,7 +55,7 @@ const ContributorsPage = () => {
                     height={50}
                     className="rounded-full mr-4"
                   />
-                  <span className="font-bold text-white hover:underline mr-4">
+                  <span className="font-bold text-gray-900 dark:text-white hover:underline mr-4">
                     {contributor.login}
                   </span>
                 </div>
