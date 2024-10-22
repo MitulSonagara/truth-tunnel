@@ -14,6 +14,10 @@ export async function GET(req: NextRequest) {
 
     try {
 
+        if (!user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         if (!query) {
             const users = await db.user.findMany({
                 where: {
@@ -68,18 +72,13 @@ export async function GET(req: NextRequest) {
             }
         })
 
-
         return NextResponse.json({
             users,
             title: "Search Results"
         }, { status: 200 })
 
-
     } catch (e) {
-        console.error('Error searching recipes:', e);
+        console.error('Error searching users:', e);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-
     }
-
-
 }
