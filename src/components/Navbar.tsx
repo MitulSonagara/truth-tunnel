@@ -7,7 +7,12 @@ import { ModeToggle } from "./ThemeToggle";
 import { useTheme } from "next-themes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+  } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import {
   useChangeEncryptionKeyModal,
@@ -84,37 +89,40 @@ const Navbar = () => {
           {loading ? (
             <p className="text-xs text-gray-500">Loading...</p>
           ) : loggedIn ? (
-            <div className="relative">
-              <Image
-                src={profileIconSrc}
-                alt="Profile"
-                width={40}
-                height={40}
-                className="cursor-pointer mr-2"
-              />
-              <div className="absolute right-0 bg-white dark:bg-gray-800 shadow-lg rounded-md">
-                <button
-                  className="block px-4 py-2 text-left text-gray-700 dark:text-white"
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Image
+                  src={profileIconSrc}
+                  alt="Profile"
+                  width={40}
+                  height={40}
+                  className="cursor-pointer mr-2"
+                />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <Link href="/dashboard" passHref>
+                  <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                </Link>
+                <Link href="/" passHref>
+                  <DropdownMenuItem>Home</DropdownMenuItem>
+                </Link>
+                <DropdownMenuItem
                   onClick={() =>
                     usernameChangeModal.onOpen(session.user.username)
                   }
                 >
                   Change Username
-                </button>
-                <button
-                  className="block px-4 py-2 text-left text-gray-700 dark:text-white"
+                </DropdownMenuItem>
+                <DropdownMenuItem
                   onClick={() => changeEncryptionKeyModal.onOpen()}
                 >
                   Change Keys
-                </button>
-                <button
-                  className="block px-4 py-2 text-left text-gray-700 dark:text-white"
-                  onClick={() => signOut()}
-                >
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut()}>
                   Sign Out
-                </button>
-              </div>
-            </div>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <Link href="/sign-in">
               <Button className="text-xs mr-2 px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200">
@@ -128,7 +136,7 @@ const Navbar = () => {
             href="https://github.com/MitulSonagara/truth-tunnel"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-black dark:text-white transition-all duration-200 hover:text-gray-800"
+            className="text-black dark:text-white transition-all duration-200 hover:text-gray-800 ml-3"
           >
             <FontAwesomeIcon icon={faGithub} size="2x" />
           </a>
