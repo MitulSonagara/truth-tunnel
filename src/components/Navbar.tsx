@@ -56,12 +56,6 @@ const Navbar = () => {
         {/* Desktop Links (hidden in mobile view) */}
         <div className={`hidden md:flex items-center relative`}>
           <Link
-            href="/dashboard"
-            className="mr-4 border border-transparent hover:border-white px-2 py-1 transition-colors duration-200"
-          >
-            Dashboard
-          </Link>
-          <Link
             href="/"
             className="mr-4 border border-transparent hover:border-white px-2 py-1 transition-colors duration-200"
           >
