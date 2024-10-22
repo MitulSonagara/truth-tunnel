@@ -61,6 +61,14 @@ const Navbar = () => {
           >
             Home
           </Link>
+          {loggedIn && (
+          <Link
+            href="/dashboard"
+            className="mr-4 border border-transparent hover:border-white px-2 py-1 transition-colors duration-200"
+          >
+            Dashboard
+          </Link>
+          )}
           <Link
             href="/contactus"
             className="mr-4 border border-transparent hover:border-white px-2 py-1 transition-colors duration-200"
@@ -94,12 +102,6 @@ const Navbar = () => {
                 />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <Link href="/dashboard" passHref>
-                  <DropdownMenuItem>Dashboard</DropdownMenuItem>
-                </Link>
-                <Link href="/" passHref>
-                  <DropdownMenuItem>Home</DropdownMenuItem>
-                </Link>
                 <DropdownMenuItem
                   onClick={() =>
                     usernameChangeModal.onOpen(session.user.username)
@@ -140,13 +142,15 @@ const Navbar = () => {
       {/* Mobile Links */}
       {isOpen && (
         <div className="md:hidden flex flex-col bg-gray-100 dark:bg-gray-800 border-t">
+        {loggedIn && (
           <Link
             href="/dashboard"
             className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700"
             onClick={() => setIsOpen(false)}
           >
             Dashboard
-          </Link>
+          </Link>)
+        }
           <Link
             href="/"
             className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700"
@@ -175,6 +179,11 @@ const Navbar = () => {
           >
             Contributors
           </Link>
+          <Link href="/sign-in">
+            <Button className="text-xs ml-3 px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200">
+                Sign In
+            </Button>
+           </Link>
           <ModeToggle /> {/* Mode toggle remains visible */}
         </div>
       )}
