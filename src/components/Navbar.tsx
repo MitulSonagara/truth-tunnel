@@ -141,7 +141,7 @@ const Navbar = () => {
 
       {/* Mobile Links */}
       {isOpen && (
-        <div className="md:hidden flex flex-col bg-gray-100 dark:bg-gray-800 border-t">
+        <div className="md:hidden flex flex-col items-center bg-gray-100 dark:bg-gray-800 border-t">
         {loggedIn && (
           <Link
             href="/dashboard"
@@ -180,7 +180,7 @@ const Navbar = () => {
             Contributors
           </Link>
           <Link href="/sign-in">
-            <Button className="text-xs ml-3 px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200">
+            <Button className="text-xs mb-2 px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200">
                 Sign In
             </Button>
            </Link>
