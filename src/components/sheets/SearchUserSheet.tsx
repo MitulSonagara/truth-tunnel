@@ -9,47 +9,50 @@ import { useSearchSheet } from "@/stores/sheets-store";
 import { User } from "@prisma/client";
 import axios from "axios";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
 import { Input } from "../ui/input";
 import { ScrollArea } from "../ui/scroll-area";
 import { suggestedUsers } from "@/lib/queries";
 import { useQuery } from "@tanstack/react-query";
+import { useDebounce } from "use-debounce";
 
 export default function SearchUserSheet() {
   const state = useSearchSheet();
-  const [query, setQuery] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState<string>("");
   const [users, setUsers] = useState<User[]>([]);
-  const [error, setError] = useState("");
-  // Query to fetch messages
-  const { data: suggestions, isLoading } = useQuery({
+  const [error, setError] = useState<string>("");
+  const [debounced] = useDebounce(query, 300); // 300ms debounce
+
+  // Query to fetch suggested users
+  const { data: suggestions, isLoading: suggestionsLoading } = useQuery({
     queryKey: ["suggested-users"],
     queryFn: suggestedUsers,
-    retry: (failureCount, error) => {
-      return false;
-    },
+    retry: false,
   });
 
   const handleSearch = async (q: string) => {
-    setLoading(true);
     setError("");
     setUsers([]);
     try {
-      const res = await axios.get(`/api/search?q=${query}`);
-      if (res.status != 200) throw new Error(res.data.error);
+      const res = await axios.get(`/api/search?q=${q}`);
+      if (res.status !== 200) throw new Error(res.data.error);
       setUsers(res.data.users);
-    } catch (e) {
+    } catch (e: any) {
       console.error("Error fetching user:", e);
-      setError("Something went wrong while fetching the user");
-    } finally {
-      setLoading(false);
+      setError("Something went wrong while fetching users.");
     }
   };
 
+  useEffect(() => {
+    if (debounced) {
+      handleSearch(debounced);
+    }
+  }, [debounced]);
+
   return (
-    <Sheet open={state.isOpen} onOpenChange={() => state.onClose()}>
+    <Sheet open={state.isOpen} onOpenChange={state.onClose}>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Find Users</SheetTitle>
@@ -60,7 +63,6 @@ export default function SearchUserSheet() {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              onSubmit={() => handleSearch(query)}
               type="search"
               placeholder="Search users..."
               className="pl-8"
@@ -73,11 +75,15 @@ export default function SearchUserSheet() {
                 <h2 className="text-sm font-semibold text-foreground mb-2">
                   Suggested Users
                 </h2>
-                <div className="space-y-4">
-                  {suggestions?.map((user) => (
-                    <UserItem key={user.id} user={user} />
-                  ))}
-                </div>
+                {suggestionsLoading ? (
+                  <p>Loading suggestions...</p>
+                ) : (
+                  <div className="space-y-4">
+                    {suggestions?.map((user) => (
+                      <UserItem key={user.id} user={user} />
+                    ))}
+                  </div>
+                )}
               </div>
             ) : (
               <div>
@@ -98,7 +104,7 @@ export default function SearchUserSheet() {
               </div>
             )}
           </ScrollArea>
-          {error && !loading && (
+          {error && (
             <div className="text-red-500 mt-2">{error}</div>
           )}
         </div>
@@ -110,7 +116,7 @@ export default function SearchUserSheet() {
 function UserItem({ user }: { user: User }) {
   const state = useSearchSheet();
   return (
-    <Link href={`/u/${user.username}`} onClick={() => state.onClose()}>
+    <Link href={`/u/${user.username}`} onClick={state.onClose}>
       <div className="flex items-center justify-between w-full py-2 hover:bg-secondary/90 rounded-md transition-colors">
         <div className="flex items-center space-x-3">
           <Avatar>

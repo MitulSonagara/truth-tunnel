@@ -6,11 +6,16 @@ import { authOptions } from "../auth/[...nextauth]/options";
 
 
 export async function GET(req: NextRequest) {
-    const searhParams = req.nextUrl.searchParams;
-
-    const query = searhParams.get("q");
+    const searchParams = req.nextUrl.searchParams; // Fixed typo
+    const query = searchParams.get("q");
     const session = await getServerSession(authOptions);
     const user = session?.user;
+
+    // Check for user session
+    if (!user) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
 
     try {
 
@@ -31,12 +36,12 @@ export async function GET(req: NextRequest) {
                     id: true
                 },
                 take: 10,
-            })
+            });
 
             return NextResponse.json({
                 users,
                 title: "Suggested Users"
-            }, { status: 200 })
+            }, { status: 200 });
         }
 
         const users = await db.user.findMany({
@@ -68,18 +73,13 @@ export async function GET(req: NextRequest) {
             }
         })
 
-
         return NextResponse.json({
             users,
             title: "Search Results"
         }, { status: 200 })
 
-
     } catch (e) {
-        console.error('Error searching recipes:', e);
+        console.error('Error searching users:', e);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-
     }
-
-
 }

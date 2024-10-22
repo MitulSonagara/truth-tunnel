@@ -64,7 +64,7 @@ const AboutPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
       <Navbar />
       <div className="container mx-auto py-16 px-4">
         <h1 className="text-5xl font-bold text-center text-red-500 mb-16">
@@ -88,13 +88,13 @@ const AboutPage = () => {
             {aboutInfo.map((info, index) => (
               <div
                 key={index}
-                className="flex flex-col items-start bg-gray-900 border border-gray-700 rounded-lg p-6 hover:bg-gray-800 hover:shadow-lg transition duration-300 cursor-pointer"
+                className="flex flex-col items-start bg-white dark:bg-gray-800 border border-gray-700 rounded-lg p-6 hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-lg transition duration-300 cursor-pointer"
               >
                 <div className="mb-4 text-red-500">{info.icon}</div>
-                <h3 className="text-2xl font-semibold mb-2 text-white">
+                <h3 className="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">
                   {info.title}
                 </h3>
-                <p className="text-gray-400">{info.description}</p>
+                <p className="text-gray-700 dark:text-gray-300">{info.description}</p>
               </div>
             ))}
           </div>
@@ -137,8 +137,6 @@ const AboutPage = () => {
             Meet Our Contributors
           </Link>
         </div>
-        <div className="text-center">
-        </div>
       </div>
     </div>
   );
@@ -152,12 +150,12 @@ interface TechnologyCardProps {
 
 const TechnologyCard: React.FC<TechnologyCardProps> = ({ icon, title, description }) => {
   return (
-    <div className="w-64 bg-gray-900 border border-gray-700 rounded-lg p-6 hover:bg-gray-800 hover:shadow-lg transition duration-300">
+    <div className="w-64 bg-white dark:bg-gray-800 border border-gray-700 rounded-lg p-6 hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-lg transition duration-300">
       <div className="mb-4 text-red-500 flex justify-center">{icon}</div>
-      <h3 className="text-2xl font-semibold mb-2 text-center text-white">
+      <h3 className="text-2xl font-semibold mb-2 text-center text-gray-900 dark:text-white">
         {title}
       </h3>
-      <p className="text-gray-400 text-center">{description}</p>
+      <p className="text-gray-700 dark:text-gray-300 text-center">{description}</p>
     </div>
   );
 };
