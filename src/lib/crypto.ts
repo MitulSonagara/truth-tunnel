@@ -1,13 +1,5 @@
 import forge from 'node-forge';
 
-// Generate RSA key pair
-export function generateKeyPair(): { publicKey: string; privateKey: string } {
-  const { privateKey, publicKey } = forge.pki.rsa.generateKeyPair(2048);
-  return {
-    publicKey: forge.pki.publicKeyToPem(publicKey),
-    privateKey: forge.pki.privateKeyToPem(privateKey),
-  };
-}
 
 // Encrypt message using the recipient's public key
 export function encryptMessage(publicKeyPem: string, message: string): string {
@@ -28,3 +20,4 @@ export function decryptMessage(privateKeyPem: string, encryptedMessage: string):
     return encryptedMessage.substring(0, 25);
   }
 }
+
