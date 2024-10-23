@@ -45,7 +45,6 @@ export default function Messages({
         // Remove the deleted message from the local messages array
         const updatedMessages = messages?.filter(message => message.id !== messageId);
         queryClient.setQueryData(["messages"], updatedMessages); // Update the cached messages
-        toast.success("Message deleted successfully");
       },
       onError: (error: any) => {
         toast.error("Error", {
