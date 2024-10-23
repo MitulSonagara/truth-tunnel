@@ -31,22 +31,21 @@ const Page = async () => {
           </div>
 
           {/* Content */}
-
-          <div className="relative z-20">
-            <h1 className="mt-10 text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
-              Secure Communication in a Dangerous World
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Experience unbreakable encryption and total anonymity. Truth
-              Tunnel: Where your secrets remain hidden.
+         <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800 p-3">
+            Secure Communication in a Dangerous World
+          </h1>
+          <div className=" flex items-center justify-center mt-2  ">
+            <p className="rounded-lg py-2 px-2 border-2 border-red-500 font-bold text-red-900  font-sans text-lg bg-red-100 shadow-md shadow-red-400 border-none">
+             Where your secrets
+              remain hidden.
             </p>
           </div>
-          <div className="relative flex z-20 items-center w-10/12 mt-10  ">
+          <div className="relative flex z-20 items-center lg:w-10/12 mt-10  ">
             <div className="w-full ml-8   ">
               <p className="text-3xl text-[#A34343] dark:text-gray-300 mb-7  font-bold ">
                 Welcome to Truth Tunnel!
               </p>
-              <p className="text-lg text-[#df6b59] dark:text-gray-300  font-semibold  mb-10 w-10/12 leading-relaxed">
+              <p className="text-lg px-2 text-[#df6b59] dark:text-gray-300  font-semibold  mb-10  lg:w-10/12 leading-relaxed">
                  Experience unparalleled privacy
                 and security in your communications. Join a community where
                 anonymity is prioritized, and your identity remains hidden.
@@ -154,8 +153,8 @@ const Page = async () => {
         </section>
         {/* Footer */}
         {/* Footer */}
-
-<footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-gray-600 dark:text-gray-400 mr-16">
+        
+        <footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-gray-600 dark:text-gray-400 mr-16">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
     <div className="text-left mb-4 sm:mb-0">
       <p>&copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum encryption.</p>

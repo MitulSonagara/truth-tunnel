@@ -121,7 +121,7 @@ const Navbar = () => {
             </DropdownMenu>
           ) : (
             <Link href="/sign-in">
-              <Button className="text-xs mr-2 px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200">
+              <Button className="text-xs mr-6 px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200">
                 Sign In
               </Button>
             </Link>
