@@ -1,3 +1,4 @@
+
 "use client";
 
 import axios, { AxiosError } from "axios";
@@ -7,7 +8,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import { Smile } from "lucide-react";
 import { useSession } from "next-auth/react";
 import {
   Form,
@@ -35,17 +37,29 @@ interface PartialUser {
   } | null;
 }
 
+type FormData = z.infer<typeof formSchema>;
+
 export default function MessagingForm({ user }: { user: PartialUser }) {
   const { status } = useSession();
   const [loading, setIsLoading] = useState<boolean>(false);
-  const form = useForm<z.infer<typeof formSchema>>({
+  const [showPicker, setShowPicker] = useState<boolean>(false);
+  
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       content: "",
     },
   });
 
-  const sendMessage = async (data: z.infer<typeof formSchema>) => {
+  const addEmoji = (emojiData: EmojiClickData) => {
+    const currentContent = form.getValues("content");
+    form.setValue("content", currentContent + emojiData.emoji, {
+      shouldValidate: true,
+    });
+    setShowPicker(false);
+  };
+
+  const sendMessage = async (data: FormData) => {
     setIsLoading(true);
     try {
       if (user.encryptionKey == null) {
@@ -66,6 +80,7 @@ export default function MessagingForm({ user }: { user: PartialUser }) {
         content: encryptedMessage,
       });
       toast.success("Success", { description: "Message sent successfully" });
+      form.reset(); // Clear the form after successful send
     } catch (error) {
       const axiosError = error as AxiosError<any>;
       let errorMessage =
@@ -105,7 +120,7 @@ export default function MessagingForm({ user }: { user: PartialUser }) {
               control={form.control}
               name="content"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormControl>
                     <Input
                       className="md:w-[40rem] rounded-xl"
@@ -117,11 +132,26 @@ export default function MessagingForm({ user }: { user: PartialUser }) {
                 </FormItem>
               )}
             />
-            <div className="flex justify-center">
+            <div className="flex gap-2 items-center relative">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowPicker(!showPicker)}
+                className="rounded-full"
+              >
+                <Smile className="h-5 w-5" />
+              </Button>
+              {showPicker && (
+                <div className="absolute top-10 right-0  z-50">
+                  <EmojiPicker onEmojiClick={addEmoji} />
+                </div>
+              )}
+              
               <Button type="submit" className="rounded-xl" disabled={loading}>
                 {loading ? (
                   <>
-                    <Loader2 className="mr-4 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Please wait
                   </>
                 ) : (
