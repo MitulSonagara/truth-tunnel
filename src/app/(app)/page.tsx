@@ -17,60 +17,53 @@ const Page = async () => {
       <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300 border-2 border-black">
         <ScrollProgressBar /> {/* Add the scroll progress bar here */}
         {/* Hero Section */}
-        <section
-          //style={{ padding: "12rem" }} -- caused issue in responsiveness
-          className="mt-10 relative z-10 py-24 px-4 sm:px-6 lg:px-8 text-center overflow-hidden"
-        >
-          {/* Checkered background */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 grid grid-cols-12 gap-2">
-              {[...Array(144)].map((_, i) => (
-                <div key={i} className="w-full h-full bg-red-600"></div>
-              ))}
-            </div>
-          </div>
+        <section className="mt-10 relative z-10 py-24 px-4 sm:px-6 lg:px-8 text-left overflow-hidden">
+  {/* Checkered background */}
+  <div className="absolute inset-0 opacity-10">
+    <div className="absolute inset-0 grid grid-cols-12 gap-2">
+      {[...Array(144)].map((_, i) => (
+        <div key={i} className="w-full h-full bg-red-600"></div>
+      ))}
+    </div>
+  </div>
 
-          {/* Content */}
+  {/* Content */}
+  <div className="relative z-20">
+    <h1 className="mt-10 text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
+      Secure Communication in a Dangerous World
+    </h1>
+    <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl">
+      Experience unbreakable encryption and total anonymity. Truth Tunnel: Where
+      your secrets remain hidden.
+    </p>
+  </div>
 
-          <div className="relative z-20">
-            <h1 className="mt-10 text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
-              Secure Communication in a Dangerous World
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Experience unbreakable encryption and total anonymity. Truth
-              Tunnel: Where your secrets remain hidden.
-            </p>
-          </div>
-          <div className="relative flex z-20 items-center w-10/12 mt-10  ">
-            <div className="w-full ml-8   ">
-              <p className="text-3xl text-[#A34343] dark:text-gray-300 mb-7  font-bold ">
-                Welcome to Truth Tunnel!
-              </p>
-              <p className="text-lg text-[#df6b59] dark:text-gray-300  font-semibold  mb-10 w-10/12 leading-relaxed">
-                 Experience unparalleled privacy
-                and security in your communications. Join a community where
-                anonymity is prioritized, and your identity remains hidden.
-                Start your journey to secure conversations today!
-              </p>
+  <div className="relative z-20 flex flex-col lg:flex-row justify-between items-center w-full lg:w-10/12 mt-10">
+    <div className="w-full lg:w-6/12">
+      <p className="text-3xl text-[#A34343] dark:text-gray-300 mb-7 font-bold">
+        Welcome to Truth Tunnel!
+      </p>
+      <p className="text-lg text-[#df6b59] dark:text-gray-300 font-semibold mb-10 leading-relaxed">
+        Experience unparalleled privacy and security in your communications.
+        Join a community where anonymity is prioritized, and your identity
+        remains hidden. Start your journey to secure conversations today!
+      </p>
 
-             
-                <Link href={session ? "/dashboard" : "/sign-in"}>
-                  <Button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-lg ">
-                    Enter the Shadows <ChevronRight className="ml-2" />
-                  </Button>
-                </Link>
-             
-            </div>
-            <div className="rounded-lg overflow-hidden shadow-lg shadow-red-400 opacity-50">
-              <Image
-                src="/assets/secret.webp"
-                width={500}
-                height={400}
-                alt=""
-              />
-            </div>
-          </div>
-        </section>
+      <Link href={session ? "/dashboard" : "/sign-in"}>
+        <Button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-lg">
+          Enter the Shadows <ChevronRight className="ml-2" />
+        </Button>
+      </Link>
+    </div>
+
+    <div className="w-full lg:w-5/12 lg:ml-auto mt-8 lg:mt-0">
+      <div className="rounded-lg overflow-hidden shadow-lg shadow-red-400 opacity-50">
+        <Image src="/assets/secret.webp" width={500} height={400} alt="Secret Image" />
+      </div>
+    </div>
+  </div>
+</section>
+
         {/* Advanced Covert Features Section */}
         <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-black">
           <h2 className="text-4xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
@@ -214,3 +207,4 @@ const Page = async () => {
 };
 
 export default Page;
+c
