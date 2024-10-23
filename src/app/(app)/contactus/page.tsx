@@ -57,6 +57,9 @@ const EnhancedFormPage = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                pattern="[a-zA-Z ]+" 
+                onInvalid={(e) => (e.target as HTMLInputElement).setCustomValidity('Please enter a valid name without numbers or special characters')}
+                onInput={(e) => (e.target as HTMLInputElement).setCustomValidity('')}
                 className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-red-500"
               />
             </div>
