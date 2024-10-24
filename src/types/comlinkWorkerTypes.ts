@@ -1,5 +1,5 @@
 // types/comlinkWorkerTypes.ts
 
 export interface IGenerateKeyWorker {
-  generateKeyPair: () => Promise<{ publicKey: string; privateKey: string }>;
+  generateKeyPair: ({ passphrase }: { passphrase: string }) => Promise<{ publicKey: string; privateKey: string }>;
 }
