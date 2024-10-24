@@ -80,7 +80,9 @@ export default function MessagingForm({ user }: { user: PartialUser }) {
         content: encryptedMessage,
       });
       toast.success("Success", { description: "Message sent successfully" });
-      form.reset(); // Clear the form after successful send
+      
+      // Reset the form after successful message sending
+      form.reset();
     } catch (error) {
       const axiosError = error as AxiosError<any>;
       let errorMessage =
