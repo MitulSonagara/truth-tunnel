@@ -80,7 +80,6 @@ export default function MessagingForm({ user }: { user: PartialUser }) {
         content: encryptedMessage,
       });
       toast.success("Success", { description: "Message sent successfully" });
-      
       // Reset the form after successful message sending
       form.reset();
     } catch (error) {
