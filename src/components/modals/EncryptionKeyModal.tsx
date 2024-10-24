@@ -75,10 +75,11 @@ export default function EncryptionKeyModal() {
 
   const handleCopyPrivateKey = () => {
     if (privateKey) {
-      navigator.clipboard.writeText(privateKey);
-      toast.success("Private Key copied to clipboard!", {
-        description: "Keep it very save.",
-      });
+        navigator.clipboard.writeText(privateKey).then(() => {
+            toast.success("Private Key copied to clipboard!", {
+              description: "Keep it very safe.",
+            });
+        });
     }
   };
 
@@ -87,6 +88,7 @@ export default function EncryptionKeyModal() {
       const newWindow = window.open();
       if (newWindow) {
         newWindow.document.write(`<pre>${privateKey}</pre>`);
+        newWindow.document.close(); // Close the document for rendering
         newWindow.print();
       }
     }
