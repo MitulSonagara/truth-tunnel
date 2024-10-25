@@ -38,7 +38,7 @@ const Page = () => {
   const encryptionModal = useChangeEncryptionKeyModal();
   const { data: session, status } = useSession();
   useEffect(() => {
-    if (user.hasEncryptionKey && !hasEncryptionKey) {
+    if (user?.hasEncryptionKey && !hasEncryptionKey) {
       encryptionModal.onOpen();
     }
   }, [hasEncryptionKey]);
