@@ -23,6 +23,7 @@ const Navbar = () => {
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const loggedIn = !!session;
+
   const usernameChangeModal = useUsernameModal();
   const changeEncryptionKeyModal = useChangeEncryptionKeyModal();
 
