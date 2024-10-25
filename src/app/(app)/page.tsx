@@ -8,14 +8,14 @@ import { getServerSession } from "next-auth";
 import ScrollToTopButton from "@/components/ScrollToTopButton"; // Import the new component
 import ScrollProgressBar from "@/components/ScrollProgressBar"; // Import the progress bar
 import Image from "next/image";
-
+import './page.css';
 const Page = async () => {
   const session = await getServerSession();
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300 border-2 border-black">
-        <ScrollProgressBar /> {/* Add the scroll progress bar here */}
+      <div className="min-h-screen -mt-10 bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
+      <ScrollProgressBar /> {/* Add the scroll progress bar here */}
         {/* Hero Section */}
         <section
           //style={{ padding: "12rem" }} -- caused issue in responsiveness
