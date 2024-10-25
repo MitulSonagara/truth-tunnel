@@ -1,5 +1,5 @@
-import forge from 'node-forge';
 
+import forge from 'node-forge';
 // Generate RSA key pair
 export function generateKeyPair(): { publicKey: string; privateKey: string } {
   const { privateKey, publicKey } = forge.pki.rsa.generateKeyPair(2048);
@@ -7,6 +7,16 @@ export function generateKeyPair(): { publicKey: string; privateKey: string } {
     publicKey: forge.pki.publicKeyToPem(publicKey),
     privateKey: forge.pki.privateKeyToPem(privateKey),
   };
+}
+
+// Helper function to convert string to UTF-8 bytes
+function stringToUtf8Bytes(str: string): string {
+  return forge.util.encodeUtf8(str);
+}
+
+// Helper function to convert UTF-8 bytes back to string
+function utf8BytesToString(bytes: string): string {
+  return forge.util.decodeUtf8(bytes);
 }
 
 // Encrypt message using the recipient's public key
