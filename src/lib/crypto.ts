@@ -24,11 +24,8 @@ export function encryptMessage(publicKeyPem: string, message: string): string {
   try {
     const publicKey = forge.pki.publicKeyFromPem(publicKeyPem);
     const utf8Message = stringToUtf8Bytes(message);  // Ensure the message is in UTF-8 format
-    const encryptedMessage = publicKey.encrypt(utf8Message, 'RSA-OAEP', {
-      md: forge.md.sha256.create(),  // Use SHA-256 for OAEP padding
-      mgf1: forge.mgf.mgf1.create(forge.md.sha256.create()),  // MGF1 mask generation
-    });
-    return forge.util.encode64(encryptedMessage);  // Base64 encode the result for transport
+    const encryptedMessage = publicKey.encrypt(message, 'RSA-OAEP');
+    return forge.util.encode64(encryptedMessage); // Base64 encode the result
   } catch (error) {
     console.error("Encryption failed:", error);
     throw new Error("Failed to encrypt message");
@@ -39,18 +36,17 @@ export function encryptMessage(publicKeyPem: string, message: string): string {
 export function decryptMessage(privateKeyPem: string, encryptedMessage: string): string {
   try {
     const privateKey = forge.pki.privateKeyFromPem(privateKeyPem);
-    const decodedMessage = forge.util.decode64(encryptedMessage);  // Decode the Base64 encoded message
-    const decryptedUtf8Bytes = privateKey.decrypt(decodedMessage, 'RSA-OAEP', {
-      md: forge.md.sha256.create(),  // Use SHA-256 for OAEP padding
-      mgf1: forge.mgf.mgf1.create(forge.md.sha256.create()),  // MGF1 mask generation
-    });
-    return utf8BytesToString(decryptedUtf8Bytes);  // Convert the decrypted UTF-8 bytes back to a string
+    const decodedMessage = forge.util.decode64(encryptedMessage);  // Ensure proper decoding
+    console.log("Decoded Message Length: ", decodedMessage.length); // Debug: log length of the decoded message
+
+    const decryptedMessage = privateKey.decrypt(decodedMessage, 'RSA-OAEP');
+    return decryptedMessage; // Return the decrypted message
   } catch (error) {
     console.error("Decryption failed:", error);
     if (typeof encryptedMessage === 'string') {
       // Fallback for non-encrypted messages
       console.log("MESSAGE IS NOT ENCRYPTED");
-      return encryptedMessage.substring(0, 25);  // Return part of the original message for verification
+      return encryptedMessage.substring(0, 25);  
     }
     throw new Error("Failed to decrypt message");
   }
