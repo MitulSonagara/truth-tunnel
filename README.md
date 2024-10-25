@@ -13,6 +13,15 @@
 <!--Line-->
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
+<!--Added Table to show repo statistics-->
+## 📈 GitHub Repository Stats
+| 🌟 **Stars** | 🍴 **Forks** | 🐛 **Issues** | 🔔 **Open PRs** | 🔕 **Closed PRs** | 🛠️ **Languages** | ✅ **Contributors** |
+|--------------|--------------|---------------|-----------------|------------------|------------------|------------------|
+| ![GitHub stars](https://img.shields.io/github/stars/MitulSonagara/truth-tunnel) | ![forks](https://img.shields.io/github/forks/MitulSonagara/truth-tunnel) | ![issues](https://img.shields.io/github/issues/MitulSonagara/truth-tunnel?color=32CD32) | ![pull requests](https://img.shields.io/github/issues-pr/MitulSonagara/truth-tunnel?color=FFFF8F) | ![Closed PRs](https://img.shields.io/github/issues-pr-closed/MitulSonagara/truth-tunnel?color=20B2AA) | ![Languages](https://img.shields.io/github/languages/count/MitulSonagara/truth-tunnel?color=20B2AA) | ![Contributors](https://img.shields.io/github/contributors/MitulSonagara/truth-tunnel?color=00FA9A) |
+
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
+
 <!-- Added Hacktoberfest 2024 and GSSoc Extended 2024 banners -->
 ### This project is now OFFICIALLY accepted for
 
