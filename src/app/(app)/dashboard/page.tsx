@@ -3,7 +3,7 @@ import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { User } from "next-auth";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ import {
   Loader2,
   RefreshCcw,
   Search,
-  Copy
+  Copy,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useDeleteModal } from "@/stores/modals-store";
@@ -33,7 +33,6 @@ import Messages from "@/components/Messages";
 import { useCheckEncryptionKey } from "@/hooks/check-encryptionkey";
 import { useProfileUrl } from "@/hooks/useProfileUrl";
 
-import SearchUser from "@/components/search";
 import checkAndSaveKeys from "@/helpers/checkAndSaveKeys";
 
 import { useSearchSheet } from "@/stores/sheets-store";
