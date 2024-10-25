@@ -3,14 +3,22 @@ import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { User } from "next-auth";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import Navbar from "@/components/Navbar";
 import { Separator } from "@/components/ui/separator";
-import { Copy, ListX, Loader2, RefreshCcw, Search } from "lucide-react";
+import {
+  Edit3,
+  GlobeLockIcon,
+  ListX,
+  Loader2,
+  RefreshCcw,
+  Search,
+  Copy,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useDeleteModal } from "@/stores/modals-store";
 import GenerateEncryptionAlert from "@/components/alerts/generate-encryption-alert";
@@ -25,13 +33,43 @@ import Messages from "@/components/Messages";
 import { useCheckEncryptionKey } from "@/hooks/check-encryptionkey";
 import { useProfileUrl } from "@/hooks/useProfileUrl";
 
+import checkAndSaveKeys from "@/helpers/checkAndSaveKeys";
+
 import { useSearchSheet } from "@/stores/sheets-store";
 
 const Page = () => {
   const hasEncryptionKey = useCheckEncryptionKey();
 
   const deleteMessagesModal = useDeleteModal();
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
+
+  useEffect(() => {
+    const generateKeysIfNeeded = async () => {
+      if (!hasEncryptionKey) {
+        try {
+          // checks and generates key and save in IndexDB
+          const success = await checkAndSaveKeys();
+          if (success) {
+            await update({
+              type: "change_key",
+              key: true,
+            });
+            window.location.reload();
+          } else {
+            toast.error("Error", {
+              description: "Failed to auto generate keys",
+            });
+          }
+        } catch (error) {
+          toast.error("Error", {
+            description: "An unexpected error occurred while generating keys",
+          });
+        }
+      }
+    };
+
+    generateKeysIfNeeded();
+  }, [hasEncryptionKey, update]);
 
   const queryClient = useQueryClient();
   const searchSheet = useSearchSheet();
@@ -110,8 +148,8 @@ const Page = () => {
     <>
       <Navbar />
       <div className="my-8 mt-10 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-screen max-w-6xl">
-        {!user.hasEncryptionKey && <GenerateEncryptionAlert />}
-        {!hasEncryptionKey && <AddEncryptionAlert />}
+        {session && !user.hasEncryptionKey && <GenerateEncryptionAlert />}
+        {session && !hasEncryptionKey && <AddEncryptionAlert />}
         <h1 className="text-4xl font-bold mb-4">Hi {user.username},</h1>
         <div className="mb-4">
           <div className="mt-2 border p-2 rounded-2xl flex items-center gap-3">
