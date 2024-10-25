@@ -45,7 +45,6 @@ export default function ChangeEncryptionKeyModal() {
           });
           return;
         }
-        console.log(decodedKey);
         await savePrivateKey(decodedKey);
         toast.success("keys unlocked and saved!");
         router.push("/dashboard");
