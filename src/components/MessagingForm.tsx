@@ -65,16 +65,16 @@ export default function MessagingForm({ user }: { user: PartialUser }) {
       if (user.encryptionKey == null) {
         toast.error("Error", {
           description:
-            "You can't send message until they generate a encryption key",
+            "You can't send message until they generate an encryption key",
         });
         return;
       }
-
+  
       const encryptedMessage = encryptMessage(
         user.encryptionKey.publicKey,
         data.content
       );
-
+  
       const res = await axios.post("/api/messages/send", {
         username: user.username,
         content: encryptedMessage,
@@ -92,7 +92,7 @@ export default function MessagingForm({ user }: { user: PartialUser }) {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <div className="flex justify-center">
       <div className="p-3 flex gap-2 flex-col">
@@ -124,10 +124,18 @@ export default function MessagingForm({ user }: { user: PartialUser }) {
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormControl>
-                    <Input
-                      className="md:w-[40rem] rounded-xl"
+                    <textarea
+                      className="md:w-[40rem] rounded-xl p-2"
                       placeholder="Enter messages here"
                       {...field}
+                      onKeyDown={(e) => {
+                        // Handle Enter without Shift (submit the form)
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault(); // Prevents default submit behavior
+                          form.handleSubmit(sendMessage)(); // Trigger form submission
+                        }
+                        // Allow Shift + Enter to create new lines
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
