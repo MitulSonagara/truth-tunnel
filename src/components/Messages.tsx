@@ -9,17 +9,16 @@ import { toast } from "sonner";
 import { useDecryptedMessages } from "@/hooks/use-decrypt-message";
 import { Loader2 } from "lucide-react";
 
-
 export default function Messages({
   messages,
 }: {
   messages: Message[] | undefined;
 }) {
   const queryClient = useQueryClient();
-  
+
   // State to track loading for each message
   const [loadingMessageId, setLoadingMessageId] = useState<string | null>(null);
-  
+
   // Mutation to delete a message
   const deleteMessageMutation = useMutation({
     mutationFn: deleteMessage,
@@ -43,17 +42,19 @@ export default function Messages({
     deleteMessageMutation.mutate(messageId, {
       onSuccess: () => {
         // Remove the deleted message from the local messages array
-        const updatedMessages = messages?.filter(message => message.id !== messageId);
+        const updatedMessages = messages?.filter(
+          (message) => message.id !== messageId
+        );
         queryClient.setQueryData(["messages"], updatedMessages); // Update the cached messages
       },
       onError: (error: any) => {
         toast.error("Error", {
-          description: error.response?.data.message || "Failed to delete message",
+          description:
+            error.response?.data.message || "Failed to delete message",
         });
       },
     });
   };
-  
 
   const messageContents = messages?.map((message) => message.content) || [];
   const { decryptedMessages, loading } = useDecryptedMessages(messageContents); // Use the custom hook
