@@ -10,7 +10,15 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import Navbar from "@/components/Navbar";
 import { Separator } from "@/components/ui/separator";
-import { Copy, ListX, Loader2, RefreshCcw, Search } from "lucide-react";
+import {
+  Edit3,
+  GlobeLockIcon,
+  ListX,
+  Loader2,
+  RefreshCcw,
+  Search,
+  Copy,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   useChangeEncryptionKeyModal,
@@ -29,6 +37,8 @@ import Messages from "@/components/Messages";
 import { useCheckEncryptionKey } from "@/hooks/check-encryptionkey";
 import { useProfileUrl } from "@/hooks/useProfileUrl";
 
+import checkAndSaveKeys from "@/helpers/checkAndSaveKeys";
+
 import { useSearchSheet } from "@/stores/sheets-store";
 
 const Page = () => {
@@ -42,6 +52,7 @@ const Page = () => {
       encryptionModal.onOpen();
     }
   }, [hasEncryptionKey]);
+
 
   const queryClient = useQueryClient();
   const searchSheet = useSearchSheet();
