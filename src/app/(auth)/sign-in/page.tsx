@@ -24,6 +24,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Loader2 } from "lucide-react"; // Import Loader component
 import LoaderOverlay from "@/components/Loader";
 import Navbar from "@/components/Navbar";
+import useCheckAndSaveKeys from "@/helpers/checkAndSaveKeys";
 
 const Page = () => {
   const router = useRouter();
@@ -85,7 +86,6 @@ const Page = () => {
         {showLoaderOverlay && <LoaderOverlay />}
         {/* Outer container */}
         <div
-
           className="mt-10 w-full bg-gray-200
          dark:bg-transparent max-w-md border-gray-200
 
@@ -178,19 +178,19 @@ const Page = () => {
 
           {/* Sign Up and Forgot Password */}
           <div className="flex justify-between items-center mt-2">
-  <div className="text-sm">
-    <div>Don{"'"}t have an account?</div>
-    <Link
-      href="/sign-up"
-      className="text-blue-600 hover:text-blue-800"
-    >
-      Sign Up
-    </Link>
-  </div>
-  <div className="text-red-500 text-sm">
-    <Link href="/forgot-password/email">Forgot Password?</Link>
-  </div>
-</div>
+            <div className="text-sm">
+              <div>Don{"'"}t have an account?</div>
+              <Link
+                href="/sign-up"
+                className="text-blue-600 hover:text-blue-800"
+              >
+                Sign Up
+              </Link>
+            </div>
+            <div className="text-red-500 text-sm">
+              <Link href="/forgot-password/email">Forgot Password?</Link>
+            </div>
+          </div>
 
           {/* Back to Home Button */}
           <div className="text-center mt-4">

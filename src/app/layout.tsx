@@ -9,6 +9,7 @@ import { authOptions } from "./api/auth/[...nextauth]/options";
 import Modals from "@/context/ModalProvider";
 import QueryProvider from "@/context/QueryProvider";
 import NextTopLoader from "nextjs-toploader";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,11 +28,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(authOptions);
+
   return (
     <>
       <html lang="en" suppressHydrationWarning>
-        <QueryProvider>
-          <AuthProvider session={session}>
+        <AuthProvider session={session}>
+          <QueryProvider>
             <body className={inter.className}>
               <ThemeProvider
                 attribute="class"
@@ -47,10 +49,29 @@ export default async function RootLayout({
                 {children}
                 <Toaster richColors expand={true} />
                 <Modals />
+                <Script
+                  id="chatbase-full-embed"
+                  strategy="beforeInteractive"
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      window.embeddedChatbotConfig = {
+                        chatbotId: "R-6622MFJRjEGXxJTsXD4",
+                        domain: "www.chatbase.co"
+                      };
+
+                      (function() {
+                        var s = document.createElement("script");
+                        s.src = "https://www.chatbase.co/embed.min.js";
+                        s.defer = true;
+                        document.body.appendChild(s);
+                      })();
+                    `,
+                  }}
+                />
               </ThemeProvider>
             </body>
-          </AuthProvider>
-        </QueryProvider>
+          </QueryProvider>
+        </AuthProvider>
       </html>
     </>
   );
