@@ -95,6 +95,7 @@ const EnhancedFormPage = () => {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   required
+                  pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                   className="w-full py-2 pl-4 text-sm border border-gray-300 dark:text-white rounded-full focus:outline-none focus:ring focus:ring-red-500"
                 />
               </div>
