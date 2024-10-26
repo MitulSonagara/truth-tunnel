@@ -38,12 +38,12 @@ const EnhancedFormPage = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300 flex items-center justify-center">
-        <div className="flex items-center justify-between w-9/12 h-[90vh] bg-white dark:bg-gray-800 rounded-lg gap-8 shadow-lg shadow-blue-950 dark:shadow-blue-200 overflow-hidden">
+      <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-300 flex items-center justify-center px-6 md:px-0 ">
+        <div className="flex items-center justify-between md:w-4/12 w-full py-6 md:h-[90vh] bg-red-100 dark:bg-black  rounded-lg gap-8 shadow-lg shadow-red-700 dark:border-red-200 dark:border-2  dark:shadow-red-200 overflow-hidden">
           
           {/* Form Container */}
-          <div className="dark:bg-gray-800 h-full px-16 w-[50vw] bg-gradient-to-r from-[#CBE5FC] via-blue-300 to-[#AED0FB] flex flex-col justify-center">
-            <h1 className="text-3xl font-bold mb-6 text-center text-[#091057]">
+          <div className=" h-full md:px-16 px-6 w-full flex flex-col justify-center ">
+            <h1 className="md:text-3xl text-xl font-bold mb-6 text-center text-red-700 dark:text-red-500 underline underline-offset-4">
               Contact Us
             </h1>
 
@@ -53,7 +53,7 @@ const EnhancedFormPage = () => {
             <form onSubmit={handleSubmit} className="space-y-6 text-[#091057]">
               {/* Name */}
               <div className="relative">
-                <label className="flex items-center text-sm mb-1 ml-2 font-semibold" htmlFor="name">
+                <label className="flex items-center md:text-sm text-xs mb-1 ml-2 font-semibold text-red-700 dark:text-white" htmlFor="name">
                   <FaUser className="mr-2" /> Name
                 </label>
                 <input
@@ -69,7 +69,7 @@ const EnhancedFormPage = () => {
 
               {/* Email */}
               <div className="relative">
-                <label className="flex items-center text-sm mb-1 ml-2 font-semibold" htmlFor="email">
+                <label className="flex items-center md:text-sm text-xs  mb-1 ml-2 font-semibold text-red-700 dark:text-white" htmlFor="email">
                   <FaEnvelope className="mr-2" /> Email
                 </label>
                 <input
@@ -85,7 +85,7 @@ const EnhancedFormPage = () => {
 
               {/* Phone */}
               <div className="relative">
-                <label className="flex items-center text-sm mb-1 ml-2 font-semibold" htmlFor="phone">
+                <label className="flex items-center md:text-sm text-xs  mb-1 ml-2 font-semibold text-red-700 dark:text-white" htmlFor="phone">
                   <FaPhoneAlt className="mr-2" /> Phone Number
                 </label>
                 <input
@@ -101,7 +101,7 @@ const EnhancedFormPage = () => {
 
               {/* Category */}
               <div className="relative">
-                <label className="flex items-center text-sm mb-1 ml-2  font-semibold" htmlFor="category">
+                <label className="flex items-center md:text-sm text-xs  mb-1 ml-2  font-semibold text-red-700 dark:text-white" htmlFor="category">
                   <BiSolidCategoryAlt className="mr-2"/>Category
                 </label>
                 <select
@@ -120,7 +120,7 @@ const EnhancedFormPage = () => {
 
               {/* Message */}
               <div className="relative">
-                <label className="flex items-center text-sm mb-1 ml-2 font-semibold" htmlFor="message">
+                <label className="flex items-center md:text-sm text-xs  mb-1 ml-2 font-semibold text-red-700 dark:text-white" htmlFor="message">
                   <FaRegCommentDots className="mr-2" /> Message
                 </label>
                 <textarea
@@ -136,7 +136,7 @@ const EnhancedFormPage = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-red-600 text-sm font-semibold text-white py-2 rounded-full hover:bg-red-500 transition duration-200"
+                className="w-full bg-red-600 md:text-sm text-xs  font-semibold text-white py-2 rounded-full hover:bg-red-500 transition duration-200"
               >
                 Submit
               </button>
@@ -144,15 +144,15 @@ const EnhancedFormPage = () => {
           </div>
 
           {/* Image Section */}
-          <div className="h-[90vh] flex items-end w-[40vw]">
+          {/* <div className="h-[90vh] flex items-end w-[40vw]">
             <Image
-              src="/assets/contact.png"
+              src="/assets/contact.webp"
               width={500}
               height={400}
               alt="Contact"
               className="h-[70vh]"
             />
-          </div>
+          </div> */}
         </div>
 
         <ScrollToTopButton />
