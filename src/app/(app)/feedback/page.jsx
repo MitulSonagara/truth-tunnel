@@ -1,83 +1,141 @@
-// feedback/FeedbackForm.jsx
+"use client"; // This line makes the component a Client Component
+
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import Navbar from "@/components/Navbar"; // Optional: Reuse Navbar
+import ScrollToTopButton from "@/components/ScrollToTopButton"; // Optional: ScrollToTop Button
 
 const FeedbackForm = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [feedback, setFeedback] = useState('');
-  const [submissionMessage, setSubmissionMessage] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [category, setCategory] = useState("General Feedback");
+  const [message, setMessage] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
 
-    // For demonstration, log the feedback data to the console
-    console.log("Feedback Submitted:", { name, email, feedback });
+    if (!name || !email || !phone || !message) {
+      setError("Please fill in all fields.");
+      return;
+    }
 
-    // Here, implement an API call to submit feedback if needed
-    // Example: await fetch('/api/feedback', { method: 'POST', body: JSON.stringify({ name, email, feedback }) });
-
-    // Clear the form and show a submission message
-    setName('');
-    setEmail('');
-    setFeedback('');
-    setSubmissionMessage('Thank you for your feedback!');
+    console.log("Feedback submitted:", { name, email, phone, category, message }); // Replace with your submission logic
+    setSubmitted(true);
+    setName("");
+    setEmail("");
+    setPhone("");
+    setCategory("General Feedback");
+    setMessage("");
   };
 
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-black text-center">
-      <h2 className="text-4xl font-bold mb-8 text-red-600 dark:text-red-400">
-        We Value Your Feedback
-      </h2>
-      <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
-        Please share your thoughts on our security measures and how we can improve.
-      </p>
-      <form className="max-w-lg mx-auto space-y-4" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name" className="block text-left font-semibold">Your Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border rounded-lg w-full px-4 py-2"
-            required
-          />
+    <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
+      <Navbar /> {/* Optional: Navbar */}
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="bg-white dark:bg-gray-800 rounded shadow-lg p-6 max-w-md w-full">
+          <h1 className="text-2xl font-bold mb-6 text-center">Feedback Form</h1>
+
+          {submitted && (
+            <p className="text-green-500 mb-4">
+              Thank you for your feedback!
+            </p>
+          )}
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-2" htmlFor="name">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-red-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2" htmlFor="email">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-red-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2" htmlFor="phone">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-red-500"
+              />
+            </div>
+
+            <div>
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="category"
+              >
+                Feedback Type
+              </label>
+              <select
+                id="category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-red-500"
+              >
+                <option value="General Feedback">General Feedback</option>
+                <option value="Website Issue">Website Issue</option>
+                <option value="Product Inquiry">Product Inquiry</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div>
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="message"
+              >
+                Message
+              </label>
+              <textarea
+                id="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-red-500"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-500 transition duration-200"
+            >
+              Submit
+            </button>
+          </form>
         </div>
-        <div>
-          <label htmlFor="email" className="block text-left font-semibold">Your Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border rounded-lg w-full px-4 py-2"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="feedback" className="block text-left font-semibold">Your Feedback:</label>
-          <textarea
-            id="feedback"
-            value={feedback}
-            onChange={(e) => setFeedback(e.target.value)}
-            className="border rounded-lg w-full px-4 py-2"
-            rows="4"
-            required
-          />
-        </div>
-        <Button
-          type="submit"
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
-        >
-          Submit Feedback
-        </Button>
-      </form>
-      {submissionMessage && <p className="mt-4 text-green-500">{submissionMessage}</p>}
-    </section>
+      </div>
+      <ScrollToTopButton /> {/* Optional */}
+    </div>
   );
 };
 
 export default FeedbackForm;
-
