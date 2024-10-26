@@ -37,8 +37,6 @@ import Messages from "@/components/Messages";
 import { useCheckEncryptionKey } from "@/hooks/check-encryptionkey";
 import { useProfileUrl } from "@/hooks/useProfileUrl";
 
-import checkAndSaveKeys from "@/helpers/checkAndSaveKeys";
-
 import { useSearchSheet } from "@/stores/sheets-store";
 
 const Page = () => {
@@ -52,7 +50,6 @@ const Page = () => {
       encryptionModal.onOpen();
     }
   }, [hasEncryptionKey]);
-
 
   const queryClient = useQueryClient();
   const searchSheet = useSearchSheet();
