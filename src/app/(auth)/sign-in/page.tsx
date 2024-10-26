@@ -24,7 +24,6 @@ import { Eye, EyeOff } from "lucide-react";
 import { Loader2 } from "lucide-react"; // Import Loader component
 import LoaderOverlay from "@/components/Loader";
 import Navbar from "@/components/Navbar";
-import useCheckAndSaveKeys from "@/helpers/checkAndSaveKeys";
 
 const Page = () => {
   const router = useRouter();
