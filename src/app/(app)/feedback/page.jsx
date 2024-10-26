@@ -1,8 +1,8 @@
-"use client"; // This line makes the component a Client Component
+"use client"; 
 
 import React, { useState } from "react";
-import Navbar from "@/components/Navbar"; // Optional: Reuse Navbar
-import ScrollToTopButton from "@/components/ScrollToTopButton"; // Optional: ScrollToTop Button
+import Navbar from "@/components/Navbar"; 
+import ScrollToTopButton from "@/components/ScrollToTopButton"; 
 
 const FeedbackForm = () => {
   const [name, setName] = useState("");
