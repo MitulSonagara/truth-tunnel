@@ -1,0 +1,29 @@
+/* Global styles (e.g., in styles/globals.css) or a CSS module */
+::-webkit-scrollbar {
+    width: 12px;
+     /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* Make the track transparent */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888; /* Grey scrollbar color */
+    border-radius: 12px; /* Rounded corners for oval shape */
+    width: 12px; /* Set width to match scrollbar width */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color when hovered */
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #333; /* Color when active */
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin; /* Use "auto" or "thin" */
+    scrollbar-color: #888 transparent; /* Thumb color and transparent track color */
+}
