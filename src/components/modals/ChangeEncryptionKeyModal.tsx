@@ -11,49 +11,44 @@ import {
 } from "../ui/alert-dialog";
 import { toast } from "sonner";
 import axios from "axios";
-import { decryptMessage } from "@/lib/crypto";
 import { Button } from "../ui/button";
 import {
   useChangeEncryptionKeyModal,
   useForgetEncryptionKeyModal,
 } from "@/stores/modals-store";
 import { savePrivateKey } from "@/lib/indexedDB";
+import { decryptPrivateKey } from "@/workers/crypto";
+import { useRouter } from "nextjs-toploader/app";
 
 export default function ChangeEncryptionKeyModal() {
   const modal = useChangeEncryptionKeyModal();
   const forgetEncryptionModal = useForgetEncryptionKeyModal();
-  const [privateKey, setPrivateKey] = useState<string | null>(null);
+  const [secretPass, setsecretPass] = useState<string | null>(null);
   const [loading, setLoading] = useState(false); // Loading state for request
-
+  const router = useRouter();
   const handleSaveKey = async () => {
     setLoading(true); // Start loading
     try {
-      if (privateKey == null) {
+      if (secretPass == null) {
         toast.error("Error", {
-          description: "Please enter validate Encryption key",
+          description: "Please enter validate Secret Passphase",
         });
       } else {
         // Fetch the encrypted message from the server
-        const { data } = await axios.get("/api/check/encryption");
+        const { data } = await axios.get("/api/keys");
 
         // Decrypt the message
-        const decodedMessage = decryptMessage(privateKey, data.message);
-        await savePrivateKey(privateKey);
-        if (decodedMessage == "secured") {
-          toast.success("Encryption key is saved!");
-          modal.onClose();
-          return;
-        }
-        if (decodedMessage == "unsecured") {
-          toast.info("Encryption key is saved!", {
-            description: "Please generate new encryption key.",
+        const decodedKey = decryptPrivateKey(data.encryptedKey, secretPass);
+        if (decodedKey == null) {
+          toast.error("Wrong Encryption key", {
+            description: "Please check Secret Passphase again or create new.",
           });
-          modal.onClose();
           return;
         }
-        toast.error("Wrong Encryption key", {
-          description: "Please check encyption key again or create new.",
-        });
+        await savePrivateKey(decodedKey);
+        toast.success("keys unlocked and saved!");
+        router.push("/dashboard");
+        modal.onClose();
       }
     } catch (error) {
       console.error("Error saving key:", error);
@@ -70,17 +65,17 @@ export default function ChangeEncryptionKeyModal() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="text-xl font-bold mb-4">
-            Add Encryption Keys
+            Unlock Encryption Keys
           </AlertDialogTitle>
 
           <>
-            <h3 className="text-lg font-semibold mb-2">Your Private Key</h3>
-            <textarea
+            <h3 className="text-lg font-semibold mb-2">
+              Your Secret Passphrase
+            </h3>
+            <input
               className="w-full p-2 border rounded mb-4 overflow-hidden"
-              value={privateKey ?? ""}
-              onChange={(e) => setPrivateKey(e.target.value)}
-              rows={6}
-              minLength={100}
+              value={secretPass ?? ""}
+              onChange={(e) => setsecretPass(e.target.value)}
             />
           </>
         </AlertDialogHeader>
