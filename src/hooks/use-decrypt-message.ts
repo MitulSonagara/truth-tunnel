@@ -13,18 +13,19 @@ export const useDecryptedMessages = (messages: string[]) => {
       const newLoading = new Array(messages.length).fill(true); // Create a new loading array
 
       const decrypted = await Promise.all(messages.map(async (message, index) => {
-        if (privateKey) {
-          try {
+        try {
+          if (privateKey) {
             const decryptedMessage = decryptMessage(privateKey, message);
             newLoading[index] = false; // Set loading to false for this index
             return decryptedMessage;
-          } catch {
-            newLoading[index] = false; // Set loading to false even if there's an error
-            return "Error decrypting message.";
+          } else {
+            newLoading[index] = false; // Set loading to false if no private key
+            return "Message is encrypted.";
           }
-        } else {
-          newLoading[index] = false; // Set loading to false if no private key
-          return "Message is encrypted.";
+        } catch {
+          return "Error decrypting message.";
+        } finally {
+          newLoading[index] = false;
         }
       }));
 
@@ -38,4 +39,3 @@ export const useDecryptedMessages = (messages: string[]) => {
 
   return { decryptedMessages, loading };
 };
-    

@@ -43,8 +43,6 @@ const Page = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof resetPasswordSchema>) => {
-    console.log("hee");
-
     try {
       const response = await axios.post(`/api/forgot-password/newpassword`, {
         username: params.username,
