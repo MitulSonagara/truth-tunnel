@@ -38,19 +38,19 @@ const EnhancedFormPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
       <Navbar /> {/* Optional: Navbar */}
-      <div className="flex items-center justify-center min-h-screen -mt-6">
+      <div className="flex items-center justify-center min-h-screen mt-6 sm:mt-10"> {/* Adjusted margin for mobile view */}
         {/* Contact Us Container */}
         <div className="bg-white bg-opacity-80 dark:bg-gray-800 dark:bg-opacity-80 rounded shadow-lg p-8 w-11/12 max-w-4xl flex flex-col items-center">
           
           {/* Gradient Heading */}
-          <h1 className="text-3xl font-bold -ml-20 mb-8 text-center bg-red-500 from-red-500 to-white text-transparent bg-clip-text">
+          <h1 className="text-3xl font-bold mb-8 text-center bg-red-500 from-red-500 to-white text-transparent bg-clip-text">
             Contact Us
           </h1>
 
           {/* Information & Form Container */}
-          <div className="flex w-full">
+          <div className="flex flex-col sm:flex-row w-full">
             {/* Left Side: Contact Information */}
-            <div className="flex flex-col space-y-6 w-1/3 mr-8 mt-4">
+            <div className="flex flex-col space-y-6 w-full sm:w-1/3 sm:mr-8 mt-4">
               <div className="flex flex-col items-center">
                 <Image src={locationIcon} alt="Location" width={40} height={40} className="mb-1" />
                 <span className="font-bold">Location:</span>
@@ -69,7 +69,7 @@ const EnhancedFormPage = () => {
             </div>
 
             {/* Right Side: Form */}
-            <div className="flex-1">
+            <div className="flex-1 mt-8 sm:mt-0">
               {submitted && (
                 <p className="text-green-500 mb-4">Thank you for your submission!</p>
               )}
