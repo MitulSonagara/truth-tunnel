@@ -9,6 +9,7 @@ import ScrollToTopButton from "@/components/ScrollToTopButton"; // Import the ne
 import ScrollProgressBar from "@/components/ScrollProgressBar"; // Import the progress bar
 import Image from "next/image";
 import './page.css';
+import FAQ from "../faq/page";
 const Page = async () => {
   const session = await getServerSession();
   return (
@@ -151,6 +152,7 @@ const Page = async () => {
             </Button>
           </Link>
         </section>
+
         {/* Footer */}
         {/* Footer */}
         
