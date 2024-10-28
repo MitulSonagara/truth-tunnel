@@ -40,7 +40,7 @@ const EnhancedFormPage: React.FC = () => {
       <Navbar /> {/* Optional: Navbar */}
       <div className="flex items-center justify-center min-h-screen mt-6 sm:mt-10"> {/* Adjusted margin for mobile view */}
         {/* Contact Us Container */}
-        <div className="bg-white bg-opacity-80 dark:bg-gray-800 dark:bg-opacity-80 rounded shadow-lg p-8 w-11/12 max-w-4xl flex flex-col items-center">
+        <div className="mb-16 bg-white bg-opacity-80 dark:bg-gray-800 dark:bg-opacity-80 rounded shadow-lg p-8 w-11/12 max-w-4xl flex flex-col items-center">
           
           {/* Gradient Heading */}
           <h1 className="text-3xl font-bold mb-8 text-center bg-red-500 from-red-500 to-white text-transparent bg-clip-text">
@@ -107,17 +107,18 @@ const EnhancedFormPage: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <select
-                    id="category"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full p-2 border-b border-gray-300 rounded-none bg-transparent focus:outline-none focus:ring-0 focus:border-red-500"
-                  >
-                    <option value="General Inquiry">General Inquiry</option>
-                    <option value="Feedback">Feedback</option>
-                    <option value="Support">Support</option>
-                    <option value="Other">Other</option>
-                  </select>
+                <select
+  id="category"
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+  className="w-full p-2 border-b border-gray-300 rounded-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-0 focus:border-red-500"
+>
+  <option value="General Inquiry">General Inquiry</option>
+  <option value="Feedback">Feedback</option>
+  <option value="Support">Support</option>
+  <option value="Other">Other</option>
+</select>
+
                 </div>
                 <div>
                   <textarea
