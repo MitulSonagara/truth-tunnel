@@ -8,16 +8,16 @@ import locationIcon from "./location.png"; // Adjust the path if needed
 import phoneIcon from "./phone.png"; // Adjust the path if needed
 import emailIcon from "./gmail.png"; // Adjust the path if needed
 
-const EnhancedFormPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [category, setCategory] = useState("General Inquiry");
-  const [message, setMessage] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
+const EnhancedFormPage: React.FC = () => {
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [category, setCategory] = useState<string>("General Inquiry");
+  const [message, setMessage] = useState<string>("");
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
