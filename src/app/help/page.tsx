@@ -15,13 +15,16 @@ const popularTopics = [
 export default function HelpCenterPage() {
   return (
     <div className="mx-20">
-      <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 text-center mb-10">How can we help you?</h1>
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 text-center mb-10" data-aos='zoom-in'>How can we help you?</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-        {popularTopics.map((topic) => (
+        {popularTopics.map((topic, index) => (
           <Link
             href={`/help/${topic.id}`}
             key={topic.id}
             className="h-[220px] bg-white dark:bg-gray-700 shadow-md rounded-lg p-6 border border-gray-200 dark:border-gray-600 hover:shadow-lg transition-shadow cursor-pointer"
+            data-aos='fade-up'
+            data-aos-delay={index * 100}
+            data-aos-offset='60'
           >
             <div className="text-4xl text-center mb-4">{topic.icon}</div>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 text-center">{topic.title}</h3>

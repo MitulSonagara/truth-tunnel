@@ -110,8 +110,8 @@ const Testimonial = () => {
 
     return (
         <div>
-            <h1 className='text-center text-3xl font-bold text-red-600'>See what our client say&apos;s about us </h1>
-            <div className="slider" style={{ position: 'relative', marginTop: '100px', width: '100%', height: '550px', overflow: 'hidden' }}>
+            <h1 className='text-center text-3xl font-bold text-red-600' data-aos='zoom-in'>See what our client say&apos;s about us </h1>
+            <div className="slider" style={{ position: 'relative', marginTop: '100px', width: '100%', height: '550px', overflow: 'hidden' }} data-aos='fade-up'>
                 {items.map((item, index) => (
                     <div className={`item max-sm:!w-[300px] max-sm:!h-[430px] ${resolvedTheme === 'light' ? 'bg-[#f0dee0] text-red-800' : 'bg-gradient-to-br from-red-500 to-red-800 text-white'} `} key={index} style={{
                         position: 'absolute',

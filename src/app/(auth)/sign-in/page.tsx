@@ -81,7 +81,7 @@ const Page = () => {
       <div className="max-h-screen-lg mx-auto">
         <Navbar />
       </div>
-      <div className="flex  justify-center items-center h-full mt-8 ">
+      <div className="flex  justify-center items-center h-full mt-8 " data-aos='zoom-in'>
         {showLoaderOverlay && <LoaderOverlay />}
         {/* Outer container */}
         <div

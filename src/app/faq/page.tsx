@@ -42,95 +42,98 @@ const FAQ = () => {
 
   return (
     <>
-    <Navbar/>
-    <div className="py-10 px-4 sm:px-6 lg:px-8 dark:bg-black min-h-screen">
-      <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
-          Frequently Asked Questions
-        </h1>
-        <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-          Find answers to common questions about Truth-Tunnel&apos;s features and security.
-        </p>
-      </div>
+      <Navbar />
+      <div className="py-10 px-4 sm:px-6 lg:px-8 dark:bg-black min-h-screen">
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
+            Frequently Asked Questions
+          </h1>
+          <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+            Find answers to common questions about Truth-Tunnel&apos;s features and security.
+          </p>
+        </div>
 
-      <div className="space-y-6 max-w-4xl mx-auto">
-        {faqData.map((faq, index) => (
-          <div
-            key={index}
-            onClick={() => toggleFAQ(index)}
-            className="cursor-pointer bg-white dark:bg-gray-900 border p-6 rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 transform hover:scale-105"
-          >
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-md text-gray-700 dark:text-white">
-                {faq.question}
-              </h3>
-              <span>
-                {activeIndex === index ? (
-                  <IoIosArrowUp className="text-2xl text-red-600" />
-                ) : (
-                  <IoIosArrowDown className="text-2xl text-red-600" />
-                )}
-              </span>
+        <div className="space-y-6 max-w-4xl mx-auto">
+          {faqData.map((faq, index) => (
+            <div
+              key={index}
+              onClick={() => toggleFAQ(index)}
+              className="cursor-pointer bg-white dark:bg-gray-900 border p-6 rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 transform hover:scale-105"
+              data-aos='fade-up'
+              data-aos-delay={index * 100}
+              data-aos-offset='60'
+            >
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-md text-gray-700 dark:text-white">
+                  {faq.question}
+                </h3>
+                <span>
+                  {activeIndex === index ? (
+                    <IoIosArrowUp className="text-2xl text-red-600" />
+                  ) : (
+                    <IoIosArrowDown className="text-2xl text-red-600" />
+                  )}
+                </span>
+              </div>
+              {activeIndex === index && (
+                <p className="mt-4 text-gray-600 dark:text-gray-400">
+                  {faq.answer}
+                </p>
+              )}
             </div>
-            {activeIndex === index && (
-              <p className="mt-4 text-gray-600 dark:text-gray-400">
-                {faq.answer}
-              </p>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
 
-    <footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-gray-600 dark:text-gray-400 mr-16">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
-    <div className="text-left mb-4 sm:mb-0">
-      <p>&copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum encryption.</p>
-      <p className="mt-2">
-        <Link href="/terms" className="text-red-600 hover:text-red-800">Terms of Use</Link>
-      </p>
-    </div>
+      <footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-gray-600 dark:text-gray-400 mr-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
+          <div className="text-left mb-4 sm:mb-0">
+            <p>&copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum encryption.</p>
+            <p className="mt-2">
+              <Link href="/terms" className="text-red-600 hover:text-red-800">Terms of Use</Link>
+            </p>
+          </div>
 
-    <div className="flex flex-wrap justify-center sm:justify-end space-x-4">
-      <Link href="https://facebook.com" target="_blank">
-        <Image
-          src="/assets/fb.png" // Update with your image path
-          alt="Facebook"
-          width={32} // Set appropriate width
-          height={32} // Set appropriate height
-          className="hover:opacity-75 transition-opacity" // Optional: hover effect
-        />
-      </Link>
-      <Link href="https://youtube.com" target="_blank">
-        <Image 
-          src="/assets/youtube.png" // Update with your image path
-          alt="Youtube"
-          width={32}
-          height={32}
-          className="hover:opacity-75 transition-opacity"
-        />
-      </Link>
-      <Link href="https://instagram.com" target="_blank">
-        <Image 
-          src="/assets/insta.png" // Update with your image path
-          alt="Instagram"
-          width={32}
-          height={32}
-          className="hover:opacity-75 transition-opacity"
-        />
-      </Link>
-      <Link href="https://linkedin.com" target="_blank">
-        <Image 
-          src="/assets/linkedin.png" // Update with your image path
-          alt="LinkedIn"
-          width={32}
-          height={32}
-          className="hover:opacity-75 transition-opacity"
-        />
-      </Link>
-    </div>
-  </div>
-</footer>
+          <div className="flex flex-wrap justify-center sm:justify-end space-x-4">
+            <Link href="https://facebook.com" target="_blank">
+              <Image
+                src="/assets/fb.png" // Update with your image path
+                alt="Facebook"
+                width={32} // Set appropriate width
+                height={32} // Set appropriate height
+                className="hover:opacity-75 transition-opacity" // Optional: hover effect
+              />
+            </Link>
+            <Link href="https://youtube.com" target="_blank">
+              <Image
+                src="/assets/youtube.png" // Update with your image path
+                alt="Youtube"
+                width={32}
+                height={32}
+                className="hover:opacity-75 transition-opacity"
+              />
+            </Link>
+            <Link href="https://instagram.com" target="_blank">
+              <Image
+                src="/assets/insta.png" // Update with your image path
+                alt="Instagram"
+                width={32}
+                height={32}
+                className="hover:opacity-75 transition-opacity"
+              />
+            </Link>
+            <Link href="https://linkedin.com" target="_blank">
+              <Image
+                src="/assets/linkedin.png" // Update with your image path
+                alt="LinkedIn"
+                width={32}
+                height={32}
+                className="hover:opacity-75 transition-opacity"
+              />
+            </Link>
+          </div>
+        </div>
+      </footer>
     </>
   );
 };
