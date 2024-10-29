@@ -10,6 +10,8 @@ import ScrollProgressBar from "@/components/ScrollProgressBar"; // Import the pr
 import Image from "next/image";
 import './page.css';
 import Testimonial from "@/components/Testimonial";
+import FAQ from "../faq/page";
+
 const Page = async () => {
   const session = await getServerSession();
   return (
@@ -153,6 +155,7 @@ const Page = async () => {
             </Button>
           </Link>
         </section>
+
         {/* Footer */}
         {/* Footer */}
 

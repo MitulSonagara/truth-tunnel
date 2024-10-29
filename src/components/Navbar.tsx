@@ -88,6 +88,18 @@ const Navbar = () => {
           >
             Contributors
           </Link>
+          <Link
+            href="/faq"
+            className="mr-4 border border-transparent hover:border-white px-2 py-1 transition-colors duration-200"
+          >
+            FAQ
+          </Link>
+          <Link
+            href="/help"
+            className="mr-4 border border-transparent hover:border-white px-2 py-1 transition-colors duration-200"
+          >
+            Help
+          </Link>
 
           {loading ? (
             <p className="text-xs text-gray-500">Loading...</p>
@@ -179,6 +191,20 @@ const Navbar = () => {
             onClick={() => setIsOpen(false)}
           >
             Contributors
+          </Link>
+          <Link
+            href="/faq"
+            className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700"
+            onClick={() => setIsOpen(false)}
+          >
+            FAQ
+          </Link>
+          <Link
+            href="/help"
+            className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700"
+            onClick={() => setIsOpen(false)}
+          >
+            Help
           </Link>
           <Link href="/sign-in">
             <Button className="text-xs mb-2 px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white transition-all duration-200">
