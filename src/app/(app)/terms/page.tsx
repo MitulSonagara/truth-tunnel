@@ -1,4 +1,5 @@
 // pages/terms.js
+"use client"
 import React from 'react';
 import Navbar from "@/components/Navbar"; // Optional: Reuse Navbar
 import ScrollToTopButton from "@/components/ScrollToTopButton"; // Optional: ScrollToTop Button

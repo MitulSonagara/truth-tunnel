@@ -33,7 +33,7 @@ export async function GET(request: Request) {
     }
     return new Response(JSON.stringify({
       success: true,
-      encryptedKey: keys.encryptedPrivateKey,
+      // encryptedKey: keys.encryptedPrivateKey,
 
     }), { status: 200 });
 

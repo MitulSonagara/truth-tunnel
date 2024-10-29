@@ -35,7 +35,7 @@ export async function POST(request: Request) {
         publicKey,
         userId: user.id!,
         testEncryption,
-        encryptedPrivateKey: privateKey,
+        // encryptedPrivateKey: privateKey,
       }
     })
 
