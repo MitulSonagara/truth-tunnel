@@ -9,10 +9,11 @@ import ScrollToTopButton from "@/components/ScrollToTopButton"; // Import the ne
 import ScrollProgressBar from "@/components/ScrollProgressBar"; // Import the progress bar
 import Image from "next/image";
 import './page.css';
-import Testimonial from "@/components/Testimonial";
+ import Testimonial from "@/components/Testimonial";
 import FAQ from "../faq/page";
 import AosProvide from "@/components/AosProvide";
 
+ 
 const Page = async () => {
   const session = await getServerSession();
   return (
@@ -136,7 +137,6 @@ const Page = async () => {
           </div>
         </section>
         {/* CTA Section */}
-        <Testimonial />
         <section
           className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 text-center text-white"
           style={{
@@ -157,7 +157,6 @@ const Page = async () => {
             </Button>
           </Link>
         </section>
-
         {/* Footer */}
         {/* Footer */}
 
