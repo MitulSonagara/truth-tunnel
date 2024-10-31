@@ -23,9 +23,9 @@ export default function SearchUserSheet() {
   const [query, setQuery] = useState<string>("");
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string>("");
-  const [debounced] = useDebounce(query, 300); // 300ms debounce
+  const [loading, setLoading] = useState(false);
+  const [debounced] = useDebounce(query, 300);
 
-  // Query to fetch suggested users
   const { data: suggestions, isLoading: suggestionsLoading } = useQuery({
     queryKey: ["suggested-users"],
     queryFn: suggestedUsers,
@@ -35,13 +35,16 @@ export default function SearchUserSheet() {
   const handleSearch = async (q: string) => {
     setError("");
     setUsers([]);
+    setLoading(true);
     try {
       const res = await axios.get(`/api/search?q=${q}`);
       if (res.status !== 200) throw new Error(res.data.error);
       setUsers(res.data.users);
     } catch (e: any) {
       console.error("Error fetching user:", e);
-      setError("Something went wrong while fetching users.");
+      setError(e.response?.data?.error || "Something went wrong while fetching users.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,7 +63,9 @@ export default function SearchUserSheet() {
         <div className="py-4">
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <label htmlFor="user-search" className="sr-only">Search users</label>
             <Input
+              id="user-search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               type="search"
@@ -90,23 +95,21 @@ export default function SearchUserSheet() {
                 <h2 className="text-sm font-semibold text-foreground mb-2">
                   Search Results
                 </h2>
-                {users.length > 0 ? (
+                {loading ? (
+                  <p>Loading...</p>
+                ) : users.length > 0 ? (
                   <div className="space-y-4">
                     {users.map((user) => (
                       <UserItem key={user.id} user={user} />
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
-                    No users found
-                  </p>
+                  <p className="text-sm text-muted-foreground">No users found</p>
                 )}
               </div>
             )}
           </ScrollArea>
-          {error && (
-            <div className="text-red-500 mt-2">{error}</div>
-          )}
+          {error && <div className="text-red-500 mt-2">{error}</div>}
         </div>
       </SheetContent>
     </Sheet>
