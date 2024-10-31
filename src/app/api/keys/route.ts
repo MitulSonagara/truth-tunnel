@@ -4,6 +4,13 @@ import { getServerSession, User } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { encryptMessage } from "@/lib/crypto";
 
+interface EncryptionKey {
+    id: string;
+    publicKey: string;
+    userId: string;
+    encryptedPrivateKey: string; // Ensure this is included
+    testEncryption: string;
+}
 
 export async function GET(request: Request) {
 
@@ -23,7 +30,8 @@ export async function GET(request: Request) {
       where: {
         userId: user.id,
       }
-    })
+    }) as EncryptionKey | null; // Handle possible null
+    console.log("----her 1", keys);
 
     if (!keys) {
       return new Response(JSON.stringify({
