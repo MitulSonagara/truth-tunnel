@@ -31,7 +31,6 @@ export async function GET(request: Request) {
         userId: user.id,
       }
     }) as EncryptionKey | null; // Handle possible null
-    console.log("----her 1", keys);
 
     if (!keys) {
       return new Response(JSON.stringify({
