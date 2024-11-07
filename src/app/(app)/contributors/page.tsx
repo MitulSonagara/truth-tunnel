@@ -40,8 +40,10 @@ const ContributorsPage = () => {
             <Loader2 className="animate-spin" size={48} />
           </div>
         ) : (
+          <div className="flex items-center flex-col justify-center w-full md:grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           <div className="flex items-center flex-col justify-center  w-full  md:grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {contributors.map((contributor) => (
+               <ContributorCard key={contributor.id} contributor={contributor} />
               <ContributorCard key={contributor.id} contributor={contributor} />
               //// <a
               //   key={contributor.id}
