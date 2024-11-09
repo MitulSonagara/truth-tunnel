@@ -98,7 +98,7 @@ const EnhancedFormPage: React.FC = () => {
                 </div>
                 <div>
                   <input
-                    type="tel"
+                    type="number"
                     placeholder="Phone Number"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
