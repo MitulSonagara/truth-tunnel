@@ -96,7 +96,7 @@ const Page = () => {
   return (
     <div className="min-h-screen overflow-x-hidden">
       <Navbar />
-      <div className="flex justify-center mt-8 items-center h-full">
+      <div className="flex justify-center mt-8 items-center h-full" data-aos='zoom-in'>
         {showLoaderOverlay && <LoaderOverlay />}
         <div
           className="mt-10 w-full max-w-md border-gray-200 shadow-lg bg-gray-200

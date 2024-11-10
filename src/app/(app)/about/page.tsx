@@ -67,7 +67,7 @@ const AboutPage = () => {
     <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
       <Navbar />
       <div className="container mx-auto py-16 px-4">
-        <h1 className="text-5xl font-bold text-center text-red-500 mb-16">
+        <h1 className="text-5xl font-bold text-center text-red-500 mb-16" data-aos='zoom-in'>
           About Truth-Tunnel
         </h1>
         {loading ? (

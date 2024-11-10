@@ -9,6 +9,11 @@ import ScrollToTopButton from "@/components/ScrollToTopButton"; // Import the ne
 import ScrollProgressBar from "@/components/ScrollProgressBar"; // Import the progress bar
 import Image from "next/image";
 import './page.css';
+ import Testimonial from "@/components/Testimonial";
+import FAQ from "../faq/page";
+import AosProvide from "@/components/AosProvide";
+
+ 
 const Page = async () => {
   const session = await getServerSession();
   return (
@@ -16,6 +21,7 @@ const Page = async () => {
       <Navbar />
       <div className="min-h-screen -mt-10 bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
         <ScrollProgressBar /> {/* Add the scroll progress bar here */}
+        <AosProvide />
         {/* Hero Section */}
         <section
           //style={{ padding: "12rem" }} -- caused issue in responsiveness
@@ -31,17 +37,17 @@ const Page = async () => {
           </div>
 
           {/* Content */}
-          <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800 p-3">
+          <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800 p-3" data-aos="zoom-in">
             Secure Communication in a Dangerous World
           </h1>
-          <div className=" flex items-center justify-center mt-2  ">
+          <div className=" flex items-center justify-center mt-2" data-aos='zoom-in'>
             <p className="rounded-lg py-2 px-2 border-2 border-red-500 font-bold text-red-900  font-sans text-lg bg-red-100 shadow-md shadow-red-400 border-none">
               Where your secrets
               remain hidden.
             </p>
           </div>
           <div className="relative flex z-20 items-center lg:w-10/12 mt-10  ">
-            <div className="w-full ml-8   ">
+            <div className="w-full ml-8" data-aos='fade-right'>
               <p className="text-3xl text-[#A34343] dark:text-gray-300 mb-7  font-bold ">
                 Welcome to Truth Tunnel!
               </p>
@@ -60,7 +66,7 @@ const Page = async () => {
               </Link>
 
             </div>
-            <div className="rounded-lg overflow-hidden shadow-lg shadow-red-400 opacity-50">
+            <div className="rounded-lg overflow-hidden shadow-lg shadow-red-400 opacity-50" data-aos='fade-left'>
               <Image
                 src="/assets/secret.webp"
                 width={500}
@@ -72,12 +78,12 @@ const Page = async () => {
         </section>
         {/* Advanced Covert Features Section */}
         <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-black">
-          <h2 className="text-4xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
+          <h2 className="text-4xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800" data-aos='zoom-in'>
             Advanced Covert Features
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Feature Cards */}
-            <Card className="bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-red-800 hover:border-red-500 dark:hover:border-red-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+            <Card className="bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-red-800 hover:border-red-500 dark:hover:border-red-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl" data-aos="fade-up" data-aos-delay='100'>
               <CardContent className="p-8">
                 <div className="flex justify-between items-start mb-6">
                   <Shield className="h-16 w-16 text-red-500" />
@@ -94,7 +100,7 @@ const Page = async () => {
                 </p>
               </CardContent>
             </Card>
-            <Card className="bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-red-800 hover:border-red-500 dark:hover:border-red-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+            <Card className="bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-red-800 hover:border-red-500 dark:hover:border-red-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl" data-aos="fade-up" data-aos-delay='300'>
               <CardContent className="p-8">
                 <div className="flex justify-between items-start mb-6">
                   <Zap className="h-16 w-16 text-red-500" />
@@ -111,7 +117,7 @@ const Page = async () => {
                 </p>
               </CardContent>
             </Card>
-            <Card className="bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-red-800 hover:border-red-500 dark:hover:border-red-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+            <Card className="bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-red-800 hover:border-red-500 dark:hover:border-red-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl" data-aos="fade-up" data-aos-delay='500'>
               <CardContent className="p-8">
                 <div className="flex justify-between items-start mb-6">
                   <Eye className="h-16 w-16 text-red-500" />
@@ -138,14 +144,14 @@ const Page = async () => {
               "linear-gradient(to top, rgba(0, 0, 0, 1), rgba(255, 0, 0, 0.1))",
           }}
         >
-          <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800">
+          <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-800" data-aos='zoom-in'>
             Ready to Disappear?
           </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto" data-aos='zoom-in' data-aos-delay='200'>
             Join the elite network of shadow communicators. Sign up for priority
             access now.
           </p>
-          <Link href={session ? "/dashboard" : "/sign-in"}>
+          <Link href={session ? "/dashboard" : "/sign-in"} data-aos='zoom-in' data-aos-delay='400'>
             <Button className="bg-red-600 hover:bg-red-700 text-white font-bold">
               Infiltrate
             </Button>
@@ -156,14 +162,14 @@ const Page = async () => {
 
         <footer className="relative z-10 border-t border-gray-200 dark:border-gray-800 py-8 text-gray-600 dark:text-gray-400 mr-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
-            <div className="text-left mb-4 sm:mb-0">
+            <div className="text-left mb-4 sm:mb-0" data-aos='fade-right' data-aos-offset='50'>
               <p>&copy; 2024 Truth Tunnel. All rights reserved. Secured by quantum encryption.</p>
               <p className="mt-2">
                 <Link href="/terms" className="text-red-600 hover:text-red-800">Terms of Use</Link>
               </p>
             </div>
 
-            <div className="flex flex-wrap justify-center sm:justify-end space-x-4">
+            <div className="flex flex-wrap justify-center sm:justify-end space-x-4" data-aos='fade-left' data-aos-offset='50'>
               <Link href="https://facebook.com" target="_blank">
                 <Image
                   src="/assets/fb.png" // Update with your image path

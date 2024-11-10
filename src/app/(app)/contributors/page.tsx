@@ -32,7 +32,7 @@ const ContributorsPage = () => {
     <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
       <Navbar />
       <div className="px-4 flex justify-center flex-col items-center py-8">
-        <h1 className="text-3xl font-bold text-center mb-6">
+        <h1 className="text-3xl font-bold text-center mb-6" data-aos='zoom-in'>
           🤝 GitHub Contributors
         </h1>
         {loading ? (
