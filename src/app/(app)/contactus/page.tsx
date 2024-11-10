@@ -16,24 +16,54 @@ const EnhancedFormPage: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const API_URL = process.env.NEXTAUTH_URL || "http://localhost:3000";
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setSubmitted(false);
 
     if (!name || !email || !phone || !message) {
-      setError("Please fill in all fields.");
-      return;
+        setError("Please fill in all fields.");
+        return;
     }
 
-    console.log("Form submitted:", { name, email, phone, category, message });
-    setSubmitted(true);
-    setName("");
-    setEmail("");
-    setPhone("");
-    setCategory("General Inquiry");
-    setMessage("");
-  };
+    try {
+        const response = await fetch(`${API_URL}/api/contact-us`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                phone,
+                category,
+                message
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            setError(errorData.message || "An error occurred. Please try again.");
+            alert(`Error: ${errorData.message || "An error occurred. Please try again."}`);
+            return;
+        }
+        setSubmitted(true);
+        setName("");
+        setEmail("");
+        setPhone("");
+        setCategory("General Inquiry");
+        setMessage("");
+    } catch (error) {
+        // Catch any network errors
+        console.error("Error:", error);
+        setError("Failed to send message. Please try again later.");
+        alert("Failed to send message. Please try again later.");
+    }
+};
+
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
@@ -71,7 +101,7 @@ const EnhancedFormPage: React.FC = () => {
             {/* Right Side: Form */}
             <div className="flex-1 mt-8 sm:mt-0">
               {submitted && (
-                <p className="text-green-500 mb-4">Thank you for your submission!</p>
+                <p className="text-green-500 mb-4">Thank you for your submission. A email is sent to the mail id!</p>
               )}
               {error && <p className="text-red-500 mb-4">{error}</p>}
 
